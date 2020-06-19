@@ -1,0 +1,392 @@
+<div layout="row" layout-align="center" class="wrap-top-gap" ng-controller="unifyUtility">
+    <md-content class="f1f1f1" flex>
+        <form name="unifyUtilityForm" ng-submit="saveExtension()" novalidate>
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div class="col-wrapper">
+                            <p class="md-title" layout-padding>Utility Package (Unify)</p>
+                        </div>
+                    </div>
+                </div>   
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.ga_track_enabled">
+
+                                    <h2 class="mat-h2">Enable Google Analytics Tracking</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div layout="row" ng-if="extension.ga_track_enabled">
+
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <div class="col-wrapper">
+                                    <label for="ga_key" >Google Analytics Key</label>
+                                    <input type="text" class="purple-cell" name="ga_key" ng-model="extension.ga_key" aria-label="Show added input" >
+                                </div>
+                            </div>
+                        </md-input-container>
+
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_custom_decline_msg">
+
+                                    <h2 class="mat-h2">Enable Custom Decline Message</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="extension.enable_custom_decline_msg" layout-wrap="" ng-repeat="custom_decline_msg in extension.custom_decline_msg track by $index">
+                        <div ng-if="$index == 0"  flex="100" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+
+                            <md-input-container flex="" class="add-colum-panel placeholder-label">
+
+                                <div class="col-wrapper">
+                                    <label for="crm_label" style="margin-bottom: 5px;">CRM Message <span class='required_field'>*</span></label>
+                                    <input  type="text" name="extension.source" ng-model="extension.custom_decline_msg[$index]['crm_msg']"  aria-label="Add input">
+
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="" class="add-colum-panel placeholder-label">
+
+                                <div class="col-wrapper">
+                                    <label for="crm_label" style="margin-bottom: 5px;">Your Custom Message <span class='required_field'>*</span></label>
+                                    <input  type="text" name="extension.custom_msg" ng-model="extension.custom_decline_msg[$index]['custom_msg']"  aria-label="Add input">
+
+                                    <md-button  class="md-icon-button" aria-label="More" style="top:22px;" ng-if="(extension.custom_decline_msg.length) == 1" ng-click="addMethod()">
+                                        <i class="material-icons">add</i>
+                                    </md-button>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div ng-if="$index != 0" flex="100" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <input  type="text" name="extension.source" ng-model="extension.custom_decline_msg[$index]['crm_msg']"  aria-label="Add input">
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="" class="add-colum-panel placeholder-label">
+
+                                <div class="col-wrapper">
+                                    <input ng-blur="edit($index)" required type="text" name="extension.custom_msg" ng-model="extension.custom_decline_msg[$index]['custom_msg']"  aria-label="Add input">
+                                    <md-button  class="md-icon-button" aria-label="More" style="right:30px;" ng-click="removeMsg($index)">
+                                        <i class="material-icons">remove</i>
+                                    </md-button>
+                                    <md-button  class="md-icon-button" aria-label="More" ng-if="(extension.custom_decline_msg.length - 1) == $index"  ng-click="addMethod()" >
+                                        <i class="material-icons">add</i>
+                                    </md-button>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_prepaid_flow">
+
+                                    <h2 class="mat-h2">Enable Prepaid Card Processing</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row"  ng-if="extension.enable_prepaid_flow">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="prepaid_action">Action <span class='required_field'>*</span></label>
+                                <md-select name="prepaid_action" ng-model="extension.prepaid_action" >
+                                    <md-option value="redirect">Redirect</md-option>
+                                    <md-option value="reprocess_with_prepaid_campaign">Reprocess with Prepaid Campaign</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" ng-if="extension.enable_prepaid_flow">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <div class="col-wrapper">
+                                    <label for="ga_key" >Redirection URL (Desktop)</label>
+                                    <input type="text" class="purple-cell" name="prepaid_redirection_url" ng-model="extension.prepaid_redirection_url" aria-label="Show added input" >
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <div class="col-wrapper">
+                                    <label for="ga_key" >Redirection URL (Mobile)</label>
+                                    <input type="text" class="purple-cell" name="prepaid_redirection_url_mobile" ng-model="extension.prepaid_redirection_url_mobile" aria-label="Show added input" >
+                                </div>
+                            </div>
+                        </md-input-container>
+
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_overwrite_prepaid">
+
+                                    <h2 class="mat-h2">Enable Affiliate Override For Prepaid</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row"  ng-if="extension.enable_overwrite_prepaid">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="prepaid_affiliate">Select Affiliate</label>
+                                <md-select name="prepaid_affiliate" ng-model="extension.prepaid_affiliate" >
+                                    <md-option ng-repeat="affiliate in affiliateList" value="{{affiliate.id}}">{{affiliate.label}} ({{affiliate.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_overwrite_order_filter">
+
+                                    <h2 class="mat-h2">Enable Affiliate Override For Order Filter</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row"  ng-if="extension.enable_overwrite_order_filter">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="order_affiliate">Select Affiliate</label>
+                                <md-select name="order_affiliate" ng-model="extension.order_affiliate" >
+                                    <md-option ng-repeat="affiliate in affiliateList" value="{{affiliate.id}}">{{affiliate.label}} ({{affiliate.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_overwrite_split_order">
+
+                                    <h2 class="mat-h2">Enable Affiliate Override For Split Orders</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row"  ng-if="extension.enable_overwrite_split_order">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="split_order_affiliate">Select Affiliate</label>
+                                <md-select name="split_order_affiliate" ng-model="extension.split_order_affiliate" >
+                                    <md-option ng-repeat="affiliate in affiliateList" value="{{affiliate.id}}">{{affiliate.label}} ({{affiliate.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+<!--                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_advanced_debug">
+
+                                    <h2 class="mat-h2">Enable Advanced Debug</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.convert_ip">
+
+                                    <h2 class="mat-h2">Convert IPv6 To IPv4</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.preserve_gateway_upsells">
+
+                                    <h2 class="mat-h2">Enable Force Gateway Processing</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div layout="row" ng-if="extension.preserve_gateway_upsells">
+                        <div class="col-wrapper"  flex="100">
+                            <div layout="row" layout-wrap="" flex="100" >
+                                <div flex="100"  ng-repeat="obj in extension.preserve_gateway track by $index"  class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;padding-top: 0;">
+                                    <div md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white" flex="100">
+                                        <div class="row-form-panel" layout="column">
+                                            <div layout="row" >
+                                                <md-input-container flex>
+                                                    <div class="col-wrapper">
+                                                        <label for="shipping_id" >Source Step</label>
+                                                        <input type="text"  name="source_step"  ng-model="extension.preserve_gateway[$index].source_step">
+                                                    </div>
+                                                </md-input-container>
+                                                <md-input-container flex>
+                                                    <div class="col-wrapper">
+                                                        <label for="shipping_price" >Destination Steps (comma separated)</label>
+                                                        <input type="text"  name="destination_step" ng-model="extension.preserve_gateway[$index].destination_step">
+                                                    </div>
+                                                </md-input-container>
+                                            </div>  
+                                        </div>
+                                        <div class="row-form-panel" layout="column" style="border:0">
+                                            <div layout="row" layout-align="end">
+                                                <md-input-container flex>
+                                                    <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled">Configuration {{$index + 1}}</button>
+                                                </md-input-container>
+                                                <button  ng-click="remove($index, 'preserve_gateway');" ng-if="$index != 0" class="md-button md-ink-ripple remove-btn" type="button" >Remove<div class="md-ripple-container" style=""></div></button>
+                                                <button ng-click="add('preserve_gateway')"  ng-if="(extension.preserve_gateway.length - 1) == $index" class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" >Add New<div class="md-ripple-container" style=""></div></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.alter_shipping_billing_address">
+
+                                    <h2 class="mat-h2">Swap Billing & Shipping Fields</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.decline_redirection_enabled">
+
+                                    <h2 class="mat-h2">Enable Redirection For Declines</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div layout="row" ng-if="extension.decline_redirection_enabled">
+                        <div class="col-wrapper"  flex="100">
+                            <div layout="row" layout-wrap="" flex="100" >
+                                <div flex="100"  ng-repeat="obj in extension.decline_redirection track by $index"  class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;padding-top: 0;">
+                                    <div md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white" flex="100">
+                                        <div class="row-form-panel" layout="column">
+                                            <div layout="row" >
+                                                <md-input-container flex>
+                                                    <div class="col-wrapper">
+                                                        <label for="shipping_id" >Select Step</label>
+                                                        <input type="text"  name="redirection_step"  ng-model="extension.decline_redirection[$index].redirection_step">
+                                                    </div>
+                                                </md-input-container>
+                                                <md-input-container flex>
+                                                    <div class="col-wrapper">
+                                                        <label for="shipping_price" >Redirection URL (Desktop)</label>
+                                                        <input type="text"  name="desktop_redirection" ng-model="extension.decline_redirection[$index].desktop_redirection">
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+                                            <div layout="row" >
+                                                <md-input-container flex="50">
+                                                    <div class="col-wrapper">
+                                                        <label for="shipping_price" >Redirection URL (Mobile)</label>
+                                                        <input type="text"  name="mobile_redirection" ng-model="extension.decline_redirection[$index].mobile_redirection">
+                                                    </div>
+                                                </md-input-container>
+                                            </div>  
+                                        </div>
+                                        <div class="row-form-panel" layout="column" style="border:0">
+                                            <div layout="row" layout-align="end">
+                                                <md-input-container flex>
+                                                    <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button" ng-disabled="true" disabled="disabled">Redirection {{$index + 1}}</button>
+                                                </md-input-container>
+                                                <button  ng-click="remove($index, 'decline_redirection');" ng-if="$index != 0" class="md-button md-ink-ripple remove-btn" type="button" >Remove<div class="md-ripple-container" style=""></div></button>
+                                                <button ng-click="add('decline_redirection')"  ng-if="(extension.decline_redirection.length - 1) == $index" class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" >New Redirection<div class="md-ripple-container" style=""></div></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_non_english_char_convert">
+
+                                    <h2 class="mat-h2">Enable Non English Character Conversion</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.disable_non_english_char_input">
+
+                                    <h2 class="mat-h2">Disable Non English Character Input</h2>
+
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button  type="submit" class="md-raised" ng-href="#/extensions">Cancel</md-button>
+                    <md-button class="md-primary md-raised" ng-disabled="unifyUtilityForm.$submitted || unifyUtilityForm.$invalid" type="submit">Save Settings</md-button>
+                </div>        
+            </div>
+
+        </form>
+    </md-content>
+</div>

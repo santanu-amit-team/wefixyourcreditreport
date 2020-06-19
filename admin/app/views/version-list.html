@@ -1,0 +1,19 @@
+<!-- <div ng-show="versions">
+<md-input-container class="version-select">
+	<md-select ng-model="versionSelect" class="margin-bottom-0" placeholder="Version">
+		<md-option ng-value="key" ng-repeat="(key, val) in list">Version {{$index + 1}} ({{val}})</md-option>
+	</md-select>
+</md-input-container>
+<md-button class="md-accent" ng-click="restore()">Restore</md-button>
+</div>
+ -->
+
+
+<div ng-show="versions">
+	<md-input-container class="version-select version-select-btn">
+		<md-select ng-model="versionSelect" class="margin-bottom-0" placeholder="Previous Version">
+			<md-option ng-value="key" ng-repeat="(key, val) in list">Version {{$index + 1}} ({{val}})</md-option>
+		</md-select>
+	</md-input-container>
+	<a class="md-primary md-hue-1 setting-link" ng-click="restore()">RESTORE</a>
+</div>

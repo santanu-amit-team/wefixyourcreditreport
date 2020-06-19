@@ -1,0 +1,90 @@
+<div layout="row" class="wrap-top-gap">
+	<div flex="90" layout="column">
+		<filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="extension_name" type-by="active" selected-row-data="selectedData" no-row-selected="Please select at least one extension" search-placeholder="Search through your extensions..."></filter-bar>
+	</div>
+	<div flex="10" layout="column" layout-align="center end">
+	    <md-button class="md-fab" aria-label="Catalogue" ng-href="#/extension-catalogue">
+		<md-tooltip md-direction="left" md-visible="tooltipVisible">Extension Catalogue</md-tooltip>
+			<i class="material-icons">&#xE854;</i>
+		</md-button>
+	</div>
+</div>
+
+<div layout="column" md-whiteframe="3" layout-margin style="background: white; margin-top: 18px;" layout-align="center center" flex ng-hide="loaded" class="loading-text-div list-repeated-item">
+	<md-progress-circular md-mode="indeterminate" md-diameter="60"></md-progress-circular>
+	<!-- <span>Loading extensions...</span> -->
+</div>
+
+<div md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-show="loaded" class="list-repeated-item">
+    <div class="row-form-panel padding-top-bottom-40 list-repeated-item" ng-repeat="extension in lists" ng-click="editExtension(extension.extension_slug);">
+        <div layout="row" layout-align="end center" ng-class="{blurry : downloading_{{extension.extension_slug}}}">
+            <div flex="100" layout="column" flex="nogrow">
+                <div class="col-wrapper">
+                    <div class="version-check-wrap">
+                        <md-checkbox ng-checked="exists(extension.id)" ng-click="toggle(extension.id, extension); $event.stopPropagation(); " aria-label="Checkbox 1" ng-disabled="downloading_{{extension.extension_slug}} || form.button_disable">
+                            <h2 class="extension-head">{{extension.extension_name}}</h2>
+
+                            <p class="extension-des">{{ extension.extension_des}}</p>
+                            <ul class="version-list" ng-click="$event.stopPropagation();">
+                                <li>Version {{extension.version}}</li>
+                                <li>|</li>
+                                <li>By {{extension.author}}</li> 
+                                <li ng-if="extension.updated_version"><span class="md-body-2" style="font-weight: 600;color:green;">( ^ {{ extension.updated_version}} - New version available! )</span></li> 
+                            </ul>
+                        </md-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div flex="30" layout="column" flex="nogrow">
+                <div class="col-wrapper">
+                    <div class="text-right-align">
+                        <div class="check-colum">
+                            <md-button class="md-icon-button" aria-label="Favorite" ng-click="editExtension(extension.extension_slug)" ng-disabled="form.button_disable" ng-show="extension.edit_status != 2">
+                                <i class="material-icons">
+                                settings
+                                </i>
+                            </md-button>   
+                        </div>
+                        <div class="check-colum">
+                            <md-switch ng-hide="active_{{extension.extension_slug}}" ng-model="extension.active" aria-label="Switch"  ng-if="extension.installed == true && (extension.active == false)" ng-change="stateChanged(extension.extension_slug)" ng-click="$event.stopPropagation()" ng-disabled="form.button_disable" class="right-shift">
+							</md-switch>
+							<md-menu ng-if="extension.active == true" md-position-mode="target-right target">
+								<md-button  class="md-icon-button" aria-label="Open options"  ng-click = "$mdOpenMenu($event)" ng-hide="more_{{extension.extension_slug}}" ng-disabled="form.button_disable">
+									<i class="material-icons">more_vert</i>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item ng-click="$event.stopPropagation()">
+										<md-button ng-model="extension.active" aria-label="Switch" ng-click="stateChanged(extension.extension_slug, true)">
+											Deactivate
+										</md-button>
+									</md-menu-item>
+									<md-menu-item ng-repeat="item in extension.options">
+										<md-button ng-click="actionCall(item.handler, extension.extension_slug, item)">
+											{{item.label}}
+										</md-button>
+									</md-menu-item>
+									<md-menu-item ng-click="$event.stopPropagation()" ng-if="!extension.protected">
+										<md-button ng-model="extension.update" aria-label="Update" ng-click="updateExtension(extension.extension_slug)">
+											Update
+										</md-button>
+									</md-menu-item>
+									<md-menu-item ng-click="$event.stopPropagation()">
+										<md-button ng-click="uninstall(extension.extension_slug)">
+											Uninstall
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+							<!-- <md-progress-circular  ng-show="downloading_{{extension.extension_slug}}" md-mode="indeterminate"></md-progress-circular> -->
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-form-panel" ng-show="!lists.length && loaded" class="no-data-text">
+    	<div layout="row" layout-align="center">
+			There're no installed extensions yet or there is search filter applied, go ahead and add one from Extension Catalogue.
+		</div>
+	</div>	
+</div>

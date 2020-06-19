@@ -1,0 +1,136 @@
+<style>
+    .pop-table-row{
+        display: flex;
+        list-style: none;
+        /*font-size: 14px;*/
+    }
+    .pop-table-list{
+        padding: 0;
+        margin: 0;
+        max-height: 193px;
+        overflow-y: auto;
+    }
+    .check-label-input{
+        padding: 0;
+        margin: 0 !important;
+        display: block;
+    }
+    .check-label-input input[type="checkbox"]{
+        display: none;
+    }
+    .check-label-input input[type="checkbox"] + span{
+        display: block;
+        width: 14px;
+        height:14px;
+        border-radius: 3px;
+        border: 1px solid #c2c2c2;
+    }
+    .check-label-input input[type="checkbox"]:checked + span{
+        background-color: #5C79FF;
+        border-color: #5C79FF;
+        background-image: url(../../assets/images/tick-sign.png);
+        background-size: 70%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .pop-table-check{
+        width: 5%;
+    }
+    .pop-table-col{
+        width: 32%;
+    }
+    .campaign-data-head{
+        padding: 25px 30px;
+    }
+    .campaign-data-head h3{
+        color: #000;
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0 0 10px 0;
+    }
+    .campaign-data-head h4{
+        color: #555555;
+        font-size: 13px;
+        font-weight: normal;
+        margin: 0;
+    }
+    .pro-list-head{
+        color: #A0A4B1;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0 0 15px 0;
+        padding: 0 30px;
+    }
+    .pop-table-list{
+        margin-bottom: 20px;
+    }
+    .pop-table-list li{
+        padding: 15px 30px;
+        background-color: #f1f3f4;
+        border-top: 1px solid #e7ebec;
+        color: #555555;
+    }
+    .pop-table-head{
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .campaign-data-head{
+        position:relative;
+    }
+    .close-modal{
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 14px;
+        height: 26px;
+    }
+    .close-modal img{
+        width: 100%;
+    }
+    .network-label{
+        padding-left: 15px;
+    }
+    .submit-network{
+        padding: 0px 15px 15px 0px;
+    }
+    md-dialog{max-height:98%; min-width: 620px;}
+</style>
+
+<div class="" ng-controller="addNetwork">
+   <div class="campaign-data-head">
+      <a ng-click="cancel()" class="close-modal" href="javascript:void(0)"><img src="../../assets/images/close-button.png"></a>
+   </div>
+   <div class="network-label">
+      <h1 class="mat-display-1">
+         Add Network
+      </h1>
+   </div>
+   <form name="addNetworkForm" ng-submit="submitNetworkForm()" novalidate>
+      <div class="inner-box-wrapper inner-box-wrapper-same-align">
+         <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+            <div class="row-form-panel">
+               <div layout="row" class="top-gap-0 layout-row">
+                  <md-input-container flex="" class="flex">
+                     <div class="col-wrapper">
+                        <label for="affiliate_id">Network Name </label>
+                        <input type="text" name="network_name" ng-model="network.network_name" required="" class="ng-pristine ng-untouched md-input ng-empty ng-invalid ng-invalid-required ng-valid-pattern" id="input_32" aria-invalid="true">
+                     </div>
+                  </md-input-container>
+                  <md-input-container flex="" class="flex">
+                     <div class="col-wrapper">
+                        <label for="aff_value">Network Value </label>
+                        <input type="text" name="network_value" ng-model="network.network_value" required="" class="ng-pristine ng-untouched md-input ng-empty ng-invalid ng-invalid-required ng-valid-pattern" id="input_32" aria-invalid="true">
+                        <div class="md-errors-spacer"></div>
+                     </div>
+                  </md-input-container>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="submit-network">
+         <div layout="row" layout-align="end">
+            <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="addNetworkForm.$invalid || addNetworkForm.$submitted" >{{addNetworkForm.$submitted ? 'Saving...' : 'Save Network'}}</md-button>
+         </div>
+      </div>
+   </form>
+</div>

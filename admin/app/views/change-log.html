@@ -1,0 +1,25 @@
+<div layout="row" md-whiteframe="3" layout-margin style="background: white;" layout-align="center center" flex ng-hide="loaded" class="loading-text-div wrap-top-gap">
+	<md-progress-circular md-mode="indeterminate" md-diameter="60"></md-progress-circular>
+</div>
+
+<div layout="row" layout-align="center" class="wrap-top-gap" ng-show="loaded">
+	<md-content class="f1f1f1" flex>
+		<div  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+            <div class="row-form-panel">
+                <div class="col-wrapper"><p class="md-title" layout-padding>Changelog</p></div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <div class="col-wrapper">
+                            <div layout="row" class="gap-top-5">
+                               <div btf-markdown="content"></div>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" class="gap-top-5">
+                    
+                </div>
+            </div>
+        </div>
+	</md-content>
+</div>

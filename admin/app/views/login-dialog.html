@@ -1,0 +1,41 @@
+<div flex="60" layout="row" layout-align="center center">
+    <md-dialog aria-label="Login dialog" flex="45">
+        <form name="LoginForm" ng-submit="login()" novalidate="">
+            <md-list flex="">
+                <md-subheader class="md-no-sticky">
+                    Authentication Required
+                </md-subheader>
+                <md-list-item>
+                    <md-input-container flex="100">
+                        <label for="username">
+                            Username
+                        </label>
+                        <input name="username" ng-model="username" required="" type="text"/>
+                        <div ng-message="username" ng-show="error.username">
+                            {{msg}}
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item>
+                    <md-input-container flex="100">
+                        <label for="password">
+                            Password
+                        </label>
+                        <input name="password" ng-model="password" required="" type="password"/>
+                        <div ng-message="password" ng-show="error.password">
+                            {{msg}}
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+            </md-list>
+            <div layout="row" layout-align="end center">
+                <md-button ng-click="closeDialog()" type="button">
+                    Cancel
+                </md-button>
+                <md-button ng-disabled="LoginForm.$invalid" type="submit">
+                    Login
+                </md-button>
+            </div>
+        </form>
+    </md-dialog>
+</div>

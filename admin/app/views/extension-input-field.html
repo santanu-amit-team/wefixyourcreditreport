@@ -1,0 +1,45 @@
+<md-input-container class="md-block" ng-if="attrType == 'string' && textarea == false" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+    <label for="{{attrType}}">
+		{{label | capitalizeword}}
+    </label> 
+	<input  type="text" name="{{fieldName}}" ng-model="extension[fieldName]" ng-required="{{required}}"/>
+	<div class="hint">{{hint}}</div>
+</md-input-container>
+
+<md-input-container class="md-block" ng-if="attrType == 'string' && textarea == true" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+    <label for="{{attrType}}">
+		{{label | capitalizeword}}
+    </label> 
+	<textarea name="{{fieldName}}" ng-model="extension[fieldName]" ng-required="{{required}}"></textarea>
+	<div class="hint">{{hint}}</div>
+</md-input-container>
+
+<md-input-container class="md-block" ng-if="attrType == 'integer'" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+		{{label | capitalizeword}}
+    </label> 
+	<input  type="number" name="{{fieldName}}" ng-model="extension[fieldName]" ng-required="{{required}}"/>
+	<div class="hint">{{hint}}</div>
+</md-input-container>
+
+<md-input-container class="md-block" ng-if="attrType == 'boolean'" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+	<md-checkbox name="{{fieldName}}" ng-model="extension[fieldName]"> 
+		{{label | capitalizeword}}
+	</md-checkbox>
+	<div class="hint">{{hint}}</div>
+</md-input-container>
+
+<md-input-container class="md-block" ng-if="attrType == 'enum'" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+	<label for="{{fieldName}}">{{label | capitalizeword}}</label>
+	<md-select name="{{fieldName}}" ng-model="extension[fieldName]" ng-required="{{required}}">
+		<md-option ng-repeat="val in fieldValue" value="{{val}}">{{val | uppercase}}</md-option>
+	</md-select>
+	<div class="hint">{{hint}}</div>
+</md-input-container>
+
+<md-input-container class="md-block" ng-if="attrType == 'multi_select'" ng-class="{'has-error' : ExtensionForm[fieldName].$dirty && ExtensionForm[fieldName].$invalid}">
+	<label for="{{fieldName}}">{{label | ucfirst}}</label>
+	<md-select name="{{fieldName}}" ng-model="extension[fieldName]" multiple ng-required="{{required}}">
+		<md-option ng-repeat="val in fieldValue" value="{{val}}">{{val | uppercase}}</md-option>
+	</md-select>
+	<div class="hint">{{hint}}</div>
+</md-input-container>

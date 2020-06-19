@@ -1,0 +1,77 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="content_name" type-by="status" search-placeholder="Search CMS..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+        <flat-button-directive url='#/cms-manager' title='Content' type='add'  ></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="20" class="right-padding-20"><b>Content Title</b></div>
+            <div flex="15" class="right-padding-20"><b>URL Slug</b></div>
+            <div flex="20" class="right-padding-20"><b>Status</b></div>
+            <div flex class="right-padding-20"><b>Last Modified</b></div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editCms(data.id)" layout = "row" layout-align="end center" ng-repeat-start="data in lists" class="list-repeated-item">
+            <div flex="5" ng-click="$event.stopPropagation();" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+                <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>
+            </div>
+            <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+                {{data.id}}
+            </div>
+            <div flex="20" class="right-padding-20">
+                <span class="setting-link">
+                    {{data.content_name}}
+                </span>
+            </div>
+            <div flex="15" class="right-padding-20" ng-click="$event.stopPropagation();">
+                <span ng-click="copyToClip(data.live_url);">
+                    {{data.content_slug}}
+                </span>
+            </div>
+            <div flex="20" class="right-padding-20">{{statusArray[data.status]}}</div>
+            <div flex class="right-padding-20">{{data.last_edited}}</div>
+            <div flex="5" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open demo menu" class="md-icon-button"
+                             ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="editCms(data.id)">
+                                <span md-menu-align-target>Edit</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item ng-repeat="action in filterActions">
+                            <md-button ng-click="this[action.method](data.id)">
+                                <span md-menu-align-target>{{action.val}}</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="preview(data)">
+                                <span md-menu-align-target>Preview</span>
+                            </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

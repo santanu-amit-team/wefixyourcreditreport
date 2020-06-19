@@ -1,0 +1,79 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column" ng-if="dataLoadComplete == true">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="label" type-by="config_type"></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+        <flat-button-directive url='#/affiliate-manager' title='Affiliates' type='add'  ></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+<div ng-if="dataLoadComplete == true" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="10" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="10" class="right-padding-20"><b>Network</b></div>
+            <div flex="15" class="right-padding-20"><b>Affiliate</b></div>
+            <div flex="15" class="right-padding-20"><b>Configuration Type</b></div>
+			<div flex="40" class="right-padding-20"><b>Affiliate URL</b></div>
+			<div flex=""></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editAffiliate(data.id)" layout = "row" layout-align="end center" ng-repeat-start="data in lists| filter:{label: searchText} as Result">
+            <div flex="10" flex-md="5" ng-click="$event.stopPropagation();" class="right-padding-20 text-align-right small-width-table">
+                <div class="">
+                    <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>                    
+                </div>
+            </div>
+            <div flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                {{data.id}}
+            </div>
+            <div flex="10" class="right-padding-20">
+                <span class="setting-link word-limits">
+                    {{data.network_name | uppercase}} 
+                </span>
+            </div>
+            <div flex="15" class="right-padding-20">
+                <span class="setting-link word-limits">
+                    {{data.label}} 
+                </span>
+            </div>
+            <div flex="15" class="right-padding-20">
+				{{ data.config_type | ucfirst }}
+            </div>
+            <div flex="40" ng-click="$event.stopPropagation();" class="right-padding-20">
+				<span class="md-truncate word-limits" ng-click="copyToClip(data.affiliate_url);">
+					{{ data.affiliate_url }}
+				</span>	
+            </div>
+            <div flex="" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open menu" class="md-icon-button"
+                                 ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="editAffiliate(data.id)">
+                                    <span md-menu-align-target>Edit</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                            <md-menu-item ng-repeat="action in filterActions">
+                                <md-button ng-click="this[action.method](data.id)">
+                                    <span md-menu-align-target>{{action.val}}</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

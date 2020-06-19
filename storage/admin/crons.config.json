@@ -1,0 +1,1 @@
+{"last_id":12,"schema":{"id":"integer","handler":"string","every":"string","last_modified":"string","created_at":"string","priority":"integer","status":"boolean","extension_slug":"string"},"relations":[]}

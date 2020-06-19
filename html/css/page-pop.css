@@ -1,0 +1,432 @@
+#page_pop {
+    display: none;
+}
+
+#page_pop .close_button {
+    position: absolute;
+    top: 16px;
+    right: -36px;
+    width: 36px;
+    height: 87px;
+    background: url(../images/button-close.png) no-repeat;
+    text-indent: -1000em;
+}
+
+.pop_page_natural_search {
+    padding: 24px;
+    width: 462px !important;
+    height: auto !important;
+}
+
+.pop_page_natural_search .heading {
+    font-size: 25px;
+    font-weight: bold;
+    color: #3e7191;
+    line-height: 35px;
+    text-align: left;
+    padding-left: 78px;
+    background: url(../images/header-bg.png) no-repeat;
+    margin: 6px 0 0 10px;
+}
+
+.pop_page_natural_search .heading span {
+    font-size: 28px;
+    color: #9dbb1a;
+}
+
+.pop_page_natural_search .featured_article_text {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    background-color: #f6f5f5;
+    color: #999999;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 0 10px 90px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+.pop_page_natural_search .featured_article_wrapper {
+    padding: 15px;
+    background: url(../images/featured-article-bg.png) no-repeat bottom right #ececec;
+    text-align: left;
+}
+
+.pop_page_natural_search .featured_article_wrapper .date {
+    float: left;
+    background-color: #9ec43a;
+    width: 52px;
+    color: #FFF;
+    font-size: 23px;
+    text-align: center;
+    padding: 6px 0;
+}
+
+.pop_page_natural_search .featured_article_wrapper .date span {
+    font-size: 13px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.pop_page_natural_search .featured_article_wrapper .right {
+    float: right;
+    width: 355px;
+}
+
+.pop_page_natural_search .featured_article_wrapper .title a {
+    font-size: 18px;
+    color: #3e7191;
+    text-decoration: none;
+}
+
+.pop_page_natural_search .featured_article_wrapper .posted_by {
+    font-size: 11px;
+    font-style: italic;
+    color: #6f7072;
+    padding-top: 7px;
+}
+
+.pop_page_natural_search .featured_article_wrapper .content {
+    font-size: 14px;
+    color: #6f7072;
+    line-height: 19px;
+    padding: 15px 0 11px;
+}
+
+.pop_page_natural_search .featured_article_wrapper .content a.read_more_link {
+    color: #15a1b1;
+    font-style: italic;
+    display: block;
+    text-decoration: underline;
+}
+
+.pop_page_natural_search .featured_article_wrapper .content a.read_more_link:hover {
+    color: #19B3C5;
+}
+
+.score_estimator_banner {
+    margin-top: 12px;
+    padding: 15px 20px 15px 87px;
+    background: url(../images/score-estimator-banner-bg.png) 15px 27px no-repeat #407596;
+    color: #FFF;
+}
+
+.score_estimator_banner_heading {
+    font-size: 18px;
+}
+
+.score_estimator_banner_sub_text {
+    float: left;
+    width: 155px;
+    font-size: 14px;
+    margin-top: 7px;
+    line-height: 17px;
+}
+
+.score_estimator_banner_link {
+    display: block;
+    float: right;
+    width: 177px;
+    margin-top: 7px;
+    margin-right: 4px;
+    border-top: 1px solid #ab7b06;
+    padding: 6px 0 9px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: #FFF;
+    font-size: 15px;
+    line-height: 17px;
+    background: #ffb609;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #ffb609 0%, #ff7805 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffb609), color-stop(100%, #ff7805));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffb609 0%, #ff7805 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffb609 0%, #ff7805 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffb609 0%, #ff7805 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #ffb609 0%, #ff7805 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb609', endColorstr='#ff7805', GradientType=0);
+    /* IE6-9 */
+}
+
+.score_estimator_banner_link:hover {
+    color: #FFF;
+}
+
+.pop_page_lead_collector {
+    width: 550px !important;
+    height: auto !important;
+    background-color: #fcfcfc;
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 1);
+}
+
+.lead_collector_view {}
+
+.lead_collector_view .logo_background {
+    background: url(../images/blue-bg.gif) repeat-x;
+    height: 71px;
+}
+
+.lead_collector_view .logo_background img {
+    padding: 22px 0 0 22px;
+}
+
+.lead_collector_view .heading {
+    font-size: 25px;
+    font-weight: bold;
+    color: #3e7191;
+    padding: 20px 0 5px 30px;
+}
+
+.lead_collector_view .creditRepairPhoneNumber {
+    font-size: 43px;
+    font-weight: bold;
+    color: #9dbb1a;
+}
+
+.lead_collector_view .page_pop_form {
+    width: 340px;
+    float: left;
+}
+
+.lead_collector_view .page_pop_form label {
+    font-size: 13px;
+    color: #555555;
+    text-align: right;
+    width: 110px;
+    float: left;
+    font-weight: bold;
+    padding: 7px 10px 0 0;
+}
+
+.lead_collector_view .page_pop_form div.form_header {
+    font-size: 25px;
+    font-weight: bold;
+    color: #3e7191;
+    padding: 7px 0 0 40px;
+}
+
+.lead_collector_view #submission_error {
+    font-size: 11px;
+    font-weight: bold;
+    color: #F4733A;
+    margin: 5px 0 0 45px;
+    display: none;
+}
+
+.lead_collector_view .first_name {
+    width: 340px;
+    padding: 15px 0 10px 0;
+}
+
+.lead_collector_view #first_name_pop {
+    width: 200px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.lead_collector_view .last_name {
+    width: 340px;
+    padding-bottom: 10px;
+}
+
+.lead_collector_view #last_name_pop {
+    width: 200px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.lead_collector_view .email {
+    width: 340px;
+    padding-bottom: 10px;
+}
+
+.lead_collector_view #email_pop {
+    width: 200px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.lead_collector_view .phone {
+    width: 340px;
+    padding-bottom: 10px;
+}
+
+.lead_collector_view #phone_pop {
+    width: 200px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.lead_collector_view .zip {
+    width: 340px;
+    padding-bottom: 20px;
+}
+
+.lead_collector_view #zip_pop {
+    width: 100px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.lead_collector_view #submit_pop {
+    border: none;
+    margin: 5px 0 0 40px;
+}
+
+/* lead collector validation styles */
+.lead_collector_view .block.error label.error {
+    display: none !important;
+}
+
+.lead_collector_view .block.error input {
+    border: 2px solid #F4733A !important;
+}
+
+.lead_collector_view .tu {
+    float: left;
+    padding-left: 18px;
+}
+
+.lead_collector_view .disclaimer {
+    font-size: 9px;
+    line-height: 10px;
+    color: #555555;
+    text-align: center;
+    margin: 5px 35px 15px;
+}
+
+.lead_collector_view .disclaimer a {
+    color: #15A1B1;
+}
+
+.lead_collector_view .footer {
+    background: url(../images/blue-bg-bottom.gif) repeat-x;
+    height: 24px;
+}
+
+.pop_page_thank_you {
+    display: none;
+}
+
+.pop_page_thank_you .logo_background {
+    background: url(../images/blue-bg.gif) repeat-x;
+    height: 71px;
+}
+
+.pop_page_thank_you .logo_background img {
+    padding: 22px 0 0 22px;
+}
+
+.pop_page_thank_you .heading {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3e7191;
+    padding: 20px 0 5px 30px;
+}
+
+.pop_page_thank_you .main_text {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 18px;
+    color: #9dbb1a;
+    padding: 15px 125px 0px 30px;
+}
+
+.pop_page_thank_you .prompt_text {
+    font-size: 15px;
+    color: #3e7191;
+    padding: 30px 0 0 30px;
+}
+
+.pop_page_thank_you .creditrepair_phone_number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3e7191;
+}
+
+.pop_page_thank_you .signup_wrapper {
+    padding-top: 25px;
+    height: 45px;
+}
+
+.pop_page_thank_you .signup_wrapper img {
+    padding-left: 12px;
+}
+
+.pop_page_thank_you .learn_more_wrapper {
+    padding-top: 25px;
+    height: 45px;
+}
+
+.pop_page_thank_you .learn_more_wrapper img {
+    padding-left: 8px;
+}
+
+.pop_page_thank_you .tu {
+    float: left;
+    padding: 0 0 20px 27px;
+}
+
+.pop_page_thank_you .left {
+    float: left;
+}
+
+
+
+.pop_page_default {
+    background-color: #f4f4f4 !important;
+    background: url(../images/guy-bg.png) bottom right no-repeat;
+    text-align: left;
+    width: 553px !important;
+    height: auto !important;
+}
+
+.pop_page_default .logo {
+    width: 346px;
+    height: 61px;
+    background: url(../images/credit-repair-logo.png) no-repeat;
+    margin: 30px 0 0 25px;
+    text-indent: -1000em;
+}
+
+.pop_page_default .heading {
+    font-size: 31px;
+    font-weight: bold;
+    color: #3e7191;
+    text-transform: uppercase;
+    padding: 35px 0 0 40px;
+}
+
+.pop_page_default .sub_heading {
+    font-size: 18px;
+    line-height: 20px;
+    color: #807f7f;
+    padding: 10px 0 0 40px;
+}
+
+.pop_page_default .creditRepairPhoneNumber {
+    font-size: 35px;
+    font-weight: bold;
+    color: #9dbb1a;
+    padding: 10px 0 58px 38px;
+}

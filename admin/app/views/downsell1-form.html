@@ -1,0 +1,45 @@
+<div layout="row" class="md-toolbar-tools mat-h2 top-gap-25">
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="exit_popup_element_id">
+				Exit Popup Element ID
+			</label>
+			<input type="text" name="exit_popup_element_id" ng-model="config.exit_popup_element_id" ng-pattern="" ng-required="config.exit_popup_enabled">
+		</div>
+	</md-input-container>
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="exit_popup_page">
+				Exit Popup Page
+			</label>
+			<input type="text" name="exit_popup_page" ng-model="config.exit_popup_page" ng-pattern="" ng-required="config.exit_popup_enabled">
+		</div>
+	</md-input-container>
+</div>
+
+<!-- old -->
+<!-- <div md-whiteframe="3" layout-margin  style="background: white">
+	<md-list class="custom_list">
+		<md-list-item>
+			<p class="md-body-1">Exit Popup Enabled</p>
+			<md-switch class="md-secondary" ng-model="config.exit_popup_enabled"></md-switch>
+		</md-list-item>
+	</md-list>
+</div>
+<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+	<div layout="row">
+		<md-input-container flex>
+			<label for="exit_popup_element_id">
+				Exit Popup Element ID
+			</label>
+			<input type="text" name="exit_popup_element_id" ng-model="config.exit_popup_element_id" ng-pattern="" ng-required="config.exit_popup_enabled">
+		</md-input-container>
+		<md-input-container flex>
+			<label for="exit_popup_page">
+				Exit Popup Page
+			</label>
+			<input type="text" name="exit_popup_page" ng-model="config.exit_popup_page" ng-pattern="" ng-required="config.exit_popup_enabled">
+		</md-input-container>
+	</div>
+</div>
+ -->

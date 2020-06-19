@@ -1,0 +1,296 @@
+<style>
+    div[id^='taTextElement'] {
+        overflow-y: auto !important;
+        height: 200px !important;
+    }
+    .variationAddRemove{
+        font-size: 12px;
+    }
+    .variationAddRemove-sec{
+        /*margin: 10px 0 5px 0 !important;*/
+        margin-top:20px;margin-bottom: 30px;
+    }
+    
+    .variationblock{
+        padding: 10px;
+    /* border-bottom: 1px solid #ccc; */
+    /* background: #e4e4e4; */
+    border-radius: 2px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    /*color: #f1f1f1;*/
+    }
+    .variation-head{
+            margin-top: 0;
+    color: #5F6368;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    }
+</style>
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+    <div flex layout-align="start center">
+        <version-list class="padding-left-0" name="UpsellManageForm" scope-obj="UpsellManageForm"></version-list>
+    </div>
+</div>
+<div layout="row" layout-align="center" class="wrap-top-gap" ng-controller="UpsellManagerConfiguration">
+    <md-content class="f1f1f1" flex>
+        <form name="UpsellManageForm" ng-submit="save()" novalidate>
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white" >
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="label">
+                                    Label
+                                </label>  
+                                <input type="text" name="label" ng-model="upsellManage.label" required >
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="deviceType">
+                                    Device Type
+                                </label>  
+                                <md-select name="deviceType" ng-model="upsellManage.deviceType" required>
+                                    <md-option ng-repeat="device in devices" value="{{device.value}}">
+                                        {{device.label}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div class="inner-box-wrapper" ng-repeat="upsell in upsellManage.upsellData track by $index">
+                    <div class="col-wrapper">
+                        <div md-whiteframe="3" style="background: white">
+                            <div class="row-form-panel with-padding" ng-init="parentUpsell = $index">
+                                  <div layout="row" >
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" 
+                                ng-model="upsellManage.upsellData[$index]['enableTriggerOnCartProduct']">
+                                    <h2 class="mat-h2">Trigger On Cart Product</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                        
+                            <div class="col-wrapper" style="margin:22px 0;" ng-if="upsellManage.upsellData[parentUpsell]['enableTriggerOnCartProduct']">
+                                <div layout="row" >
+                                <md-input-container flex="50">
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Campaign ID
+                                            </label>  
+                                            <md-select name="cmpId"  required
+                                            ng-change="getProducts(null,parentUpsell,'change')"
+                                            ng-model="upsellManage.upsellData[parentUpsell]['triggerCAmpaignId']">
+                                                <md-option ng-repeat="cmp in campaignLists" 
+                                                           value="{{cmp.id}}">
+                                                    {{cmp.campaign_label+'('+cmp.id+')'}}
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                   <div class="col-wrapper">
+                                       <label for="label">
+                                           Products
+                                       </label>  
+                                        <md-select name="triggerProducts" multiple required
+                                        ng-model="upsellManage.upsellData[parentUpsell]['triggerProducts']">
+                                           <md-option 
+                            ng-repeat="trgrPrdct in upsellManage.upsellData[parentUpsell]['triggerProductLists']" 
+                            value="{{trgrPrdct.product_id}}">
+                                            {{'Product '+trgrPrdct.product_id+''}}
+                                           </md-option>
+                                       </md-select>
+                                   </div>
+                               </md-input-container>
+                            </div>
+                        </div>
+                                <div class="col-wrapper" style="margin-top:20px;">
+                                    <p class="variation-head" >Variations</p>
+                                    <div class="col-wrapper">
+                                        <div class="variationblock"  ng-repeat="upsell in upsellManage.upsellData[$index]['defaultVariationFileds'] track by $index">
+                                <div layout="row" class="top-gap-0">
+                                    <md-input-container flex="30">
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Campaign ID
+                                            </label>  
+                                            <md-select name="camapignId" 
+                                                       ng-init="getProducts(parentUpsell,$index,'inbbit')" ng-change="getProducts(parentUpsell,$index,'changbbe')" 
+                                                       ng-model="upsellManage.upsellData[parentUpsell]['defaultVariationFileds'][$index]['campaignId']"                                                 required>
+                                                <md-option ng-repeat="camapaign in campaignLists" value="{{camapaign.id}}">
+                                                    {{camapaign.campaign_label+'('+camapaign.id+')'}}
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="30">
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Products
+                                            </label>  
+                                            <md-select name="productId" multiple
+                                                ng-model="upsellManage.upsellData[parentUpsell]['defaultVariationFileds'][$index]['productId']"   required>
+                                                <md-option ng-repeat="product in upsellManage.upsellData[parentUpsell]['defaultVariationFileds'][$index]['campaignProductLists']" value="{{product.product_id}}">
+                                                    {{'Product '+product.product_id+''}}
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="15" >
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Variation
+                                            </label>  
+
+                                            <input type="text" name="" 
+                                                   ng-model="upsellManage.upsellData[parentUpsell]['defaultVariationFileds'][$index]['variation']" 
+                                                 required ng-pattern="/^[1-9][0-9]?$|^100$/" >
+                                        </div>
+                                    </md-input-container>
+                               
+<!--                                    <md-input-container flex="30">
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Configurations
+                                            </label>  
+                                            <md-select name="configId" ng-model="upsellManage.upsellData[parentUpsell]['defaultVariationFileds'][$index]['configId']"                                                 required>
+                                                <md-option ng-repeat="config in configLists" value="{{config.id}}">
+                                                    {{config.configuration_label}}
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>-->
+                                     <md-input-container flex="25">
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                               HTML
+                                            </label>  
+
+                                                    <button style="margin-top: 12px;text-decoration: underline;" class="md-primary md-hue-1 md-button md-ink-ripple 
+                                                    remove-btn" type="button" ng-click="openEditor(parentUpsell,$index);" 
+                                                    >
+                                                Click to edit HTML
+                                            </button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div  style="margin: 10px 0 5px 0;" 
+                                      layout="row" layout-align="end" class="variationAddRemove-sec">
+                                    <md-input-container flex>
+                                        
+                                    </md-input-container>
+                                    <md-input-container flex class="right-shift">
+                                        <div class="col-wrapper">
+                                            <button ng-if="$index != 0" class="md-button md-ink-ripple remove-btn variationAddRemove" type="button" 
+                                                    ng-click="removeVariation(parentUpsell,$index);">Remove
+                                                <div class="md-ripple-container" style=""></div>
+                                            </button>
+
+                                            <button ng-if="(upsellManage.upsellData[parentUpsell]['defaultVariationFileds'].length - 1) == $index" class="md-primary md-hue-1 md-button md-ink-ripple 
+                                                    remove-btn variationAddRemove" type="button" ng-click="addVariation(parentUpsell)" 
+                                                   >
+                                                Add Variation<div class="md-ripple-container" style=""></div>
+                                            </button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                </div>
+                                    </div>
+                                </div>
+                                <div layout="row" class="top-gap-0" style="margin-top:41px;">
+                                    <md-input-container flex="40" >
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Configurations
+                                            </label>  
+                                            <md-select name="configuration" ng-model="upsellManage.upsellData[$index]['configuration']"                                                 required>
+                                                <md-option ng-repeat="config in configLists" value="{{config.id}}">
+                                                    {{config.configuration_label}}
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="30" >
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Next Upsell
+                                            </label>  
+
+<md-select ng-init="parentIndex = $index" name="nextUpsell" ng-model="upsellManage.upsellData[$index]['nextUpsell']"                                                 >
+                                                <md-option  ng-if="parentIndex!=$index"
+                                                    ng-repeat="nxtUpsell in
+                                                        upsellManage.upsellData track by $index" 
+                                                        value="upsell{{$index}}">
+                                                    upsell offer {{$index+1}}
+                                                </md-option>
+                                                <md-option  value="exitUpsell">
+                                                    Exit Upsell
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    
+                                    <md-input-container flex="30" >
+                                        <div class="col-wrapper">
+                                            <label for="label">
+                                                Down-sell
+                                            </label>  
+
+                                            <md-select name="nextDownsell" ng-model="upsellManage.upsellData[$index]['nextDownsell']"                                                 >
+                                                   <md-option  ng-if="parentIndex!=$index"
+                                                    ng-repeat="nxtUpsell in
+                                                        upsellManage.upsellData track by $index" 
+                                                        value="upsell{{$index}}">
+                                                    upsell offer {{$index+1}}
+                                                </md-option>
+                                                <md-option  value="">
+                                                    Downsell
+                                                </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper" ng-init="upsellManage.upsellData[$index]['upsellPage'] = $index+1">
+<!--                                            <input type="hidden" ng-model="upsellManage.upsellData[$index]['upsellPage']" value="sdvvsdvd{{$index + 1}}">-->
+                                            <button  class="md-primary md-button md-ink-ripple remove-btn 
+                                                    font-italic" type="button"ng-disabled="true" 
+                                                    disabled="disabled">Upsell Offer {{$index + 1}}</button>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex class="right-shift">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" 
+                                                    ng-click="remove($index);" ng-if="$index != 0">Remove
+                                                <div class="md-ripple-container" style=""></div>
+                                            </button>
+
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple 
+                                                    remove-btn" type="button" ng-click="add()" 
+                                                    ng-if="(upsellManage.upsellData.length - 1) == $index">
+                                                Add Upsell<div class="md-ripple-container" style=""></div>
+                                            </button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button  type="button" class="md-raised" ng-href="#/upsell-manager">Cancel</md-button>
+                    <md-button ng-disabled="UpsellManageForm.$invalid || UpsellManageForm.$submitted"  class="md-primary md-raised" type="submit">Save Settings</md-button>
+                </div>        
+            </div>
+        </form>
+    </md-content>
+</div>

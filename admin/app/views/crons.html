@@ -1,0 +1,189 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="handler" type-by="status" search_placeholder="Search scheduled jobs..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+        <flat-button-directive url='#/cron-manager' title='Job' type='add'  ></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+<div ng-if="dataLoadComplete == true" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="15" class="right-padding-20"><b>Every</b></div>
+            <div flex="25" class="right-padding-20"><b>Handler</b></div>
+            <div flex="" class="right-padding-20 center-header"><b>Ordering</b></div>
+            <div flex="" class="right-padding-20"><b>Created</b></div>
+            <div flex="" class="right-padding-20"><b>Status</b></div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editJob(data.id)" layout = "row" layout-align="end center" ng-repeat-start="data in lists| filter:{handler: searchText} as Result" ng-class="{blurry : loadStatus[$index]}" class="list-repeated-item">
+            <div ng-click="$event.stopPropagation();" flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                <div class="">
+                    <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>                    
+                </div>
+            </div>
+            <div flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                {{data.id}}
+            </div>
+            <div flex="15" class="right-padding-20">
+                <span ng-if="data.every" class="setting-link word-limits">
+                    {{data.every}} 
+                </span>
+                <span ng-if="!data.every">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </span>
+            </div>
+            <div flex="25" class="right-padding-20">
+                
+                <span ng-if="data.handler.length" class="word-limits">
+                    {{data.handler}}
+                    <md-tooltip md-direction="right">
+                        {{data.handler}}
+                    </md-tooltip>
+                </span>
+
+                <span ng-if="!data.handler.length">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </span>
+            
+            </div>
+            <div flex="" ng-click="$event.stopPropagation();" class="right-padding-20">
+                
+                <div ng-if="lists.length > 1">
+                    <md-button ng-disabled="$first" class="md-icon-button md-primary move-up" aria-label="Move to up" ng-click="moveUp(data.id, data.priority)">
+                        <img src="../../assets/images/black-b-arrow.png" />
+                    </md-button>
+                    <md-button ng-disabled="$last" class="md-icon-button md-primary move-down" aria-label="Move to down" ng-click="moveDown(data.id, data.priority)">
+                        <img src="../../assets/images/black-b-arrow.png" />
+                    </md-button>
+                </div>
+
+                <span ng-if="lists.length == 1">
+                    <div class="center-header">
+                        <i class="material-icons gray-dott">fiber_manual_record</i>
+                    </div>
+                </span>
+                
+            </div>
+            <div flex="" class="right-padding-20">
+                {{data.created_at | date:'MMM d, yyyy' }}
+            </div>
+            <div flex="" class="right-padding-20">
+                
+                <span ng-if="data.status">
+                    Active
+                </span>
+
+                <span ng-if="!data.status">
+                    Inactive
+                </span>
+                
+            </div>
+            <div flex="5" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open menu" class="md-icon-button"
+                                 ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="editJob(data.id)">
+                                    <span md-menu-align-target>Edit</span>
+                                </md-button>
+                            </md-menu-item>
+
+                            <md-menu-item>
+                                <md-button ng-click="showLog(data.id, data.handler)">
+                                    <span md-menu-align-target>View Log</span>
+                                </md-button>
+                            </md-menu-item>
+
+                            <md-menu-item ng-if="!data.status">
+                                <md-button ng-click="changeStatus(data.id, true, $index)">
+                                    <span md-menu-align-target>Activate</span>
+                                </md-button>
+                            </md-menu-item>
+
+                            <md-menu-item ng-if="data.status">
+                                <md-button ng-click="changeStatus(data.id, false, $index)">
+                                    <span md-menu-align-target>Deactivate</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                            <md-menu-item ng-repeat="action in filterActions" ng-if="action.val != 'Activate' && action.val != 'Deactivate'">
+                                <md-button ng-click="this[action.method](data.id)">
+                                    <span md-menu-align-target>{{action.val}}</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- OLD HTML -->
+
+<!-- <div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-if="!cronLists.length">
+	<md-content flex>
+		<p class="text-warning">
+			You're not using any feature in the CodeBase that requires cron jobs.
+		</p>
+	</md-content>
+</div>
+<div layout = "row" layout-align="center" md-whiteframe="3" layout-margin  style="background: white" ng-if="cronLists.length">
+	<md-list flex class="custom_list">
+		<md-list-item class="heading-text-list">
+			<p flex="20">Every</p>
+			<p>Handler</p>
+			<p layout = "row" layout-align="end center">Overlap</p>
+		</md-list-item>
+		<md-divider></md-divider>
+		<md-list-item ng-repeat-start="crons in cronLists">
+			<p flex="20">{{crons.every}}</p>
+			<p>{{crons.handler}}</p>
+			<md-button class="md-secondary md-icon-button md-{{crons.overlap ? 'primary' : 'warn'}}">
+				<i class="material-icons">{{crons.overlap ? '&#xE876;' : '&#xE14C;'}}</i>
+			</md-button>
+		</md-list-item>
+		<md-divider ng-repeat-end ng-if="$last ? false : true"></md-divider>
+	</md-list>
+</div> -->

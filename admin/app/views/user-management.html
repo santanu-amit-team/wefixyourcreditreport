@@ -1,0 +1,22 @@
+<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+	<md-content flex>
+		<div layout = "row" layout-padding>
+			<div flex><b>User Name</b></div>
+			<div flex><b>Password</b></div>
+			<div flex="10"><b></b></div>
+		</div>
+		<md-divider></md-divider>
+		<div layout = "row" layout-padding ng-repeat="user in users">
+			<div flex layout = "row" layout-align="start center">{{user.username}}</div>
+			<div flex layout = "row" ng-init="eye = false" layout-align="start center">{{ (eye == true) ? user.password : '**********'}}</div>
+			<div flex="10" layout = "row" layout-align="end center">
+				<md-button class="md-icon-button" ng-show="!eye" aria-label="view" ng-click="eye = true;">
+				  <i class="material-icons">&#xE417;</i>
+				</md-button>
+				<md-button class="md-icon-button" ng-show="eye" aria-label="view" ng-click="eye = false;">
+				  <i class="material-icons">&#xE8F5;</i>
+				</md-button>
+			</div>
+		</div>
+	</md-content>
+</div>

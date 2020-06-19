@@ -1,0 +1,71 @@
+<div layout="row" class="wrap-top-gap">
+	<div flex="90" layout="column">
+		<filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="crm_label" type-by="crm_type" search-placeholder="Search CRMs..."></filter-bar>
+	</div>
+	<div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+	    <flat-button-directive url='#/crms-manager' title='CRM' type='add'></flat-button-directive>
+	</div>
+</div>
+
+
+<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper list-repeated-item">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="20" class="right-padding-20"><b>Label</b></div>
+            <div flex="15" class="right-padding-20"><b>CRM</b></div>
+            <div flex="30" class="right-padding-20"><b>API Endpoint</b></div>
+            <div flex class="right-padding-20"><b>API Username</b></div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div  ng-click="editCrms(data.id)" layout = "row" layout-align="end center" ng-repeat-start="data in lists" class="list-repeated-item">
+            <div ng-click="$event.stopPropagation();" flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            	<md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>
+            </div>
+            <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            	{{data.id}}
+            </div>
+            <div flex="20" class="right-padding-20">
+            	<span class="setting-link">
+            		{{data.crm_label}}<!-- &nbsp;<i class="material-icons last_modified_icon">
+					&#xE88F; <md-tooltip
+						md-direction="right">
+						{{data.verified ? 'Verified' : 'Not verified'}} 
+					</md-tooltip>
+					</i> -->
+				</span>
+			</div>
+            <div flex="15" class="right-padding-20">{{getLabel(data.crm_type)}}</div>
+            <div flex="30" class="right-padding-20"><div class="md-truncate">{{data.endpoint}}</div></div>
+            <div flex class="right-padding-20 md-truncate">{{data.username}}</div>
+            <div flex="5" class="text-right-align right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open demo menu" class="md-icon-button"
+                             ng-click="$mdOpenMenu($event)">
+                    	<i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+	                  	<md-menu-item>
+	                    	<md-button ng-click="editCrms(data.id)">
+	                      		<span md-menu-align-target>Edit</span>
+	                      	</md-button>
+	                    </md-menu-item>
+
+	                    <md-menu-item ng-repeat="action in filterActions">
+	                      	<md-button ng-click="this[action.method](data.id)">
+	                      		<span md-menu-align-target>{{action.val}}</span>
+	                      	</md-button>
+	                    </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <!-- <i class="material-icons">more_vert</i> -->
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

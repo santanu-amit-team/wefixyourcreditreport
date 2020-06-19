@@ -1,0 +1,46 @@
+<div ng-if="showView">
+    <flat-button-directive title="" type="back" url="#/extensions">
+    </flat-button-directive>
+    <form name="ExtensionForm" ng-submit="saveExtension()" novalidate="">
+        <p class="md-title" layout-padding="">
+            {{extensionTitle}}
+        </p>
+        <div layout="row" layout-align="center" layout-margin="" layout-padding="" md-whiteframe="3" style="background: white">
+            <md-content flex="">
+                <div layout="row" layout-wrap>
+                    <div flex="{{(input.flex) ? input.flex : 50}}" ng-repeat="input in extension_inputs">
+                        <extension-input-field flag="{{setFlag}}" flex="" hint="{{input.hint}}" key="{{input.key}}" label="{{input.label}}" optional="{{(input.optional) ? input.optional : ''}}" textarea="{{(input.textarea) ? input.textarea : ''}}" type="{{input.type}}" value="{{input.value | json}}">
+                        </extension-input-field>
+                    </div>
+                </div>
+                <div layout="row" layout-align="end center">
+                    <md-button class="margin-left-0 md-primary" ng-disabled="ExtensionForm.$invalid || disabled.save" type="submit">
+                        {{btn.save}}
+                    </md-button>
+                    <md-button class="margin-right-0" ng-click="goBack()" type="button">
+                        Cancel
+                    </md-button>
+                </div>
+            </md-content>
+        </div>
+    </form>
+</div>
+<div ng-if="customView" id="custom-view">
+
+<extension-custom-view></extension-custom-view> 
+<!--<div ng-bind-html="customHtml"></div>-->
+</div>
+<div layout="row" layout-align="center center" layout-margin="" layout-padding="" md-whiteframe="3" ng-hide="!error_msg" style="background: white; height: 300px;">
+    <div layout="column" layout-alignment="center center">
+        <div class="margin-auto" layout="row" layout-alignment="center">
+            <i class="material-icons" style="font-size: 48px;">
+                
+            </i>
+        </div>
+        <div layout="row" layout-alignment="center">
+            <p><span class="md-subhead">
+                {{error_msg}}
+            </span></p>
+        </div>
+    </div>
+</div>

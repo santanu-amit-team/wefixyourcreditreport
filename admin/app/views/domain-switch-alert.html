@@ -1,0 +1,26 @@
+<md-dialog aria-label="List dialog">
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h4>Howdy!</h4>
+            <p>
+                Looks like you are just getting started.
+                <br>
+                Do you want to go ahead and run the installer?
+            </p>
+        </div>
+    </md-dialog-content>
+    <md-divider></md-divider>
+    <md-dialog-actions layout="row">
+        <md-button class="md-primary" ng-click="registerDomain()">
+            Don't Show Again
+        </md-button>
+        <span flex></span>
+        <md-divider></md-divider>
+        <md-button class="md-primary" ng-click="resetSettings()">
+            Ok
+        </md-button>
+        <md-button class="md-primary" ng-click="closeDomainSwitchAlert()">
+            Cancel
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

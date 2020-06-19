@@ -1,0 +1,45 @@
+<md-dialog flex="45">
+  <md-dialog-content>
+
+    <!-- Title section -->
+    <div class="md-dialog-content">
+      <div layout="row" class="popup-heading-text">
+        <div flex="70" class="md-headline" layout-align="start center">
+          .htaccess Configuration
+        </div>
+        <div  layout="row" flex="30" layout-align="end center">
+          <md-button class="md-icon-button" ng-click="cancel()">
+              <i class="material-icons" aria-label="Close dialog">
+                clear
+              </i>
+          </md-button>
+        </div>
+      </div>
+      <!-- Title section -->
+
+      <p>
+        Copy the code below and paste it into your <strong>.htaccess</strong> configuration file. 
+      </p>
+      <p>
+        Paste this code in the .htaccess configuration file if file system is not writable.
+      </p>
+
+      <!-- Script area -->
+      <md-input-container layout="row">
+
+        <div class="copy_text" flex="100">
+           <div class="text-edit-btn" ng-click="copyToClipBoard();">
+              <i class="material-icons"></i>
+           </div> 
+           <textarea class="input-area" rows="4" ng-model="data" readonly aria-label="Script"></textarea>         
+        </div>
+        
+      </md-input-container>
+      <!-- Script area -->
+
+      <p>If you require assistance while configuring your .htaccess file, please contact our support team <a href="#" class="setting-link">tech@codeclouds.biz</a></p>
+
+
+    </div>
+  </md-dialog-content>
+</md-dialog>

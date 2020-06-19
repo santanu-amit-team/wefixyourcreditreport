@@ -1,0 +1,244 @@
+.frequently_asked_questions {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.frequently_asked_questions .white_bg {
+    background-color: #f7f7f7;
+}
+
+.frequently_asked_questions li {
+    padding: 10px 0;
+}
+
+.frequently_asked_questions .question {
+    font-size: 21px;
+    line-height: 25px;
+    font-weight: bold;
+    color: #9e59e9;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+.frequently_asked_questions .question span {
+    display: block;
+    float: left;
+}
+
+.frequently_asked_questions .question span.indicator {
+    width: 25px;
+    font-size: 30px;
+    color: #96be3d;
+}
+
+.frequently_asked_questions .question span.text {
+    width: 515px;
+}
+
+.frequently_asked_questions .question:hover {
+    cursor: pointer;
+    color: #7a00ff;
+}
+
+.frequently_asked_questions .answer {
+    padding: 0 45px 20px;
+}
+
+.frequently_asked_questions .answer p {
+    border-left: 1px solid #c1c1c1;
+    margin: 5px 0 0 0;
+    padding-left: 15px;
+}
+.frequently_asked_questions .answer .watch_video {
+    display: block;
+    width: 137px;
+    height: 42px;
+    margin-top: 20px;
+    background: url(../images/button-watch-video.png) no-repeat;
+    text-indent: -1000em;
+}
+
+.spanlookslikeh1 {
+    margin: 0 0 0 10px;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    padding-top: 14px;
+    display: block;
+}
+
+.h1looklikeh3 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: bold;
+    color: #9e59e9;
+}
+
+/* change your credit world box - right side */
+.change_your_credit_world_box {
+    text-align: center;
+    padding-bottom: 20px;
+    margin: 40px 0 50px;
+    background-color: #f9f9f9;
+    border: 1px solid #d5d5d5;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #acacac;
+    border-radius: 6px;
+}
+
+.change_your_credit_world_box p.title {
+    display: block;
+    margin: 0;
+    padding: 15px 0;
+    font-size: 21px;
+    line-height: 24px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #f7f7f7;
+    border-bottom: 2px solid #f0f0f0;
+    border-radius: 6px 6px 0 0;
+}
+
+.change_your_credit_world_box span.phone_number {
+    font-weight: bold;
+    color: #81be41;
+    white-space: nowrap;
+}
+
+.change_your_credit_world_box p.are_you_ready {
+    font-weight: bold;
+    font-style: italic;
+    color: #9e59e9;
+}
+
+.change_your_credit_world_box a.get_started {
+    display: block;
+    margin: 0 auto;
+    width: 218px;
+    height: 42px;
+    background: url(../images/button-get-started-online.png) no-repeat;
+    text-indent: -1000em;
+}
+
+/* trusted alliances - right side */
+.trusted_alliances {
+    margin: 25px 0;
+}
+
+.trusted_alliances h3 {
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+.trusted_alliances img {
+    padding: 10px 0;
+}
+
+.trusted_alliances p {
+    padding-left: 15px;
+}
+
+.trusted_alliances .border_top {
+    border-top: 1px solid #c1c1c1;
+}
+
+.trusted_alliances .border_top.plus_sign {
+    position: relative;
+}
+
+.trusted_alliances .border_top.plus_sign:after {
+    content: ' ';
+    position: absolute;
+    top: -8px;
+    left: 163px;
+    width: 15px;
+    height: 15px;
+    background: url(../images/plus-icon.png) no-repeat;
+}
+
+.trusted_alliances .center {
+    text-align: center;
+}
+
+/* ===============================================
+
+	MEDIA SPECIFIC STYLES
+
+================================================== */
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {
+    .change_your_credit_world_box p.title {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+    .frequently_asked_questions .question span.text {
+        width: 395px;
+    }
+
+    .change_your_credit_world_box p {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .trusted_alliances .border_top.plus_sign:after {
+        left: 127px;
+    }
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+    .frequently_asked_questions .answer {
+        padding: 0 20px 20px;
+    }
+
+    .spanlookslikeh1 {
+        font-size: 24px;
+        padding-top: 10px;
+    }
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .frequently_asked_questions .question span.text {
+        width: 355px;
+    }
+
+    .change_your_credit_world_box p {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .trusted_alliances .border_top.plus_sign:after {
+        left: 203px;
+    }
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+    .frequently_asked_questions .question span.text {
+        width: 235px;
+    }
+
+    .change_your_credit_world_box p.title {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .change_your_credit_world_box p {
+        padding-left: 43px;
+        padding-right: 43px;
+    }
+
+    .trusted_alliances .border_top.plus_sign:after {
+        left: 143px;
+    }
+}
+img {
+    max-width: 100%;
+}

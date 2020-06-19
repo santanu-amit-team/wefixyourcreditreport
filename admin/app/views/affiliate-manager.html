@@ -1,0 +1,311 @@
+<style>
+    .settings-icon{
+        position: absolute;
+        right: 55px;
+        top: 35px;
+        font-size: 16px;
+    }
+    .md-select{
+        position: relative;
+    }
+</style>
+<div layout="row" layout-align="center">
+
+    <md-content class="f1f1f1" flex>
+
+        <form name="AffiliateForm" ng-submit="SubmitForm()" novalidate>
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">    
+            </div>
+
+            <!-- Start save Affiliate Label-->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel padding-10" layout="column">
+                    <div layout="row">
+                        <div flex="50" layout="column" layout-align="center">
+                            <div class="col-wrapper">
+                                <input type="text" ng-model="affiliate.label" placeholder="Affiliate Label *" class="material-input" required/>
+                            </div>
+                        </div>
+                        <div flex="50" layout="column" layout-align="center end">
+                            <div class="col-wrapper">
+                                <div layout="row" layout-align="end">
+                                    <label for=""></label>
+                                    <md-button type="button" class="md-raised" ng-click="goBack()" >Cancel</md-button>
+                                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="AffiliateForm.$invalid || AffiliateForm.$submitted">{{AffiliateForm.$submitted ? 'Saving...' : 'Save Affiliate'}}</md-button>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Affiliate Label-->
+            
+            <!-- Start Affiliate Network-->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <!-- <h1 class="mat-display-1">
+                            Funnel Configurations
+                        </h1> -->
+                        <md-switch aria-label="Switch 1" class="right-shift" ng-model="affiliate.enable_aff_network">
+                            <h1 class="mat-display-1">
+                                Affiliate Network
+                            </h1>
+                        </md-switch>
+                    </div>
+
+                    <div ng-if="affiliate.enable_aff_network" class="inner-box-wrapper inner-box-wrapper-same-align">
+                        <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+                            <div class="row-form-panel">
+                               
+                                <div layout="row" class="top-gap-0 layout-row">
+                                    <md-input-container flex="50" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="coupon_amt">Network</label>
+                                            <md-select class="md-select" name="nid" ng-model="affiliate.nid" required>
+                                                <md-option ng-repeat="n in networkLists" value="{{n.network_value}}">{{n.network_name | uppercase}} <span>({{n.network_value}})</span></md-option>
+                                            </md-select>
+                                            <i class="material-icons ng-scope settings-icon" ng-click="openPopup()">
+                                                settings
+                                            </i>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end Affiliate Network-->
+
+            <!-- Start Affiliate References-->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <h1 class="mat-display-1">
+                            Affiliate References
+                        </h1>
+                    </div>
+
+                    <div class="inner-box-wrapper inner-box-wrapper-same-align" ng-repeat="affilateCombination in affiliate.affiliates track by $index">
+                        <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+                            <div class="row-form-panel">
+                                <div layout="row" class="top-gap-0 layout-row">
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="affiliate_id">Affiliate ID <span class='required_field'>*</span></label>
+                                            <md-select name="affiliate_id" ng-model="affilateCombination.affiliate_id" required>
+                                                <md-option ng-repeat="affiliate in affiliateLists" value="{{affiliate}}">{{affiliate | uppercase}}</md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="aff_value">Affiliate Value <span class='required_field'>*</span></label>
+                                            <input type="text" name="aff_value" ng-model="affilateCombination.affiliate_value" required="" class="ng-pristine ng-untouched md-input ng-empty ng-invalid ng-invalid-required ng-valid-pattern" id="input_32" aria-invalid="true">
+                                            <div class="md-errors-spacer"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end" class="layout-align-end-stretch layout-row">
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button" ng-disabled="true" disabled="disabled">{{ affiliate.affiliatesHint.affiliate_id }}</button>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="" class="right-shift flex">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" ng-if="($first ? false : true)" ng-click="deleteRow($index);">Remove<div class="md-ripple-container"></div></button>
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" ng-if="($last ? true : false)" ng-click="addRow();">New Affiliate<div class="md-ripple-container"></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+
+                    <div class="mg-top-10">
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="configuration_type">Configuration Type <span class='required_field'>*</span></label>
+                                    <md-select name="configuration_type" ng-model="affiliate.config_type" required ng-change="changeConfigurationType();">
+                                        <md-option ng-repeat="config in configTypes" value="{{ config }}">{{ config | uppercase }}</md-option>
+                                    </md-select>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- End Affiliate References-->
+
+            <!-- Start Redirect Traffic (%) -->
+            <div ng-if="false" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <h1 class="mat-display-1">
+                            Redirect Traffic (%)
+                        </h1>
+                    </div>
+
+                    <div class="inner-box-wrapper inner-box-wrapper-same-align">
+                        <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+                            <div class="row-form-panel">
+                                <div layout="row" class="top-gap-0 layout-row">
+                                    <md-input-container flex="45" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="select_affiliate_to">Select Affiliate</label>
+                                            <md-select name="select_affiliate_to" required>
+                                                <md-option ng-repeat="appliedOn in [ 'AFFID' , 'C1']" value="{{appliedOn}}">{{appliedOn | uppercase}}</md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <div flex="10">
+                                        <div class="col-wrapper">
+                                            <span class="center end">>></span>
+                                        </div>
+                                    </div>
+                                    <md-input-container flex="45" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="select_affiliate_to">Select Affiliate</label>
+                                            <md-select name="select_affiliate_to" required>
+                                                <md-option ng-repeat="appliedOn in [ 'AFFID' , 'C1']" value="{{appliedOn}}">{{appliedOn | uppercase}}</md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end" class="layout-align-end-stretch layout-row">
+                                    
+                                    <md-input-container flex="50" class="right-shift flex">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" >Remove<div class="md-ripple-container"></div></button>
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button">New Redirect<div class="md-ripple-container"></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Redirect Traffic (%)-->
+
+            <!-- Start Funnel Configurations-->
+            <div ng-if="affiliate.config_type == 'advanced'" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <!-- <h1 class="mat-display-1">
+                            Funnel Configurations
+                        </h1> -->
+                        <md-switch aria-label="Switch 1" class="right-shift" ng-model="affiliate.enable_funnel_configuration">
+                            <h1 class="mat-display-1">
+                                Funnel Configurations
+                            </h1>
+                        </md-switch>
+                    </div>
+
+                    <div ng-if="affiliate.enable_funnel_configuration" class="inner-box-wrapper inner-box-wrapper-same-align" ng-repeat="configurationCombination in affiliate.configuration_mapping track by $index">
+                        <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+                            <div class="row-form-panel">
+                               
+                                <div layout="row" class="top-gap-0 layout-row">
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="coupon_amt">Source Configuration <span class='required_field'>*</span></label>
+                                            <md-select name="coupon_type" ng-model="configurationCombination[0]" required>
+                                                <md-option ng-repeat="configuration in configurations" value="{{configuration.id}}">  {{configuration.configuration_label.length ? configuration.configuration_label : 'N/A'}} ({{configuration.id}}) </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="coupon_amt">Destination Configuration <span class='required_field'>*</span></label>
+                                            <md-select name="coupon_type" ng-model="configurationCombination[1]" required>
+                                                <md-option ng-repeat="configuration in configurations" value="{{configuration.id}}"> {{configuration.configuration_label.length ? configuration.configuration_label : 'N/A'}} ({{configuration.id}}) </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end" class="layout-align-end-stretch layout-row">
+                                    
+                                    <md-input-container flex="50" class="right-shift flex">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" ng-click="deleteRowConfig($index);" ng-if="($first ? false : true)">Remove<div class="md-ripple-container"></div></button>
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" ng-click="addRowConfig();" ng-if="($last ? true : false)" type="button">New Funnel Configuration<div class="md-ripple-container"></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end Funnel Configurations-->
+            
+            <!-- Start Campaign Configurations-->
+            <div ng-if="affiliate.config_type == 'advanced'" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <!-- <h1 class="mat-display-1">
+                            Funnel Configurations
+                        </h1> -->
+                        <md-switch aria-label="Switch 1" class="right-shift" ng-model="affiliate.enable_campaign_configuration">
+                            <h1 class="mat-display-1">
+                                Campaign Configurations
+                            </h1>
+                        </md-switch>
+                    </div>
+
+                    <div ng-if="affiliate.enable_campaign_configuration" class="inner-box-wrapper inner-box-wrapper-same-align" ng-repeat="campaignCombination in affiliate.campaign_mapping track by $index">
+                        <div md-whiteframe="3" layout-padding="" layout-margin="" style="background: white" class="layout-margin layout-padding md-whiteframe-3dp">
+                            <div class="row-form-panel">
+                               
+                                <div layout="row" class="top-gap-0 layout-row">
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="coupon_amt">Source Campaign <span class='required_field'>*</span></label>
+                                            <md-select name="coupon_type" ng-model="campaignCombination[0]" required>
+                                                <md-option ng-repeat="campaign in campaigns" value="{{campaign.id}}">  {{campaign.campaign_label.length ? campaign.campaign_label : 'N/A'}} ({{campaign.id}}) </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="" class="flex">
+                                        <div class="col-wrapper">
+                                            <label for="coupon_amt">Destination Campaign <span class='required_field'>*</span></label>
+                                            <md-select name="coupon_type" ng-model="campaignCombination[1]" required>
+                                                <md-option ng-repeat="campaign in campaigns" value="{{campaign.id}}"> {{campaign.campaign_label.length ? campaign.campaign_label : 'N/A'}} ({{campaign.id}}) </md-option>
+                                            </md-select>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end" class="layout-align-end-stretch layout-row">
+                                    
+                                    <md-input-container flex="50" class="right-shift flex">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" ng-click="deleteRowCampaign($index);" ng-if="($first ? false : true)">Remove<div class="md-ripple-container"></div></button>
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" ng-click="addRowCampaign();" ng-if="($last ? true : false)" type="button">New Campaign Configuration<div class="md-ripple-container"></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Campaign Configurations-->
+
+            <!-- Save Button-->
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <label for=""></label>
+                    <md-button  type="button" class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="AffiliateForm.$invalid || AffiliateForm.$submitted" >{{AffiliateForm.$submitted ? 'Saving...' : 'Save Affiliate'}}</md-button>
+                </div>        
+            </div>
+
+        </form>
+
+    </md-content>
+</div>

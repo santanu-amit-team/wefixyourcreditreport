@@ -1,0 +1,107 @@
+<div>
+
+    <!-- Normal Mode -->
+    <div layout = "row" layout-align="start center" ng-if="!editing" ng-dblclick="switchToEditMode();$event.stopPropagation();">
+        <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            <span class="color-gray-txt">
+                {{ info.id }}
+            </span>
+        </div>
+        <div flex="15" class="right-padding-20">
+            
+            <div ng-if="info.source != 'NA'" class="word-limits">
+                {{ info.source }}
+            </div>
+
+            <span ng-if="info.source == 'NA'">
+                <i class="material-icons gray-dott">fiber_manual_record</i>
+            </span>
+
+        </div>
+        <div flex="15" class="right-padding-20">
+            <div ng-if="info.destination != 'NA'" class="word-limits">
+                {{ info.destination }}
+            </div>
+
+            <span ng-if="info.destination == 'NA'">
+                <i class="material-icons gray-dott">fiber_manual_record</i>
+            </span>
+        </div>
+        <div flex="15" class="right-padding-15">
+            <div ng-if="info.split != 'NA'" class="word-limits">
+                {{ info.split }}
+            </div>
+
+            <span ng-if="info.split == 'NA'">
+                <i class="material-icons gray-dott">fiber_manual_record</i>
+            </span>
+        </div>
+        <div flex="15" class="right-padding-15">
+
+            <div ng-if="info.exclude != 'NA'" class="word-limits">
+                {{ info.exclude }}
+            </div>
+
+            <span ng-if="info.exclude == 'NA'">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+            </span>
+
+        </div>
+        <div flex="" class="right-padding-20">
+            <div ng-if="info.urldata != 'NA'" class="word-limits">
+                {{ info.urldata }}
+            </div>
+
+            <span ng-if="info.urldata == 'NA'">
+                <i class="material-icons gray-dott">fiber_manual_record</i>
+            </span>
+        </div>
+        <div flex="5" class="text-right-align right-padding-20">
+            <md-button class="md-icon-button md-{{file.status ? 'primary' : 'warn'}}" ng-click="callDelete();">
+                <i class="material-icons">
+                   {{ '' }}
+                </i>
+            </md-button>
+        </div>
+    </div>
+
+    <!-- Editing Mode -->
+    <div layout = "row" layout-align="end center" ng-if="editing">
+        <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            <span class="word-limits">
+                {{ info.id }}
+            </span>
+        </div>
+        <div flex="15" class="right-padding-20">
+            <md-input-container flex="100" class="strock-input full-width">
+                <input type="text" ng-model="newValue.source" aria-label="Source">
+            </md-input-container>                
+        </div>
+        <div flex="15" class="right-padding-20">
+            <md-input-container flex="100" class="strock-input full-width">
+                <input type="text" ng-model="newValue.destination" aria-label="Destination">
+            </md-input-container>
+        </div>
+        <div flex="15" class="right-padding-20" >
+            <md-checkbox md-no-ink aria-label="Split Gateway" ng-true-value="'yes'" ng-false-value="'no'" ng-model="newValue.split" class="md-primary">
+            </md-checkbox>
+        </div>
+        <div flex="15" class="right-padding-20">
+            <md-input-container flex="100" class="strock-input full-width">
+                <input type="text" ng-model="newValue.exclude" aria-label="Exclude">
+            </md-input-container>
+        </div>
+        <div flex="" class="right-padding-20">
+            <md-input-container flex="100" class="strock-input full-width">
+                <input type="text" ng-model="newValue.urldata" aria-label="URL">
+            </md-input-container>
+        </div>
+        <div flex="5" class="text-right-align right-padding-20">
+            <md-button class="md-icon-button md-primary" aria-label="Save" ng-click="switchToNormalMode()">
+                <i class="material-icons">
+                     done
+                </i>
+            </md-button>
+        </div>
+    </div>
+</div>

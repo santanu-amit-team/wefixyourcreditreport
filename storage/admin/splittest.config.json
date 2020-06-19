@@ -1,0 +1,14 @@
+{
+    "last_id": 0,
+    "schema": {
+       "id": "integer",
+        "config_id": "integer",
+        "experiment_name": "string",
+        "selectedSplitTestType": "string",
+        "splitTypesData": "string",
+        "selectedPageType": "string",
+        "created_at": "string",
+        "last_modified": "string"
+    },
+    "relations": {}
+}

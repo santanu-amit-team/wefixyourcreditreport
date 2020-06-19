@@ -1,0 +1,221 @@
+<div layout="row" layout-align="center">
+
+    <md-content class="f1f1f1" flex>
+        <form name="AutoresponderForm" ng-submit="SubmitForm()" novalidate>
+
+            <!-- version and form buttons-->
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">
+                
+            </div>
+            <!-- version form buttons-->
+
+            <!-- Start save Auto Responder Label-->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                    <div class="row-form-panel padding-10" layout="column">
+                        <div layout="row">
+                            <div flex="50" layout="column" layout-align="center">
+                                <div class="col-wrapper">
+                                    <input type="text" ng-model="autoresponder.label" placeholder="Auto Responder Label" class="material-input" required/>
+                                </div>
+                            </div>
+                            <div flex="50" layout="column" layout-align="center end">
+                                <div class="col-wrapper">
+                                    <div layout="row" layout-align="end">
+                                        <label for=""></label>
+                                        <md-button type="button" class="md-raised" ng-click="goBack()" >Cancel</md-button>
+                                        <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="AutoresponderForm.$invalid || AutoresponderForm.$submitted">{{AutoresponderForm.$submitted ? 'Saving...' : 'Save Auto Responder'}}</md-button>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- End Auto Responder Label-->
+
+            <!-- Start Auto Responder Configuration -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <h1 class="mat-display-1">
+                            Auto Responder Configuration
+                        </h1>
+                    </div>
+
+                    <div layout="row" class="layout-row">
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="email_subject">Email Subject <span class='required_field'>*</span></label>
+                                <input type="text" name="email_subject" placeholder="Email Subject" ng-model="autoresponder.email_subject" required>
+                                <div class="md-errors-spacer"></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div class="row-form-panel">
+                        <label for="email_template">Email Template <span class='required_field'>*</span></label>
+                        <md-content flex>
+                            <text-angular ng-model="autoresponder.template" required></text-angular>
+                        </md-content>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="trigger_event">Trigger Event <span class='required_field'>*</span></label>
+                                <md-select name="trigger_event" ng-model="autoresponder.trigger_event" required>
+                                    <md-option ng-repeat="triggerType in trigger_types"  value="{{triggerType.key}}">{{ triggerType.value | uppercase }}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" ng-if="autoresponder.trigger_event == 2">
+                            <div class="col-wrapper">
+                                <label for="event_id" >Event ID <span class='required_field'>*</span></label>
+                                <input type="text" name="event_id" ng-model="autoresponder.event_id" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="senders_name" >Sender’s Name <span class='required_field'>*</span></label>
+                                <input type="text" name="senders_name" ng-model="autoresponder.sender_name" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="senders_email" >Sender’s Email <span class='required_field'>*</span></label>
+                                <input type="text" name="senders_email" ng-model="autoresponder.sender_email" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-wrapper">
+                            <p class="margin-bottom-0">
+                                <label for="notified_email">BCC To</label>
+                            </p>
+                        </div>
+                        <div class="col-wrapper">
+                            <add-remove-input 
+                                name="autoresponder" 
+                                scope-obj="autoresponder" 
+                                scope-update-key="notified_email" 
+                                empty-msg="Please enter an email address." 
+                                duplicate-msg="email address already exists" 
+                                input-placeholder="{EMAIL}" 
+                                validation-key="validation"
+                                data-separator="{{ bcc_separator }}" 
+                                theme="1" classes="side-wrapper">
+                            </add-remove-input>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <!-- End Auto Responder Configuration-->
+
+            <!-- Start save SMTP Profile-->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <h1 class="mat-display-1">
+                            SMTP Profile
+                        </h1>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_setup">SMTP Setup</label>
+                                <md-select name="smtp_setup" ng-model="autoresponder.smtp_setup">
+                                    <md-option ng-repeat="smtp in smtpTypes"  value="{{ smtp }}">{{ smtp | uppercase }}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" ng-if="autoresponder.smtp_setup == 'custom'">
+                            <div class="col-wrapper">
+                                <label for="smtp_host" >SMTP Host <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_host" ng-model="autoresponder.smtp_host" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" ng-if="autoresponder.smtp_setup == 'custom'">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="smtp_port" >SMTP Port <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_port" ng-model="autoresponder.smtp_port" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="smtp_username" >SMTP Username <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_username" ng-model="autoresponder.smtp_username" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" ng-if="autoresponder.smtp_setup == 'custom'">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="smtp_password" >SMTP Password <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_password" ng-model="autoresponder.smtp_password" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="smtp_sender_name" >Sender’s Name <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_sender_name" ng-model="autoresponder.smtp_sender_name" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" ng-if="autoresponder.smtp_setup == 'custom'">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="smtp_senders_email" >Sender’s Email <span class='required_field'>*</span></label>
+                                <input type="text" name="smtp_senders_email" ng-model="autoresponder.smtp_senders_email" required>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_mode">SMTP Mode</label>
+                                <md-select name="smtp_mode" ng-model="autoresponder.smtp_mode">
+                                    <md-option ng-repeat="mode in [ 'ssl' , 'tls']" value="{{  mode }}">{{ mode| uppercase }}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>                        
+                    </div>
+                    <div layout="row" ng-if="autoresponder.smtp_setup == 'custom'">
+                        <md-input-container flex layout="column" layout-align="center end">
+                            <div class="col-wrapper">
+                                <md-progress-circular md-mode="indeterminate" ng-if="loaderSmtpVerify"></md-progress-circular>
+                                <span ng-if="autoresponder.smtp_verify && !loaderSmtpVerify" class="verified-check green-cell">
+                                    <i class="success material-icons">
+                                        &#xE876;
+                                    </i> Verified
+                                </span>
+
+                                <md-button ng-click="checkSMTP();" ng-if="!loaderSmtpVerify" class="md-raised md-primary strock-type-btn right-single-btn" >Check SMTP</md-button>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- End Auto SMTP Profile-->
+
+            <!-- Save Button-->
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <label for=""></label>
+                    <md-button  type="button" class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="AutoresponderForm.$invalid || AutoresponderForm.$submitted" >{{AutoresponderForm.$submitted ? 'Saving...' : 'Save Auto Responder'}}</md-button>
+                </div>        
+            </div>
+
+        </form>
+    </md-content>
+    
+</div>

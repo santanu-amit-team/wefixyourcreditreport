@@ -1,0 +1,109 @@
+<div layout-padding layout="row" class="padding-left-0 padding-right-0">
+    <!--    <div flex layout-align="start center">
+            <version-list class="padding-left-0" name="couponuser" scope-obj="couponuser"></version-list>
+        </div>-->
+    <div flex layout-align="end center" class="padding-left-0 padding-right-0">
+        <flat-button-directive url='#/coupons' title='' type='back'  ></flat-button-directive>
+    </div>
+</div>
+<div layout="row" layout-align="left" ng-show="paginationShow">
+    <div class="flex-20">
+        <md-input-container>
+            <md-select class="margin-bottom-0 margin-top-0" ng-model="currentPage" placeholder="Pages" ng-change="getUser()">
+                <md-option ng-repeat="pg in getpagesArray(pages) track by $index" value="{{$index + 1}}">
+                    Page {{$index + 1}}
+                </md-option>
+            </md-select>
+
+        </md-input-container>
+    </div>
+    <div class="flex-60">
+        <md-list flex layout-margin>
+            <md-input-container layout-align="center center" md-no-float class="md-block">
+                <md-icon flex="10" class="material-icons">&#xE8B6;</md-icon>
+                <input flex="50" ng-model="searchText" placeholder="Search here">
+                <i ng-if="searchText" ng-click="clear()" flex="10" class="material-icons">&#xE14C;</i>
+            </md-input-container>
+        </md-list>
+    </div>
+    <div class="flex-10">
+        <md-input-container>   
+            <md-select class="margin-bottom-0 margin-top-0" ng-model="limit" placeholder="50" ng-change="changeLimit()">
+                <md-option value="50">
+                    50
+                </md-option>
+                <md-option value="100">
+                    100
+                </md-option>
+                <md-option value="500">
+                    500
+                </md-option>
+                <md-option value="all">
+                    All
+                </md-option>
+            </md-select>
+
+        </md-input-container>
+    </div>   
+    <div class="flex-25"  style="margin-top: 8px;">
+        <md-input-container>
+            <b>Total users(s) - {{totalItems}}</b>
+        </md-input-container>
+    </div>
+</div>
+
+<div ng-init="getUser();" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex>
+        <div layout = "row" layout-padding>
+            <div flex="5"><b>#</b></div>
+            <div flex="25"><i ng-model="orderBy" style="font-size: 20px; cursor: pointer;" class="material-icons" ng-click="toggleOrderBy('email')">
+                    {{sortIcon}}
+                </i> <b>User</b></div>
+            <div flex><b>Code</b></div>
+            <div flex><b>Coupon Limit</b></div>
+            <div flex><b>Already Used</b></div>
+            <div flex><b>Status</b></div>
+            <div flex="10" layout="row" layout-align="center start"><b>Action</b></div>
+        </div>
+        <md-divider></md-divider>
+        <div layout = "row" layout-padding ng-repeat-start="data in lists| filter:{email: searchText} as Result" >
+            <div flex="5" >{{data.id}}</div>
+            <div flex="25" >{{data.email}} 
+                &nbsp;<i class="material-icons last_modified_icon" ng-if="data.last_modified_formated.length">
+                    &#xE88F; <md-tooltip
+                        md-direction="right">
+                        Last Modified: {{data.last_modified_formated}} 
+                    </md-tooltip>
+                </i></div>
+            <div flex >{{data.coupon_details.coupon_code}}</div>
+
+            <!--<div flex >{{data.used_count}}</div>-->
+            <md-input-container flex style="margin: 0">
+                <input aria-label="couponlimit" ng-min="{{data.used_count}}" type="number" ng-model="data.coupon_use_times" name="used_count" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+            </md-input-container>
+            <div flex>{{data.used_count}}</div>
+            <div flex >
+                <!--                <md-select aria-label="status" name="status" ng-model="data.status" required style="margin: 0">
+                                     <md-option ng-repeat="stat in usedStatus" value="{{stat.values}}">{{stat.label | uppercase}}</md-option>
+                                </md-select>-->
+                <md-switch aria-label="status" style="margin: 0" class="md-secondary" ng-model="data.status"></md-switch>
+            </div>
+            <div flex="10" layout="row" layout-align="center start">
+<!--                <i  class="material-icons" aria-hidden="true" ng-click="updateUserCoupon(data.id, data.coupon_details.id, data.status, data.coupon_use_times);
+                                        $event.stopPropagation();">
+                    save
+                    <md-tooltip
+                        md-direction="top">
+                        Save
+                    </md-tooltip></i>-->
+                <md-button type="button" class="margin-left-0 md-primary" ng-click="updateUserCoupon(data.id, data.coupon_details.id, data.status, data.coupon_use_times);
+                                        $event.stopPropagation();">Save</md-button>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>
+

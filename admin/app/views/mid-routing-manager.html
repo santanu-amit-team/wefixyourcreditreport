@@ -1,0 +1,341 @@
+<div layout="row" layout-align="center">
+
+    <md-content class="f1f1f1" flex>
+
+        <form name="MidRoutingForm" ng-submit="SubmitForm()" novalidate>
+
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">    
+            </div>
+
+            <!-- Start Mid Routing Configuration -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div class="col-wrapper">
+                        <h1 class="mat-display-1">
+                        Mid Routing Configuration
+                        </h1>
+                    </div>
+
+                    <div layout="row" class="layout-row">
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="profile_name">Profile Name <span class="required_field">*</span></label>
+                                <input type="text" name="profile_name" placeholder="Profile Name" ng-model="midRoute.profile_name" required>
+                                <div class="md-errors-spacer"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="default_gateway">Default Gateway</label>
+                                <input type="text" name="default_gateway" placeholder="Gateway" ng-model="midRoute.default_gateway">
+                                <div class="highlight-text">
+                                    <button class="md-primary margin-left-zero md-button md-ink-ripple remove-btn font-italic" type="button" ng-disabled="true" disabled="disabled">
+                                        Leave empty to use a gateway from CRM Load Balancer
+                                    </button>
+                                </div>
+                                <div class="md-errors-spacer"></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" class="layout-row" ng-init="disabledUpload.upload = true">
+                        <div flex layout="column">
+                            <div class="col-wrapper">
+                                <label for="coupon_amt">Import CSV File</label>
+                                <file-upload></file-upload>
+                            </div>
+                        </div>
+                        <div flex layout="column">
+                            <div layout="row" class="layout-row">
+                                <div flex layout="column">
+                                    <div class="col-wrapper">
+                                        <a download="{{downloadFileName}}" ng-href="{{csvPath}}">
+                                            <i class="csv-text">Download Sample CSV</i>
+                                        </a>                    
+                                    </div>
+                                </div>
+                                <div flex layout="column">
+                                    <div class="col-wrapper">
+                                        <md-button ng-click="addFile();" ng-disabled="disabledUpload.upload" class="md-primary md-raised strock-type-btn right-single-btn" type="submit">
+                                        {{uploadBtn.upload}}
+                                        </md-button>                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="midRoute.enable_affiliate_posting">
+                                        <h2 class="mat-h2 md-title">Enable Affiliate Posting</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-form-panel" ng-if="midRoute.enable_affiliate_posting">
+                        <div layout="row" class="md-toolbar-tools">
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <label for="affiliate_value">
+                                        Affiliate Values (comma separated)
+                                    </label>
+                                    <input type="text" name="affiliate_value" ng-model="midRoute.affiliate_value" ng-required="" class="ng-pristine md-input ng-empty ng-valid ng-valid-required ng-touched" id="input_35" aria-invalid="false">
+                                    <div class="md-errors-spacer"></div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <label for="affiliate_parameter">Select URL types with affiliate parameter</label>  
+                                    <md-select name="affiliate_parameter" ng-model="midRoute.affiliate_parameter">
+                                        <md-option ng-repeat="pattern in urlPatternTypes" value="{{pattern.key}}">
+                                                {{pattern.val}}
+                                        </md-option>
+                                    </md-select> 
+                                </div>                            
+                            </md-input-container>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- End Mid Routing Configuration -->
+
+            <!-- Start Display column section. -->
+            <div md-whiteframe="3" ng-if="columnshow" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <h2 class="mat-h2 md-title">Select Columns</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="source"> Select Source Column</label>  
+                                <md-select name="source" ng-change="changedValue(source,'source')" ng-init="source = data[$index]" ng-model="source">
+                                <md-option ng-repeat="data in col track by $index" value="{{$index}}">
+                                        {{data| uppercase}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="destination">Select Destination Column</label>  
+                                <md-select name="destination" ng-change="changedValue(destination,'destination')" ng-init="destination = data[$index]" ng-model="destination">
+                                    <md-option ng-repeat="data in col track by $index" value="{{$index}}">
+                                        {{data| uppercase}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="urldata">Select URL Column</label>  
+                                <md-select name="urldata" ng-change="changedValue(urldata,'urldata')" ng-init="urldata = data[$index]" ng-model="urldata">
+                                    <md-option ng-repeat="data in col track by $index" value="{{$index}}">
+                                        {{data| uppercase}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="">
+                            <div class="col-wrapper">
+                                <label for="split">Select Split Column</label>  
+                                <md-select name="split" ng-change="changedValue(split,'split')" ng-init="urldata = data[$index]" ng-model="split">
+                                    <md-option ng-repeat="data in col track by $index" value="{{$index}}">
+                                        {{data| uppercase}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                        
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="split">Select Exclude Column</label>  
+                                <md-select name="exclude" ng-change="changedValue(exclude,'exclude')" ng-init="exclude = data[$index]" ng-model="exclude">
+                                    <md-option ng-repeat="data in col track by $index" value="{{$index}}">
+                                        {{data| uppercase}}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <div class="col-wrapper" layout-align="end center" flex="50">
+                            <md-button class="md-primary right-single-btn strock-type-btn md-raised " ng-click="addFile();" ng-disabled="disabledSave.save" type="submit">
+                                {{saveBtn.save}}
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Display column section. -->
+
+            <!-- Start MID Routing Based On Gateway ID ng-init="getData({{ }}, 'ok');" -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="midRoute.enable_gateway_based_mid_routing">
+                                        <h2 class="mat-h2 md-title">MID Routing Based On Gateway ID</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <md-content flex class="list-tab-wraper">
+                        <div layout = "row" layout-align="start center">
+                            <div flex="5" flex-md="10" class="right-padding-20 small-width-table text-align-right color-gray-txt"><b>#</b></div>
+                            <div flex="15" class="right-padding-20"><b>Source Gateway</b></div>
+                            <div flex="15" class="right-padding-20"><b>Destination Gateway</b></div>
+                            <div flex="15" flex class="right-padding-20"><b>Split Gateway</b></div>
+                            <div flex="15" flex class="right-padding-20"><b>Exclude Gateway</b></div>
+                            <div flex="15" class="right-padding-20"><b>URL</b></div>
+                            <div flex="15" class="text-right-align right-padding-10">
+                                <md-button class=" md-raised md-primary strock-type-btn" ng-click="addGateway();">Add Gateway</md-button>
+                            </div>
+                        </div>
+                        <md-divider></md-divider>
+
+                        <inline-editor 
+                            change="updateRow($obj)"
+                            row="$index + 1"
+                            info ="data"
+                            ng-repeat-start="data in lists"
+                            ng-attr-mode="!data.source.length"
+                            delete="deleteRouting($id)"
+                        ></inline-editor>
+                        
+                        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+                        <div layout = "row" layout-padding ng-show="!lists.length">
+                            <div flex layout="row" layout-align="center center">
+                                <no-data-text></no-data-text>
+                            </div>
+                        </div>
+                    </md-content>
+
+                </div>
+            </div>
+            <!-- End MID Routing Based On Gateway ID -->
+
+            <!-- Start MID Routing Based On Geolocation -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="midRoute.enable_geobased_mid">
+                                        <h2 class="mat-h2 md-title">MID Routing Based On Geolocation</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row" ng-if="midRoute.enable_geobased_mid">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="geo_type">Type</label>  
+                                <md-select name="geo_type" ng-model="midRoute.geo_type" required ng-change="">
+                                    <md-option ng-repeat="geo in geo_types" value="{{ geo }}">{{ geo | uppercase }}</md-option>
+                                </md-select> 
+                            </div>                            
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" ng-if="midRoute.enable_geobased_mid">
+                        <div class="col-wrapper">
+                            <h2 class="mat-display-1 sub-tital">MID Force Configurations</h2>
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-wrap="" flex="100" style="margin-top: 0;" ng-if="midRoute.enable_geobased_mid">
+                        <div flex="100"  ng-repeat="obj in midRoute.geoLocation track by $index"  class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;padding-top: 0;">
+                            <div class="col-wrapper">
+                                <div flex="100" md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white">
+                                    <div class="row-form-panel" layout="column">
+                                        <div layout="row">
+                                                <md-input-container flex="">
+                                                    <div class="col-wrapper">
+                                                        <label for="state">State</label>
+                                                        <input type="text" name="state" placeholder="State" ng-model="midRoute.geoLocation[$index].state" required>
+                                                        <div class="md-errors-spacer"></div>
+                                                    </div>
+                                                </md-input-container>
+        
+                                                <md-input-container flex="">
+                                                    <div class="col-wrapper">
+                                                        <label for="geo_gateways">Gateways (comma sep.)</label>
+                                                        <input type="text" name="geo_gateways" placeholder="Gateways (comma sep.)" ng-model="midRoute.geoLocation[$index].geo_gateways" required>
+                                                        <div class="md-errors-spacer"></div>
+                                                    </div>
+                                                </md-input-container>
+        
+                                                <md-input-container flex="">
+                                                    <div class="col-wrapper">
+                                                        <label for="step_id">Step ID</label>
+                                                        <input type="text" name="step_id" placeholder="Step ID" ng-model="midRoute.geoLocation[$index].step_id" required>
+                                                        <div class="md-errors-spacer"></div>
+                                                    </div>
+                                                </md-input-container>
+        
+                                                <md-input-container flex="">
+                                                    <div class="col-wrapper">
+                                                        <label for="bin_category">BIN Category</label>
+                                                        <input type="text" name="bin_category" placeholder="BIN Category" ng-model="midRoute.geoLocation[$index].bin_category" required>
+                                                        <div class="md-errors-spacer"></div>
+                                                    </div>
+                                                </md-input-container>
+                                        <!--  end flat logic order filter-->
+                                        </div>  
+                                    </div>
+                                    <div class="row-form-panel" layout="column" style="border:0">
+                                        <div class="col-wrapper">
+                                            <div layout="row" layout-align="end">
+                                                <md-input-container flex>
+                                                    <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled">Configuration {{$index + 1}}</button>
+                                                </md-input-container>
+                                                <button ng-click="remove($index, 'geoLocation');" ng-if="$index != 0" class="md-button md-ink-ripple remove-btn" type="button" >Remove<div class="md-ripple-container" style=""></div></button>
+                                                <button ng-click="add('geoLocation')"  ng-if="(midRoute.geoLocation.length - 1) == $index"  class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" >Add New<div class="md-ripple-container" style=""></div></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End MID Routing Based On Geolocation -->
+
+            <!-- Save Button-->
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <label for=""></label>
+                    <md-button  type="button" class="md-raised" ng-click="clearAndGoback()">Cancel</md-button>
+                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="MidRoutingForm.$invalid || MidRoutingForm.$submitted" >{{MidRoutingForm.$submitted ? 'Saving...' : 'Save Configuration'}}</md-button>
+                </div>        
+            </div>
+
+        </form>
+    </md-content>
+</div>

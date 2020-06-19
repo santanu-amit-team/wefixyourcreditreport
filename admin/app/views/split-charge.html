@@ -1,0 +1,207 @@
+<div layout="row" class="md-toolbar-tools mat-h2 top-gap-25">
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="split_preferred_method">Transaction Method</label>
+			<md-select name="split_preferred_method" ng-model="config.split_preferred_method" aria-label="Transaction Method">
+				<md-option ng-repeat="(key, value) in upsellMethod" ng-if="!(((config.crm_type != 'responsecrm') && key == 'upsell') || (key == 'importUpsell' && iuSupportedCrms.indexOf(config.crm_type) == -1))" value="{{key}}">{{value}}</md-option>
+			</md-select>
+		</div>
+	</md-input-container>
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="split_preferred_method">Select CRM</label>
+			<md-select name="split_crm_id" ng-model="config.split_crm_id" aria-label="Split CRM">
+				<md-option ng-repeat="crm in crm_lists" value="{{crm.id}}">{{crm.crm_label}} ({{crm.id}})</md-option>
+			</md-select>
+		</div>
+	</md-input-container>
+</div>
+
+<div layout="row" class="md-toolbar-tools mat-h2">
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="split_campaign_ids">Select Campaign <span class='required_field'>*</span></label>
+			<md-select name="split_campaign_ids" ng-model="config.split_campaign_ids" ng-required="true" aria-label="Campaign List">
+				<md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+			</md-select>
+		</div>
+	</md-input-container>
+	<md-input-container flex></md-input-container>
+</div>
+
+<div layout="row" class="margin-top-0 md-toolbar-tools mat-h2">
+	<div flex="50" flex-gt-sm="50" layout="row">
+		<div class="col-wrapper">
+        	<md-checkbox name="link_with_parent" ng-model="config.link_with_parent" aria-label="Link With Parent">
+            	Link With Parent
+        	</md-checkbox>
+        </div>
+    </div>
+</div>
+<div layout="row" class="margin-top-0 md-toolbar-tools mat-h2">
+	<div flex="50" flex-gt-sm="50" layout="row">
+		<div class="col-wrapper">
+	        <md-checkbox name="split_force_parent_gateway" ng-model="config.split_force_parent_gateway" aria-label="Force With Parent Gateway">
+	            Force With Parent Gateway
+	        </md-checkbox>
+	    </div>
+    </div>
+</div>
+
+
+<!-- Enable Pre-Authorization -->
+<div layout="row" class="margin-top-0 md-toolbar-tools mat-h2">
+    <div flex="100" flex="nogrow">
+        <div class="col-wrapper">
+            <md-switch aria-label="Switch 1" class="right-shift" ng-model="config.enable_split_preauth">
+                <h2 class="mat-h2">Enable Pre-Authorization</h2>
+            </md-switch>
+        </div>
+    </div>
+</div>
+
+<div class="top-gap-25" ng-if="config.enable_split_preauth">
+        <div layout="row" class="md-toolbar-tools">
+                <md-input-container flex="50">
+                    <div class="col-wrapper">
+                        <label for="preauth_amount">Amount <span class='required_field'>*</span></label>
+                        <input type="text" name="preauth_amount" required ng-model="config.preauth_split_amount">
+                    </div>
+                </md-input-container>
+        </div>
+        <div layout="row" class="md-toolbar-tools mat-h2">
+            <div class="col-wrapper">
+                <md-checkbox name="enable_preauth_retry" ng-model="config.enable_preauth_retry_split" aria-label="Pre-Authorisation Retry">
+                Enable Pre-Authorisation Retry
+                </md-checkbox>
+            </div>
+        </div>
+        <div class="sub-panel">
+            <div class="col-wrapper" ng-if="config.enable_preauth_retry_split">
+                <p class="margin-bottom-0">
+                    <label for="">Initial Pre-authorization</label>
+                </p>
+            </div>
+            <add-remove-input name="settings" scope-obj="config" scope-update-key="retry_preauth_amount_split" empty-msg="Authorization amount can't be empty" duplicate-msg="Duplicate value for authorization amount" validation-key="split_validation" data-separator="{{retry_preauth_amount_separator}}" theme="1" classes="mat-h2" add-input-label="Initial Pre-authorization" added-input-label="Authorization Amount (Retry [replace])" ng-if="config.enable_preauth_retry_split">
+            </add-remove-input>
+        </div>
+</div>
+
+
+<div layout="row" class="margin-top-0 md-toolbar-tools mat-h2">
+	<div flex="100" flex="nogrow">
+		<div class="col-wrapper">
+            <md-switch aria-label="Enable Delay" class="right-shift" ng-model="config.split_enable_delay" name="split_enable_delay"><h2 class="mat-h2">Enable Delay</h2></md-switch>
+        </div>
+    </div>
+</div>
+<div layout="row" class="margin-top-0 md-toolbar-tools mat-h2" ng-if="config.split_enable_delay" class="md-toolbar-tools">
+	<md-input-container flex>
+		<div class="col-wrapper">
+			<label for="split_delay_type">Type <span class='required_field'>*</span></label>
+			<md-select name="split_delay_type" ng-model="config.split_delay_type" ng-required="true" aria-label="Delay Type">
+				<md-option ng-repeat="item in delay_types" value="{{item.key}}">{{item.label}}</md-option>
+			</md-select>
+		</div>
+	</md-input-container>
+    <md-input-container flex ng-if="config.split_delay_type == 'fixed' || !config.split_delay_type">
+    	<div class="col-wrapper">
+	    	<label for="split_delay_time">Delay time <span class='required_field'>*</span>&nbsp;<i class="material-icons info_icon">&#xE88F; <md-tooltip md-direction="right">In mins</md-tooltip></i></label>
+	    	<input type="text" ng-pattern="/^[0-9]+$/" name="split_delay_time" ng-model="config.split_delay_time" ng-required="true">
+	    </div>
+    </md-input-container>
+    <md-input-container flex ng-if="config.split_delay_type == 'dynamic'">
+    	<div class="col-wrapper">
+	    	<label for="split_dynamic_delay">Delay time <span class='required_field'>*</span>&nbsp;<i class="material-icons info_icon">&#xE88F; <md-tooltip md-direction="right">For random delay time between defined minutes should add like 1440,2880.&nbsp;&nbsp;
+					For random time delay between time range should add like 1440-2880.</md-tooltip></i>
+			</label>
+	    	<input type="text" name="split_dynamic_delay" ng-model="config.split_dynamic_delay" ng-required="true">
+	    </div>
+    </md-input-container>
+    <md-input-container flex>
+    	<div class="col-wrapper">
+	    	<label for="split_purge_time">Purge (in hours)</label>
+	        <input type="text" name="split_purge_time" ng-model="config.split_purge_time">
+	    </div>
+    </md-input-container>
+</div>
+
+
+
+<!-- old -->
+<!-- <div  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+	<div layout="row">
+		<md-input-container flex>
+			<label for="split_preferred_method">Preferred Method</label>
+			<md-select name="split_preferred_method" ng-model="config.split_preferred_method">
+				<md-option ng-repeat="(key, value) in upsellMethod" ng-if="!(((config.crm_type != 'responsecrm') && key == 'upsell') || (key == 'importUpsell' && iuSupportedCrms.indexOf(config.crm_type) == -1))" value="{{key}}">{{value}}</md-option>
+			</md-select>
+		</md-input-container>
+		<md-input-container flex>
+			<label for="split_campaign_ids">Split Campaign</label>
+			<md-select name="split_campaign_ids" ng-model="config.split_campaign_ids" multiple ng-required="true" aria-label="Campaign List">
+				<md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+			</md-select>
+		</md-input-container>
+	</div>
+</div>
+<div md-whiteframe="3" layout-margin  style="background: white" ng-if="config.split_preferred_method == 'newOrderCardOnFile'">
+	<md-list class="custom_list">
+		<md-list-item>
+			<p class="md-body-1">Initialize New Subscription</p>
+			<md-switch class="md-secondary" ng-model="config.split_initialize_new_subscription"></md-switch>
+		</md-list-item>
+	</md-list>
+</div>
+<div md-whiteframe="3" layout-margin  style="background: white">
+	<md-list class="custom_list">
+		<md-list-item>
+			<p class="md-body-1">Link With Parent</p>
+			<md-switch class="md-secondary" ng-model="config.link_with_parent"></md-switch>
+		</md-list-item>
+	</md-list>
+</div>
+<div md-whiteframe="3" layout-margin  style="background: white">
+	<md-list class="custom_list">
+		<md-list-item>
+			<p class="md-body-1">Force With Parent Gateway</p>
+			<md-switch class="md-secondary" ng-model="config.split_force_parent_gateway"></md-switch>
+		</md-list-item>
+	</md-list>
+</div>
+<div md-whiteframe="3" layout-margin  style="background: white">
+	<md-list class="custom_list">
+		<md-list-item>
+			<p class="md-body-1">Enable Delay</p>
+			<md-switch class="md-secondary" ng-model="config.split_enable_delay"></md-switch>
+		</md-list-item>
+	</md-list>
+</div>
+<div md-whiteframe="3"  layout-padding layout-margin  style="background: white" ng-if="config.split_enable_delay">
+	<div layout="row">
+		<md-input-container flex>
+			<label for="split_delay_time">Time to Delay (In mins)</label>
+			<input type="text" ng-pattern="/^[0-9]+$/" name="split_delay_time" ng-model="config.split_delay_time" ng-required="true">
+		</md-input-container>
+	</div>
+</div>
+
+<div md-whiteframe="3" layout-margin  style="background: white">
+                            <md-list class="custom_list">
+                                    <md-list-item>
+                                            <p class="md-body-1">Enable Dynamic Delay</p>
+                                            <md-switch class="md-secondary" ng-model="config.enable_split_dynamic_delay"></md-switch>
+                                    </md-list-item>
+                            </md-list>
+			</div>
+                        
+                        <div md-whiteframe="3"  layout-padding layout-margin  style="background: white" ng-if="config.enable_split_dynamic_delay">
+				<div layout="row">
+					<md-input-container flex>
+						<label for="delay_time">Dynamic Delay time(s) (In mins with comma separated)</label>
+						<input type="text" name="delay_time" ng-model="config.split_dynamic_delay" ng-required="true">
+					</md-input-container>
+				</div>
+			</div>	
+
+ -->

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89.652 54">
+  <title>cc-decline-icon</title>
+  <g id="b3fa32fd-0c95-4677-b93b-28b29e348e89" data-name="Layer 2">
+    <g id="aa379dce-da51-4405-b7ad-2555d363a3eb" data-name="Layer 1">
+      <g id="bb8d371e-588c-4c63-ae89-e4e1ba813555" data-name="Group 54">
+        <g id="e4ec144f-d1c5-470e-ab70-73defbbbf32b" data-name="Group 49">
+          <g>
+            <rect id="e69b9cda-378b-4f2e-b358-0e1d3343d5f1" data-name="Rectangle 863" x="1.5" y="1.5" width="70" height="46" rx="3" fill="#fff"/>
+            <path d="M68.5,49H4.5A4.505,4.505,0,0,1,0,44.5V4.5A4.505,4.505,0,0,1,4.5,0h64A4.505,4.505,0,0,1,73,4.5v40A4.505,4.505,0,0,1,68.5,49ZM4.5,3A1.5,1.5,0,0,0,3,4.5v40A1.5,1.5,0,0,0,4.5,46h64A1.5,1.5,0,0,0,70,44.5V4.5A1.5,1.5,0,0,0,68.5,3Z" fill="#5e6473"/>
+          </g>
+          <rect id="b113e39d-41b7-4dc9-8906-01180783d8b6" data-name="Rectangle 864" x="1.5" y="10.5" width="70" height="9" fill="#5e6473"/>
+          <rect id="b146b5c2-5cc6-4c3f-8205-ac56839b7055" data-name="Rectangle 865" x="23.615" y="33.5" width="20" height="5" fill="#5e6473"/>
+          <rect id="a13263ed-c059-4598-b4e2-cfa1b41b33de" data-name="Rectangle 866" x="9.5" y="33.5" width="10" height="5" fill="#5e6473"/>
+        </g>
+        <g id="beea3ab8-48b9-4b77-a131-3fd80ca90c06" data-name="Group 48">
+          <g>
+            <path id="f773b215-2980-4ed5-849d-4b79f95476cf" data-name="Polygon 4" d="M67.817,20.529a2,2,0,0,1,3.471,0l16.6,28.977A2,2,0,0,1,86.153,52.5h-33.2a2,2,0,0,1-1.735-2.994Z" fill="#fff"/>
+            <path d="M86.153,54h-33.2a3.5,3.5,0,0,1-3.038-5.238l16.6-28.979h0a3.5,3.5,0,0,1,6.074,0L89.19,48.76A3.5,3.5,0,0,1,86.153,54ZM69.119,21.274l-16.6,28.978a.5.5,0,0,0,.433.748h33.2a.492.492,0,0,0,.245-.064.5.5,0,0,0,.188-.685l-16.6-28.977a.513.513,0,0,0-.185-.185.5.5,0,0,0-.682.185Z" fill="#ed4c4c"/>
+          </g>
+          <path id="b1fd15b1-7d33-463d-a041-1b006f05cf79" data-name="Path 319" d="M68.437,41.373H70.6l.721-9.734H67.715Zm1.071,6.286a1.991,1.991,0,1,0-2.034-2.035A2.031,2.031,0,0,0,69.5,47.659Z" fill="#ed4c4c"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

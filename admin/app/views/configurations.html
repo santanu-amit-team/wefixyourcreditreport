@@ -1,0 +1,73 @@
+<!-- Header -->
+<div layout="row" class="wrap-top-gap">
+	<div flex="90" layout="column">
+		<filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="configuration_label" type-by="crm_type" search-placeholder="Search Funnel Configurations..."></filter-bar>
+	</div>
+	<div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+	    <flat-button-directive url='#/configuration-manager' title='Configuration' type='add'></flat-button-directive>
+	</div>
+</div>
+
+<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="15" class="right-padding-20"><b>Funnel Name</b></div>
+            <div flex="15" class="right-padding-20"><b>CRM</b></div>
+            <div flex="10" layout="column" layout-align="center center" class="right-padding-20"><b>3D Secure</b></div>
+            <div flex="10" layout="column" layout-align="center center" class="right-padding-20"><b>Delay</b></div>
+            <div flex="10" layout="column" layout-align="center center" class="right-padding-20"><b>Pre-Auth</b></div>
+            <div flex="10" layout="column" layout-align="center center" class="right-padding-20"><b>Prepaid Routing</b></div>
+            <div flex="10" layout="column" layout-align="center center" class="right-padding-20"><b>Downsells</b></div>
+            <div flex class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+         <div ng-click="editOffer(data.id)" class="list-repeated-item" layout = "row" layout-align="end center" ng-repeat-start="data in lists">
+            <div ng-click="$event.stopPropagation();" flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            	<md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>
+            </div>
+            <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+            	{{data.id}}
+            </div>
+            <div flex="15" class="right-padding-20">
+            	<span class="setting-link">
+            		{{data.configuration_label.length ? data.configuration_label : 'N/A'}}
+				</span>
+			</div>
+            <div flex="15" class="right-padding-20">{{data.crm_name}}</div>
+            <div flex="10" layout="column" layout-align="center center" ng-class="{'green':data.is3ds, 'warn':!data.is3ds}"><i class="material-icons"> {{ data.is3ds ? '&#xE876;' : '&#xE14C;'}} </i></div>
+            <div flex="10" layout="column" layout-align="center center" ng-class="{'green':data.enable_delay == true, 'warn':data.enable_delay != true}"><i class="material-icons"> {{data.enable_delay == true ? '&#xE876;' : '&#xE14C;'}} </i></div>
+            <div flex="10" layout="column" layout-align="center center" ng-class="{'green':data.enable_preauth == true, 'warn':data.enable_preauth != true}"><i class="material-icons"> {{data.enable_preauth == true ? '&#xE876;' : '&#xE14C;'}} </i></div>
+            <div flex="10" layout="column" layout-align="center center" ng-class="{'green':data.accept_prepaid_cards == true, 'warn':data.accept_prepaid_cards != true}"><i class="material-icons"> {{data.accept_prepaid_cards == true ? '&#xE876;' : '&#xE14C;'}} </i></div>
+            <div flex="10" layout="column" layout-align="center center" ng-class="{'green':data.enable_downsells == true, 'warn':data.enable_downsells != true}"><i class="material-icons"> {{data.enable_downsells == true ? '&#xE876;' : '&#xE14C;'}} </i></div>
+            <div flex class="text-right-align right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open demo menu" class="md-icon-button"
+                             ng-click="$mdOpenMenu($event)">
+                    	<i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+	                  	<md-menu-item>
+	                    	<md-button ng-click="editOffer(data.id)">
+	                      		<span md-menu-align-target>Edit</span>
+	                      	</md-button>
+	                    </md-menu-item>
+
+	                    <md-menu-item ng-repeat="action in filterActions">
+	                      	<md-button ng-click="this[action.method](data.id)">
+	                      		<span md-menu-align-target>{{action.val}}</span>
+	                      	</md-button>
+	                    </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <!-- <i class="material-icons">more_vert</i> -->
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>
+

@@ -1,0 +1,83 @@
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="extension_list" full-list="fullList" search-by="extension_name" type-by="category"  selected-row-data="selectedData" no-row-selected="Please select at least one extension" show-count="false" search-placeholder="Search for an extension..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end">
+        <flat-button-directive title="" type="back" url="#/extensions"></flat-button-directive>
+    </div>
+</div>
+
+<div layout="row" layout-wrap="" style="margin-top: 10px;">
+    <div flex="50" layout-alignment="stretch" ng-repeat="extension in extension_list" style="display: flex; align-items: stretch;" class="card-repeated-item">
+        <div flex="100" md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-click="toggle(extension.extension_slug, extension); $event.stopPropagation(); ">
+            <div class="row-form-panel catalogue-cell" ng-class="{blurry : dataLoadComplete === false || (downloading_{{extension.extension_slug}} || deleting_{{extension.extension_slug}})}">
+                <div class="check-overlay" ng-show="exists(extension.extension_slug)"></div>
+                <div class="col-wrapper">
+                    <div layout="row" layout-align="end center">
+                        <div flex="80" layout="column" flex="nogrow">
+                            <div layout="row" layout-align="end center">
+                                <md-checkbox ng-checked="exists(extension.extension_slug)" ng-click="toggle(extension.extension_slug, extension); $event.stopPropagation(); " aria-label="Checkbox 1"  class="catalogue-check" ng-class="{'visible' : exists(extension.extension_slug) === true}"></md-checkbox>
+                                
+                                <div flex="30">
+                                    <div class="pro-img">
+                                        <img ng-src="{{extension.cover}}" alt="{{extension.extension_name}}" />
+                                    </div>
+                                </div>
+                                <div flex="70">
+                                    <h2 class="version-head">{{extension.extension_name}}</h2>
+                                    <ul class="version-list">
+                                        <li>{{extension.category | ucfirst}}</li>
+                                        <li>|</li>
+                                        <li ng-show="!this.changeLogLoading" ng-init="this.changeLogLoading == false" class="changelog">
+                                            <a ng-click="changelogPopup(extension, this); $event.stopPropagation();">
+                                                Changelog 
+                                            </a>
+                                        </li> 
+                                        <li class="dot_loading changelog" ng-show="this.changeLogLoading">
+                                            Changelog <span>.</span><span>.</span><span>.</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="version-list">
+                                        <li>Version {{extension.version}}</li>
+                                        <li>|</li>
+                                        <li>By {{extension.author}}</li> 
+                                    </ul>    
+                                </div>
+                            </div>
+                        </div>
+                        <div flex="20" layout="column" flex="nogrow">
+                            <div class="text-right-align">
+                                <md-button class="md-icon-button" aria-label="Extension download" ng-click="downloadExtension(extension.extension_slug); $event.stopPropagation();" ng-if="extension.installed == false" ng-disabled="form.button_disable" ng-hide="downloading_{{extension.extension_slug}}">
+                                    <i class="material-icons">
+                                    get_app
+                                    </i>
+                                </md-button>   
+                            </div> 
+                            <div class="text-right-align">
+                                <md-button class="md-icon-button" aria-label="Extension Uninstall" ng-click="uninstall(extension.extension_slug); $event.stopPropagation(); " ng-disabled="form.button_disable || extension.protected" ng-if="extension.installed == true" ng-hide="deleting_{{extension.extension_slug}}">
+                                    <i class="material-icons">
+                                    delete
+                                    </i>
+                                </md-button>   
+                            </div>                                 
+                        </div>
+                    </div>
+                    <div class="bottom-text"> 
+                        <span ng-bind="extension.extension_des | limitTo:60"></span>
+                        <span class="more_text" ng-if="extension.extension_des.length > 60" ng-click="descriptionPopup(extension.extension_name, extension.extension_des_full); $event.stopPropagation();">
+                            <md-tooltip md-direction="right">Read more</md-tooltip>
+                            ...
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <div class="row-form-panel" ng-if="!extension_list.length">
+        <div layout="row" layout-align="center">
+            No Results Found
+        </div>
+    </div>
+</div>

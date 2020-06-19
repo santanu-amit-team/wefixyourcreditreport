@@ -1,0 +1,452 @@
+body {
+	/*padding-top: 100px;*/
+}
+.table-offer-conf tr {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+}
+
+i {
+	vertical-align: middle;
+	font-size: 24px;
+}
+
+:focus {
+    outline: none;
+}
+.margin-left-0{
+	margin-left: 0px !important;
+}
+.margin-right-0{
+	margin-right: 0px !important;
+}
+.margin-top-0{
+	margin-top: 0px !important;
+}
+.margin-bottom-0{
+	margin-bottom: 0px !important;
+}
+.padding-left-0{
+	padding-left: 0px !important;
+}
+.padding-right-0{
+	padding-right: 0px !important;
+}
+.padding-0{
+	padding: 0px 0px !important;
+}
+.margin-auto{
+	margin: auto;
+}
+div:focus {
+    outline: none;
+}
+.selectedIndex {
+	color: rgb(21,101,192);
+}
+md-list md-list-item.md-2-line .md-list-item-text h3.menu-text-h3{
+	color: #000;
+}
+.dropShadow{
+	box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.4);
+}
+md-switch#switch1 {
+	position: relative;
+}
+
+#switch div.md-container {
+    position: absolute;
+
+    float: right;
+}
+.multi_crm_switch div.md-container{
+	margin-left: 90%;	
+}
+.multi_crm_switch div.md-label{
+	margin-left: 5%;	
+}
+#switch div.md-label {
+    float: left;
+    position: absolute;  
+}
+.loading-text-div{
+	min-height: 100%;
+	height: 100%;
+	padding: 150px 0px;
+}
+/*search box*/
+.search_bar .md-errors-spacer
+{
+	min-height:auto;
+}
+.search_bar input, .search_bar.md-input-focused input
+{
+	border-color: #FFF !important;
+}
+.search_bar i{
+	float: right;
+	outline: none;
+}
+.search_plain{
+	margin-left: -11px;
+	margin-right: -11px;
+}
+.search_plain md-select{
+	margin-bottom: 0px!important;
+}
+.search_plain .md-select-value{
+	border-bottom-color: transparent;
+}
+.search_plain input, .search_bar.md-input-focused input{
+	border-bottom-color: transparent;
+}
+/*.search_filter_select md-select:not([disabled]):focus .md-select-value{
+	border-bottom-color: white;
+	border-bottom-style: none;
+}*/
+/********toolbar*****/
+.toolbar-style{
+    background-color: #fff;
+    color: #000000;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.38);
+}
+.menu-list, .menu-list button{
+	min-height: 20px !important;
+}
+.menu-icon{
+	margin-right: 24px;
+}
+.md-list-item-text h3{
+	font-weight: 500;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    word-break: break-word;
+}
+/*****table*****/
+.md-table {
+	min-width: 100%;
+	border-collapse: collapse;
+}
+.md-table tbody tr:hover, .md-table tbody tr:focus {
+	cursor:pointer;
+	background-color:rgba(63,81,181,0.2);
+}
+.md-table-header {
+	border-bottom: 1px solid rgb(230,230,230);
+	color: rgb(130,130,130);
+	text-align: left;
+	font-size: 0.75em;
+	font-weight: 700;
+	padding: 16px 16px 16px 0;
+}
+.md-table-header a{
+	text-decoration: none;
+	color: inherit;
+}
+.md-table-content {
+	white-space: nowrap;
+	font-size: 0.8em;
+	padding: 16px 16px 16px 0;
+	height: 30px;
+}
+
+md-input-container md-select {
+	margin: 0px 0 26px !important;
+	/*    margin: 0;
+		-webkit-order: 2;
+		-ms-flex-order: 2;
+		order: 2;*/
+}
+
+md-input-container md-select + .hint{
+	margin-top: -26px !important;
+}
+
+.hint
+{
+	/* Position the hint */
+    /*position: absolute;*/
+    left: 2px;
+    right: auto;
+    bottom: 7px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 20px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    /* Set our own color */
+    color: grey;
+    word-wrap: break-word;
+}
+
+.text-warning, .text-warning:hover {
+    color: #f39c12;
+}
+.text-danger, .text-danger:hover {
+    color: #e74c3c;
+}
+
+code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
+}
+
+.md-title
+{
+    color: #616161
+}
+
+.md-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* editor */
+.ta-toolbar {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.ta-toolbar .ta-button-group {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.ta-toolbar .ta-button-group button {
+	min-width: 0;
+	min-height: 0;
+	margin-left: 0;
+	color: rgba(0, 0, 0, 0.54);
+}
+.ta-toolbar .ta-button-group button md-icon {
+	//color: rgba(0, 0, 0, 0.54);
+}
+.ta-toolbar .ta-button-group button.active {
+	background-color: #f5f5f5;
+}
+
+.ta-text-editor .ta-bind {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.11765);
+}
+.ta-text-editor .ta-bind:focus {
+	border-bottom: 2px solid #2196F3;
+	outline: none;
+}
+
+md-checkbox{
+	margin-bottom: 22px !important;
+}
+
+.bt-1
+{
+	border-top: 1px solid #ECECEC;
+}
+
+.custom_list md-list-item, .custom_list md-list-item .md-list-item-inner
+{
+	min-height: 65px;
+}
+
+.custom_list md-list-item > div > div.hint
+{
+	padding-left:14px;
+}
+
+md-list.custom_list
+{
+	margin:0px;
+	padding:0px;
+
+}
+.alert-div i{
+	font-size: 25px;
+	width: 30px !important;
+    height: 30px !important;
+	margin-top: 0px !important; 
+	margin-bottom: 0px !important; 
+	margin-right: 10px !important; 
+}
+.alert-div .md-list-item-text h3{
+	font-size: 14px !important;
+}
+.alert-div .md-list-item-text h4{
+	font-size: 14px !important;
+	color: rgba(0,0,0,0.54) !important;
+}
+.warning{
+	color: #ffbb33 !important;
+}
+.error{
+	color: #ff4444 !important;
+}
+.success{
+	color: #00C851 !important;
+}
+.md-icon-ext {
+    color: rgb(187,222,251);
+    font-size: 42px !important;
+}
+.floating-btn{
+    margin-top: -25px;
+}
+.card-title{
+	padding: 0px 16px 16px !important;
+}
+.version-select{
+	width: 200px;
+}
+.heading-text-list p{
+	color: rgba(0,0,0,0.54);
+	font-size: 14px;
+}
+.div-wrapper:focus {
+    outline: none;
+    border: 0;
+}
+
+.diagnosis-start-div
+{
+	min-height:550px;
+}
+/*.extension-card{
+	max-width: 31.5% !important;
+}*/
+.last_modified_icon
+{
+	font-size:17px !important;
+	vertical-align: top !important;
+	margin-top: 2px !important;
+}
+/*dashboard page*/
+.cnt_out{
+	width:100%;
+    background-image: url(../../../assets/images/dashboard-banner-bg.jpg);
+    background-size: cover;
+    background-position: top center;
+    border-radius: 6px;
+    text-align: center;
+    padding: 45px;
+	-webkit-box-shadow: 0 0 5px #ccc;
+	box-shadow: 0 0 5px #ccc;
+	position: relative;
+}
+.cnt_out h2{
+	font-family: "Roboto",sans-serif;
+    color:#fff;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+}
+.cnt_out h5{
+	font-family: "Roboto",sans-serif;
+	color:#fff;
+    font-weight: normal;
+    margin: 0 0 20px 0;
+    font-size: 18px;
+}
+.list_in ol{
+	/*padding:0;*/
+	margin:0;
+	/*list-style-position: inside;*/
+}
+.list_in li{
+	color: #90949c;
+	font-family: "Roboto",sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	padding-bottom: 10px;
+}
+.cross_close{
+	cursor: pointer;
+	height: 20px;
+	position: absolute;
+	right: 34px;
+	text-align: center;
+	top: 36px;
+	width: 20px;
+}
+.cross_close img{
+	width:70%;
+}
+.linkText
+{
+	color:rgb(21,101,192);
+}
+.primary-color-onhover:hover{
+	color: #5C79FF;
+}
+.right-padding-30:{
+	padding-right: 30px;
+}
+.left-padding-30:{
+	padding-left: 30px;
+}
+.add-button{
+	min-width: 80px !important;
+	width: 89px;
+	min-height: 27px !important;
+	line-height: 27px !important;
+}
+.add-colum-panel.with-label .md-icon-button{
+	top:22px;
+}
+.padding-r-l-16{
+	padding: 0 16px;
+}
+.info-icon{
+    vertical-align: top !important;
+}
+.green{
+	color: #47D04C;
+}
+.warn{
+	color: #FF5607 !important;
+}
+.red{
+	background-color: #FF5607 !important;
+}
+.extension-des{
+    color: rgba(0,0,0,0.87) !important;
+    line-height: 21px;
+}
+.more_text{
+    outline: none;
+    text-decoration: underline;
+    text-decoration-color: blue;
+}
+
+/*custome matrial linear loader*/
+
+/* Progress Bar */
+.progress {
+  position: relative;
+  height: 4px;
+  display: block;
+  width: 100%;
+  background-color: rgb(170,209,240);
+  border-radius: 2px;
+  background-clip: padding-box;
+  margin: 8px 0 0 0;
+  overflow: hidden; 
+}
+.progress .determinate {
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    bottom: 0;
+    background-color: rgb(16,108,200);
+    transition: width 1s linear; 
+}
+  

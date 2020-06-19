@@ -1,0 +1,204 @@
+<div class="wrap-top-gap">
+        <div md-whiteframe="3" ng-show="paginationShow" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <div layout="row" layout-align="start center">
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <md-select name="" ng-model="currentPage" placeholder="Pages" ng-change="checkDateRange(startDate, endDate)">
+                                        <md-option ng-repeat="pg in getpagesArray(pages) track by $index" value="{{$index + 1}}">
+                                            Page {{$index + 1}}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </md-input-container>
+            
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <md-select name="campaign_type" ng-model="limit" placeholder="Show (50)" ng-change="changeLimit()">
+                                        <md-option value="50">
+                                            50
+                                        </md-option>
+                                        <md-option value="100">
+                                            100
+                                        </md-option>
+                                        <md-option value="500">
+                                            500
+                                        </md-option>
+                                        <md-option value="all">
+                                            All
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </md-input-container>
+            
+                            <div flex >
+                                <div class="col-wrapper">
+                                    <div class="date-pick-wrap" ng-controller="TrafficMonitor as ctrl">
+                                        <md-datepicker ng-model="startDate" md-placeholder="Start date" ng-change='checkDateRange(startDate, endDate)'></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div flex >
+                                <div class="col-wrapper">
+                                    <div class="date-pick-wrap" ng-controller="TrafficMonitor as ctrl">
+                                        <md-datepicker ng-model="endDate" md-placeholder="End date" ng-change='checkDateRange(startDate, endDate)'></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- ng-if="dataLoadComplete == true" -->
+                
+            </div>
+</div>
+
+
+
+<div ng-init="checkDateRange(startDate, endDate);" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <!-- ng-if="dataLoadComplete == true" -->
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="15" class="right-padding-20"><b>Date</b></div>
+            <div flex="10" class="right-padding-20"><b>Landing Page</b></div>
+			<div flex="10" class="right-padding-20"><b>Prospects</b></div>
+			<div flex="10" class="right-padding-20"><b>Checkout</b></div>
+			<div flex="10" class="right-padding-20"><b>Upsell 1</b></div>
+			<div flex="10" class="right-padding-20"><b>Upsell 2</b></div>
+			<div flex="10" class="right-padding-20"><b>Upsell 3</b></div>
+			<div flex="5" class="right-padding-20"><b>Thank You</b></div>
+			<div flex=""></div>
+        </div>
+        <md-divider></md-divider>
+        <div layout = "row" layout-align="end center" ng-repeat-start="data in lists| filter:{label: searchText} as Result">
+            <div flex="5" ng-click="$event.stopPropagation();" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                    <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>                    
+            </div>
+            <div flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                {{$index + 1}}
+            </div>
+            <div flex="15" class="right-padding-20" >
+                <span class="word-limits">
+                    {{ data.clickedBased.date }}
+                </span>
+            </div>
+            <div flex="10" class="right-padding-20" ng-init="clickbasedlog = data.clickedBased.leadPage.visited">
+                <span class=" word-limits">
+				    {{(clickbasedlog) ? clickbasedlog : 0}}
+                </span>               
+            </div>
+            <div flex="10" class="right-padding-20" ng-init="prospectlog = data.clickedBased.checkoutPage.visited">
+				{{(data.clickedBased.checkoutPage.visited) ? data.clickedBased.checkoutPage.visited : 0}}
+                <br>
+                <span ng-if="false" ng-init="prospect_to_click = ((prospectlog / clickbasedlog) * 100)" ng-if="(prospectlog > 0)">{{Math.round(prospect_to_click)}}%
+                    <i class="material-icons last_modified_icon" >
+                        &#xE88F; <md-tooltip
+                            md-direction="right">
+                            Click to prospect ratio
+                        </md-tooltip>
+                    </i>
+                </span>
+            </div>
+
+            <div flex="10" class="right-padding-20" ng-init="checkoutlog = data.checkoutPage.visited">
+				{{(checkoutlog) ? checkoutlog : 0}}
+                <br><span ng-if="false" ng-init="checkout_to_click = ((checkoutlog / clickbasedlog) * 100)" ng-if="(checkoutlog > 0)">{{Math.round(checkout_to_click)}}%
+                    <i class="material-icons last_modified_icon" >
+                        &#xE88F; <md-tooltip
+                            md-direction="right">
+                            Click to customer ratio
+                        </md-tooltip>
+                    </i>
+                </span>
+                <span ng-if="false" ng-init="checkout_to_prospect = ((checkoutlog / prospectlog) * 100)" ng-if="(checkoutlog > 0)">{{Math.round(checkout_to_prospect)}}%
+                    <i class="material-icons last_modified_icon" >
+                        &#xE88F; <md-tooltip
+                            md-direction="right">
+                            Prospect to customer ratio
+                        </md-tooltip>
+                    </i>
+                </span>
+            </div>
+
+            <div flex="10" class="right-padding-20" style="word-break: break-all;">
+				<div ng-if="data.upsellPages.indexOf('UpsellOne') > -1">
+                    {{data['UpsellOne'].visited}}
+
+                    <span ng-if="false" ng-init="upsell_log = data['UpsellOne'].visited"><br>
+                        {{Math.round((upsell_log / checkoutlog) * 100)}}%
+                        <i class="material-icons last_modified_icon" >
+                            &#xE88F; <md-tooltip
+                                md-direction="right">
+                                 checkout to  Upsell 1 ratio
+                            </md-tooltip>
+                        </i>
+                    </span>
+                </div>
+                <div ng-if="!(data.upsellPages.indexOf('UpsellOne') > -1)">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </div>
+            </div>
+
+            <div flex="10" class="right-padding-20">
+				<div ng-if="data.upsellPages.indexOf('UpsellTwo') > -1">
+                    {{data['UpsellTwo'].visited}}
+
+                    <span ng-if="false" ng-init="upsell_log = data['UpsellTwo'].visited"><br>
+                        {{Math.round((upsell_log / checkoutlog) * 100)}}%
+                        <i class="material-icons last_modified_icon" >
+                            &#xE88F; <md-tooltip
+                                md-direction="right">
+                                 checkout to  Upsell 2 ratio
+                            </md-tooltip>
+                        </i>
+                    </span>
+                </div>
+                <div ng-if="!(data.upsellPages.indexOf('UpsellTwo') > -1)">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </div>
+            </div>
+
+            <div flex="10" class="right-padding-20">
+				<div ng-if="data.upsellPages.indexOf('UpsellThree') > -1">
+                    {{data['UpsellThree'].visited}}
+
+                    <span ng-if="false" ng-init="upsell_log = data['UpsellThree'].visited"><br>
+                        {{Math.round((upsell_log / checkoutlog) * 100)}}%
+                        <i class="material-icons last_modified_icon" >
+                            &#xE88F; <md-tooltip
+                                md-direction="right">
+                                 checkout to  Upsell 3 ratio
+                            </md-tooltip>
+                        </i>
+                    </span>
+                </div>
+                <div ng-if="!(data.upsellPages.indexOf('UpsellThree') > -1)">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </div>
+            </div>
+
+            <div flex="10" class="right-padding-20">
+				{{(data.clickedBased.thankyouPage.visited) ? data.clickedBased.thankyouPage.visited : 0}}
+            </div>
+
+            <div flex="5" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open menu" class="md-icon-button"
+                                 ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+    
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>
+

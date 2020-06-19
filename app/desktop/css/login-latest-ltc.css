@@ -1,0 +1,424 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 27, 2016, 11:31:43 AM
+    Author     : anvenu
+*/
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300,200,600);
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+}
+@media screen and (min-width: 0px) and (max-width: 991px) {
+	.last-image {
+		margin-top: 25px;
+		min-height:60px;
+		width:100%;
+		text-align:center;
+	}
+	.last-image img {
+		margin: 0px auto;
+	}
+}
+@media screen and (min-width: 0px) and (max-width: 767px) {
+	.app-image1, .app-image2 {
+		width:50%;
+		text-align:center;
+	}
+	.app-image1 img, .app-image2 img {
+		margin: 0px auto;
+		max-width: 100%;
+	}
+}
+@media screen and (min-width: 0px) and (max-width: 991px) {
+	.buttons {
+		float: left;
+		width: 15%;
+		margin-right: 0px;
+		padding-right: 0px;
+	}  
+	.grey-box-text {
+		width: 85%;
+		float: right;
+	}
+}
+@media screen and (min-width: 992px) {
+	.buttons {
+		float: left;
+		width: 8%;
+		margin-right: 0px;
+		padding-right: 0px;
+	}  
+	.grey-box-text {
+		width: 92%;
+		float: right;
+	}
+}
+.logo {
+	max-width: 100%;
+	width: 230px;
+}
+.lock-text {
+	width: 88%;
+	float: left;
+}
+.click-link {
+	color: #595959;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+@media screen and (min-width: 768px) {
+	.app-image1 img {
+		margin-left: 10%;
+	}
+	.app-image2 img {
+		margin-right: 5%;
+	}
+}
+@media screen and (min-width: 0px) and (max-width: 991px) {
+	.dummy-header {
+		background-color: #26b865;
+		min-height:60px;
+		width:100%;
+		border-bottom:3px solid #2e96c8;
+	}
+
+	.header-container {
+		margin-top: 15px;
+		margin-bottom: 10px;
+	}
+}
+.ltc-header {
+	color: #ffffff;
+	font-size: 20px;
+	font-weight: 300;
+	vertical-align: middle;
+}
+.error-validation {
+	border: 1px solid red !important;
+}
+.error-class {
+	color: red;
+	font-family: 'Source Sans Pro';
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 13px;
+}
+.success-class {
+	color: green;
+	font-family: 'Source Sans Pro';
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 13px;
+}
+.social-class {
+	margin: 15px 0px 45px 0px;
+	color: #65666a;
+	font-size: 16px;
+	font-weight: 400;
+}
+@media screen and (min-width: 992px) {
+	.forgot-input {
+		width: 85%;
+		padding: 0px 0px 0px 15px !important;
+	}
+	.common-input {
+		padding: 10px 0px 0px 10px !important;
+	}
+	#small-text {
+		font-size: 26px;
+	}
+}
+@media screen and (min-width: 992px) {
+	.dummy-header {
+		background-color: #26b865;
+		min-height:60px;
+		width:100%;
+		border-bottom:3px solid #00913f;
+	}
+
+	.header-container {
+		margin-top: 15px;
+		margin-bottom: 10px;
+	}
+}
+@media screen and (min-width: 992px) {
+	.last-image img {
+		width: 100%;
+	}
+	.last-image div {
+		padding: 0px 15% 0px 10%;        
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.grey-box-text p {
+		margin-left: 7px;
+	}
+}
+.wrap-text {
+	white-space: nowrap;
+}
+@media screen and (min-width: 0px) and (max-width: 991px) {
+	.heading {
+		color:#444444;
+		margin: 35px 0 0 2px;
+		font-size: 23px;
+		font-weight: 300;
+	}
+	.lock-image {
+		float: left;
+		margin-right: 0px;
+		padding-right: 0px;
+	}  
+}
+.wrap-text {
+	white-space: nowrap;
+}
+@media screen and (min-width: 992px) {
+	.heading {
+		color:#444444;
+		margin: 35px 0 0 2px;
+		font-size: 28px;
+		font-weight: 300;
+	}
+	.lock-image {
+		float: left;
+		margin-right: 0px;
+		padding-right: 0px;
+		padding-top: 5px;
+	}  
+
+}
+.heading p.short-note {
+	float: left;
+	font-size: 14px;
+	color: #999999;
+}
+.heading img {
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.common-input {
+	height: 45px;
+	border: 2px solid #f0f0f0;
+	font-size: 16px;
+	font-weight: 400;
+	border-radius: 1px;
+}
+
+::-webkit-input-placeholder {
+	color: #e3e2e2;
+}
+:-moz-placeholder { /* Firefox 18- */
+	color: #e3e2e2;  
+}
+::-moz-placeholder {  /* Firefox 19+ */
+	color: #e3e2e2;  
+}
+:-ms-input-placeholder {  
+	color: #e3e2e2;  
+}
+.form-group {
+	color: #C8C8C8;
+	margin-top: 25px;
+}
+.login-row {
+	margin-top: 45px;
+}
+#login-button {
+	background-color: #ecb338;
+	color: #FFFFFF;
+	font-weight: 600;
+	width: 100%;
+	font-size: 16px;
+}
+#email-success {
+	margin-top: 45px;
+}
+#email-success-msg {
+	font-size: 18px;
+	color: #808080;
+	margin-top: 25px;
+}
+#email-login-button-container {
+	margin-top: 45px;
+	margin-bottom: 50px;
+}
+#go-to-login-button {
+	background-color: #81BC00;
+	color: #FFFFFF;
+	font-weight: 600;
+	font-size: 16px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.forgot-class {
+	margin: 30px 0px 45px 0px;
+	text-decoration: underline;
+	color: #65666a;
+	font-size: 16px;
+	font-weight: 400;
+}
+.grey-box {
+	padding: 25px 10px 0px 10px;
+	border: 1px solid #e3e2e2;
+	background-color: #FFFFFF;
+	margin-top: 35px;
+	border-radius: 3px;
+	box-shadow: 0 0 6px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+	-o-box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+.grey-box-text {
+	margin: 0px;
+}
+.blue-heading {
+	color: #26b865;
+	font-size: 20px;
+	font-weight: 400;
+}
+.grey-text {
+	color: #595959;
+	font-size: 16px;
+	font-weight: 400;
+}
+.footer-class {
+	color: #D6D6D6;
+	font-size: 14px;
+	font-weight: 400;
+	margin-top: 45px;
+	margin-bottom: 40px;
+}
+.footer-button {
+	background-color: transparent;
+	border: 1px solid #D6D6D6;
+	padding: 5px 15px 5px 15px;
+	font-size: 14.75px;
+	font-weight: 400;
+	border-radius: 4px;
+}
+.link-class, .link-class:hover {
+	color: #999999;
+}
+.link-button, .link-button:hover {
+	color: #D6D6D6;
+}
+
+.grey-box-heading {
+	color:#26b865;
+	font-size: 25px;
+	font-weight: 300;
+}
+.grey-box-ltc {
+	padding-bottom: 35px;
+}
+.buttons-ltc img {
+	padding-right: 7px;
+}
+.login-click:hover, .login-click {
+	color: #595959;
+	font-size: 16px;
+	font-weight: 400;
+	text-decoration: underline;
+}
+.header-line {
+	padding: 0px 15px 0px 13px;
+}
+.tooltip {
+    position: absolute;
+    z-index: 1070;
+    display: block;
+    font-family: Source Sans Pro;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    line-break: auto;
+}
+.tooltip-inner {
+    max-width: 350px;
+    padding: 3px 8px;
+    color: #595959;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+	border:1px solid #f0f0f0;
+}
+.tooltip.bottom .tooltip-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 0 5px 5px;
+    border-bottom-color: #ddd;
+}
+
+.pgx-fancy-label label {
+	color: #c2c1c1;
+	font-size: 16px;
+	letter-spacing: .5px;
+	position: absolute;
+	pointer-events: none;
+	left: 11px;
+	top: 12px;
+	-webkit-transition: .2s ease all;
+	transition: .2s ease all;
+	font-family: Source Sans Pro;
+	font-weight: 400;
+}
+.pgx-fancy-label input[type=text]:focus~label, 
+.pgx-fancy-label input[type=text]:valid~label{
+	top: 3px;
+	color: #c2c1c1;
+	opacity: 1;
+	font-size: 13px;
+	font-weight: 600;
+} 
+.pgx-fancy-label input[type=password]:focus~label, 
+.pgx-fancy-label input[type=password]:valid~label{
+	top: 3px;
+	color: #c2c1c1;
+	opacity: 1;
+	font-size: 13px;
+	font-weight: 600;
+} 
+.pgx-fancy-label input[type=password]:focus:not([readonly])~label {
+	color: #0fa2a2;
+	top: 3px;
+	opacity: 1;
+	font-size: 13px;
+	font-weight: 600;
+}
+.pgx-fancy-label input[type=text]:focus:not([readonly])~label {
+	color: #0fa2a2;
+	top: 3px;
+	opacity: 1;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.form-control {padding: 14px 12px 0 12px;height: 50px;}
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.form-group.user-name-field {
+	margin-top:0;
+}
+.pgx-fancy-label img { position: absolute; top: 17px; right: 15px; }

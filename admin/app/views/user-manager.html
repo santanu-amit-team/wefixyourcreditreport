@@ -1,0 +1,401 @@
+<!-- form -->
+<div layout="row" layout-align="center">
+    <md-content class="f1f1f1" flex>
+        <form name="UserForm" ng-submit="SubmitForm()" novalidate>
+            <!-- version and form buttons-->
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">
+                <div flex layout="column" layout-align="center start">
+                    <version-list class="padding-left-0" name="users" scope-obj="user"></version-list>
+                </div>
+                <div flex layout="row" layout-align="end center">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="UserForm.$invalid || UserForm.$submitted">{{UserForm.$submitted ? 'Saving...' : 'Save User'}}</md-button>
+                </div> 
+            </div>
+            <!-- version form buttons-->
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>User Details</p>
+                    </div>
+                    
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="username" >Username <span class='required_field'>*</span></label>
+                                <input type="text" name="username" ng-model="user.username" required>
+                            </div>                            
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="user">User Type <span class='required_field'>*</span></label>  
+                                <md-select name="user_id" ng-model="user.user_type" required ng-change="autoFiller()">
+                                    <md-option ng-repeat="userType in userTypes" value="{{userType.key}}">{{userType.val}}</md-option>
+                                </md-select> 
+                            </div>                            
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="password">Password <span class='required_field'>*</span></label>
+                                <input type="text" name="password" pattern=".{8,}" ng-model="user.password" required>
+                                <div class="password-regenerate" ng-click="generatorPassword();" ng-class="{ reverseSpinnfer : spinner}">
+                                    <md-tooltip md-direction="right">Generate Password</md-tooltip>
+                                    <i class="material-icons">autorenew</i>
+                                    
+                                 </div> 
+                            </div>                           
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="email">Google Email&nbsp;<i class="material-icons info_icon">&#xE88F; <md-tooltip md-direction="right">If provided, user can able to login using the google login option in login page</md-tooltip></i></label>
+                                <input type="text" name="email" ng-model="user.email">
+                            </div>                           
+                        </md-input-container>
+                    </div>
+                </div>
+                
+                <div class="row-form-panel with-padding" ng-if="user.user_type">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="user.change_access_permissions" required>
+                                    <h2 class="mat-h2 md-title" layout-padding>Change Access & Permissions</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div> <br>
+
+                    <div layout="row" layout-wrap="" ng-cloak="" class="top-gap-9 system-wraper" ng-if="user.change_access_permissions">
+                        <!-- Left Section -->
+                        <div flex="50" layout="column">
+                            <md-card md-theme-watch="">
+                               <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" ng-model="user.ecommerce">
+                                                    <h2 class="mat-h2 md-title" layout-padding>Ecommerce</h2>
+                                                </md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-form-panel header-switch-panel" layout="column">
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.campaigns">
+                                                    <h2 class="mat-h2">Campaigns</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.funnel_configurations">
+                                                    <h2 class="mat-h2">Funnel Configurations</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.coupons">
+                                                    <h2 class="mat-h2">Coupons</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                              
+                            </md-card>
+
+                            <md-card md-theme-watch="">
+                                <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" layout="column" ng-model="user.cms">
+                                                    <h2 class="mat-h2 md-title" layout-padding>CMS</h2>
+                                                </md-switch>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>                             
+                            </md-card>
+
+                            <md-card md-theme-watch="">
+                                <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" layout="column" ng-model="user.extensions">
+                                                    <h2 class="mat-h2 md-title" layout-padding>Extensions</h2>
+                                                </md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                             
+                            </md-card>
+
+                            <md-card md-theme-watch="">
+                                <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" layout="column" ng-model="user.logs">
+                                                    <h2 class="mat-h2 md-title" layout-padding>Logs</h2>
+                                                </md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-form-panel header-switch-panel" layout="column">
+                                   
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.systems_log">
+                                                    <h2 class="mat-h2">System Log</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.user_activity">
+                                                    <h2 class="mat-h2">User Activity</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.change_log">
+                                                    <h2 class="mat-h2">Change Log</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>                              
+                            </md-card>
+                            
+
+                        </div>
+                        <!-- Left Section end -->
+
+
+                        <!-- Right Section -->
+                        <div flex="50" layout="column">
+
+
+                            <md-card md-theme-watch="">
+                                <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift"  layout="column" ng-model="user.system">
+                                                    <h2 class="mat-h2 md-title" layout-padding>System</h2>
+                                                </md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-form-panel" layout="column">
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.crm">
+                                                    <h2 class="mat-h2">CRM</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.users">
+                                                    <h2 class="mat-h2">Users</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.settings">
+                                                    <h2 class="mat-h2">Settings</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.advance_settings">
+                                                    <h2 class="mat-h2">Advanced Settings</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </md-card>
+
+                            <md-card md-theme-watch="">
+                                <div class="row-form-panel header-switch-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" layout="column" ng-model="user.tools">
+                                                    <h2 class="mat-h2 md-title" layout-padding>Tools</h2>
+                                                </md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-form-panel header-switch-panel" layout="column">
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.affiliate_manager">
+                                                    <h2 class="mat-h2">Affiliate Manager</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.pixel_manager">
+                                                    <h2 class="mat-h2">Pixel Manager</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.rotators">
+                                                    <h2 class="mat-h2">Rotators</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.mid_routing">
+                                                    <h2 class="mat-h2">Mid Routing</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.traffic_monitor">
+                                                    <h2 class="mat-h2">Traffic Monitor</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.auto_responder">
+                                                    <h2 class="mat-h2">Auto Responder</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.auto_filters">
+                                                    <h2 class="mat-h2">Auto Filters</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.scheduler">
+                                                    <h2 class="mat-h2">Scheduler</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.diagnosis">
+                                                    <h2 class="mat-h2">Troubleshooting</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.split_test">
+                                                    <h2 class="mat-h2">Split Test</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div layout="row" class="checkbox-row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-checkbox aria-label="Checkbox 1" layout="column" ng-model="user.upsell_manager">
+                                                    <h2 class="mat-h2">Upsell Manager</h2>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </md-card>
+
+
+                        </div>
+                        <!-- Right Section end -->
+                    </div>
+                                       
+                </div>
+
+            </div>
+
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="UserForm.$invalid || UserForm.$submitted">{{UserForm.$submitted ? 'Saving...' : 'Save User'}}</md-button>
+                </div>        
+            </div>
+        </form>
+
+    </md-content>
+</div>

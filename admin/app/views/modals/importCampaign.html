@@ -1,0 +1,172 @@
+<style>
+    .pop-table-row{
+        display: flex;
+        list-style: none;
+        /*font-size: 14px;*/
+    }
+    .pop-table-list{
+        padding: 0;
+        margin: 0;
+        max-height: 193px;
+        overflow-y: auto;
+    }
+    .check-label-input{
+        padding: 0;
+        margin: 0 !important;
+        display: block;
+    }
+    .check-label-input input[type="checkbox"]{
+        display: none;
+    }
+    .check-label-input input[type="checkbox"] + span{
+        display: block;
+        width: 14px;
+        height:14px;
+        border-radius: 3px;
+        border: 1px solid #c2c2c2;
+    }
+    .check-label-input input[type="checkbox"]:checked + span{
+        background-color: #5C79FF;
+        border-color: #5C79FF;
+        background-image: url(../../assets/images/tick-sign.png);
+        background-size: 70%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .pop-table-check{
+        width: 5%;
+    }
+    .pop-table-col{
+        width: 32%;
+    }
+    .campaign-data-head{
+        padding: 25px 30px;
+    }
+    .campaign-data-head h3{
+        color: #000;
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0 0 10px 0;
+    }
+    .campaign-data-head h4{
+        color: #555555;
+        font-size: 13px;
+        font-weight: normal;
+        margin: 0;
+    }
+    .pro-list-head{
+        color: #A0A4B1;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0 0 15px 0;
+        padding: 0 30px;
+    }
+    .pop-table-list{
+        margin-bottom: 20px;
+    }
+    .pop-table-list li{
+        padding: 15px 30px;
+        background-color: #f1f3f4;
+        border-top: 1px solid #e7ebec;
+        color: #555555;
+    }
+    .pop-table-head{
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .campaign-data-head{
+        position:relative;
+    }
+    .close-modal{
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 14px;
+        height: 26px;
+    }
+    .close-modal img{
+        width: 100%;
+    }
+    md-dialog{max-height:98%; min-width: 620px;}
+</style>
+
+    
+
+<div class="update-campaining" ng-controller="CamapaignSync">
+    <div class="">
+        <div class="campaign-data-head">
+            <a ng-click="cancel()" class="close-modal" href="javascript:void(0)"><img src="../../assets/images/close-button.png"></a>
+            <h3>Import/Update Campaign Data </h3>
+            <h4>Select the product and shipping ID you want to import from your CRM</h4>
+        </div>
+        <div layout="row" ng-init="getCRMCampaignData()" layout-sm="column" layout-align="center center"style="min-height: 280px;"  ng-if="!crmCampaignData['productDetails'].length > 0"> 
+         
+            <md-progress-circular  md-mode="indeterminate" ></md-progress-circular></div>
+        <div class=""  ng-if="crmCampaignData['productDetails'].length > 0">
+               <form name="CamapaignSyncForm" ng-submit="importSelected()" novalidate>
+            <h5 class="pro-list-head">Select CRM Product ID(s)</h5>
+            <ul class="pop-table-list" data-simplebar>
+                <li class="pop-table-row pop-table-head">
+                    <div class="pop-table-check">
+                        <label class="check-label-input">
+                            <input type="checkbox"  ng-model="productDetails.isAllSelected" ng-click="toggleAll('productDetails')"/>
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="pop-table-col">Product ID</div>
+                    <div class="pop-table-col">CRM Price</div>
+                    <div class="pop-table-col">Current Price</div>
+                </li>
+
+                <li class="pop-table-row" ng-if="crmCampaignData['productDetails'].length > 0" ng-repeat="dataobj in crmCampaignData['productDetails'] track by $index" >
+                    <div class="pop-table-check">
+                        <label class="check-label-input">
+                            <input type="checkbox"  ng-model="dataobj.itemSelected" ng-change="optionToggled('productDetails')"/>
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="pop-table-col">{{dataobj.product_id}}</div>
+                    <div class="pop-table-col">{{dataobj.product_price}}</div>
+                    <div class="pop-table-col" style="color: #a3a3a3;" ng-if="dataobj.product_current_price">{{dataobj.current_price}}</div>
+                       <div class="pop-table-col" style="color: #a3a3a3;" ng-if="!dataobj.product_current_price">--</div>
+                </li>
+
+            </ul>  
+
+            <h5 class="pro-list-head" ng-if="crmCampaignData['shippingDetails'].length > 0">Select CRM Shipping ID(s)</h5>
+            <ul class="pop-table-list" data-simplebar ng-if="crmCampaignData['shippingDetails'].length > 0">
+                <li class="pop-table-row pop-table-head">
+                    <div class="pop-table-check">
+                        <label class="check-label-input">
+                            <input type="checkbox" ng-model="shippingDetails.isAllSelected" ng-click="toggleAll('shippingDetails')"/>
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="pop-table-col">Shipping ID</div>
+                    <div class="pop-table-col">CRM Price</div>
+                    <div class="pop-table-col">Current Price</div>
+                </li>
+                <li class="pop-table-row" ng-if="crmCampaignData['shippingDetails'].length > 0" ng-repeat="dataobj in crmCampaignData['shippingDetails'] track by $index" >
+                    <div class="pop-table-check">
+                        <label class="check-label-input">
+                            <input type="checkbox" ng-model="dataobj.itemSelected" ng-change="optionToggled('shippingDetails')"/>
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="pop-table-col">{{dataobj.shipping_id}}</div>
+                    <div class="pop-table-col">{{dataobj.shipping_price}}</div>
+                    <div class="pop-table-col" style="color: #a3a3a3;" ng-if="dataobj.shipping_current_price">{{dataobj.shipping_current_price}}</div>
+                    <div class="pop-table-col" style="color: #a3a3a3;" ng-if="!dataobj.shipping_current_price">--</div>
+                </li>
+          
+            </ul>
+             <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button ng-click="cancel()" type="button" class="md-raised" >Cancel</md-button>
+                    <md-button   ng-disabled="CamapaignSyncForm.$invalid || CamapaignSyncForm.$submitted" class="md-primary md-raised" type="submit">Import Selected</md-button>
+                </div>        
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

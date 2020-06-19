@@ -1,0 +1,148 @@
+<!-- form -->
+<div layout="row" layout-align="center">
+    <md-content class="f1f1f1" flex>
+        <form name="CouponForm" ng-submit="SubmitForm()" novalidate>
+            <!-- version and form buttons-->
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">
+                
+            </div>
+            <!-- version form buttons-->
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>Coupon Details</p>
+                    </div>
+                    
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="coupon_name" >Coupon Name <span class='required_field'>*</span></label>
+                                <input type="text" name="coupon_name" ng-model="coupon.coupon_label" required>
+                            </div>                            
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="description" >Description <span class='required_field'>*</span></label>
+                                <input type="text" name="description" ng-model="coupon.coupon_descrription" required>
+                            </div>                            
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="coupon_type">Coupon Type <span class='required_field'>*</span></label>  
+                                <md-select name="coupon_type" ng-model="coupon.coupon_type" required ng-change="">
+                                    <md-option ng-repeat="couponType in couponsTypes" value="{{couponType}}">{{couponType | ucfirst}}</md-option>
+                                </md-select> 
+                            </div>                            
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="descount_type">Discount Type <span class='required_field'>*</span></label>  
+                                <md-select name="descount_type" ng-model="coupon.discount_type" required ng-change="">
+                                    <md-option ng-repeat="discount in appliedOns" value="{{discount.values}}">{{discount.label}}</md-option>
+                                </md-select> 
+                            </div>                            
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="coupon_value">Value <span class='required_field'>*</span></label>
+                                <input type="text" name="coupon_value" ng-model="coupon.coupon_value" required>
+                            </div>                           
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="coupon.enable_coupon_use_limits">
+                                    <h2 class="mat-h2 md-title">Enable Coupon Use Limit</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-form-panel" ng-if="coupon.enable_coupon_use_limits">
+                        <div layout="row" class="md-toolbar-tools">
+                            <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="set_use_limit">
+                                        Set Use Limit <span class='required_field'>*</span>
+                                    </label>
+                                    <input type="text" name="set_use_limit" ng-model="coupon.coupon_use_times" ng-required="" required>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+						<div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+							    <md-switch class="right-shift" ng-model="coupon.enable_coupon_expiry_date">
+                                     <h2 class="mat-h2 md-title">Enable Coupon Expiry Date</h2>
+                                </md-switch>
+                            </div>
+						</div>
+                    </div>
+                    
+					<div class="row-form-panel" ng-if="coupon.enable_coupon_expiry_date">
+                        <div layout="row" class="md-toolbar-tools">
+                            <div flex="100" flex-gt-sm="50" layout="column">
+                                <div class="col-wrapper">
+                                    <label for="start_date">Start Date <span class='required_field'>*</span></label>
+                                    <div class="date-pick-wrap">
+                                        <md-datepicker ng-model="coupon.coupon_start_date" md-placeholder="Enter date" required></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div flex="100" flex-gt-sm="50" layout="column">
+                                <div class="col-wrapper">
+                                    <label for="coupon_end_date">Expiry Date <span class='required_field'>*</span></label>
+                                    <div class="date-pick-wrap">
+                                        <md-datepicker ng-model="coupon.coupon_end_date" md-placeholder="Enter date" required></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                </div>
+                
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="mat-h2 md-title" layout-padding>Codes</p>
+                    </div> 
+
+                    <div class="col-wrapper">
+                        <p class="margin-bottom-0">
+                            <label for="coupon_code">Add Coupon Code(s)<span class='required_field'>*</span></label>
+                        </p>
+                    </div>
+					<div class="col-wrapper" ng-if="couponLoadComplete == true">
+                        <add-remove-input 
+                            name="coupon" 
+                            scope-obj="coupon" 
+                            scope-update-key="coupon_code" 
+                            empty-msg="Please enter a coupon code." 
+                            duplicate-msg="Coupon code already exists" 
+                            input-placeholder="{COUPON CODE}" 
+                            validation-key="validation"
+                            input-type="text"
+                            data-separator="{{ coupon_code_separator }}" 
+                            theme="1" classes="side-wrapper">
+                        </add-remove-input>
+                    </div>
+                </div>   
+            </div>
+
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="CouponForm.$invalid || CouponForm.$submitted || validationMethod() === false">{{CouponForm.$submitted ? 'Saving...' : 'Save Coupon'}}</md-button>
+                </div>        
+            </div>
+        </form>
+
+    </md-content>
+</div>

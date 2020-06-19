@@ -1,0 +1,101 @@
+<!-- form -->
+<div layout="row" layout-align="center">
+    <md-content class="f1f1f1" flex>
+        <form name="CronForm" ng-submit="SubmitForm()" novalidate>
+            <!-- version and form buttons-->
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">
+                
+            </div>
+            <!-- version form buttons-->
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>Scheduler Job</p>
+                    </div>
+                    
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="presets">Presets</label>  
+                                <md-select name="presets" ng-model="job.preset" ng-change="fillPresetValue();">
+                                    <md-option ng-repeat="preset in presets_list" value="{{ preset.value }}">{{ preset.title | ucfirst }}</md-option>
+                                </md-select> 
+                            </div>                            
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="handler" >Handler <span class='required_field'>*</span></label>
+                                <input type="text" name="handler" placeholder="Path to cron file." ng-model="job.handler" required>
+                            </div>                            
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" class="top-gap-0">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="every_minute">Every Minute <span class='required_field'>*</span></label>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="every_hour">Every Hour <span class='required_field'>*</span></label>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="every_day">Every Day <span class='required_field'>*</span></label>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="every_month">Every Month <span class='required_field'>*</span></label>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="every_year">Every Year <span class='required_field'>*</span></label>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" class="top-gap-0">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <input type="text" name="every_minute" ng-model="job.every[0]" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <input type="text" name="every_hour" ng-model="job.every[1]" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <input type="text" name="every_day" ng-model="job.every[2]" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <input type="text" name="every_month" ng-model="job.every[3]" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <input type="text" name="every_year" ng-model="job.every[4]" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    
+                </div>  
+            </div>
+
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="CronForm.$invalid || CronForm.$submitted">{{CronForm.$submitted ? 'Saving...' : 'Save Job'}}</md-button>
+                </div>        
+            </div>
+        </form>
+
+    </md-content>
+</div>

@@ -1,0 +1,99 @@
+<div layout="column" layout-align="center">
+    <md-content class="f1f1f1">
+        <form name="AdvancedForm" ng-submit="SubmitForm(1)" novalidate="">
+            <div layout-margin="" md-whiteframe="3" style="background: white">
+                <md-list class="custom_list">
+                    <md-list-item>
+                        <p class="md-body-1">
+                            Advanced Password
+                        </p>
+                        <p class="md-secondary md-body-1">
+                            {{advancedPassword}}
+                            <span class="linkText" ng-click="showPassword();" ng-if="showText">
+                                [ show ]
+                            </span>
+                        </p>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <!-- Installer -->
+            <div layout-margin="" md-whiteframe="3" ng-show="showResetSettings" style="background: white">
+                <md-list class="custom_list"  style="margin-left: 15px !important;">
+                    <md-list-item class="secondary-button-padding">
+                        <p class="md-body-1">
+                            Installer
+                        </p>
+                        <p class="md-secondary">
+                            <md-button ng-click="registerDomain();">
+                                Ignore
+                            </md-button>
+                            <md-button ng-click="resetSettings();">
+                                Run
+                            </md-button>
+                        </p>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <!-- Installer -->
+            <div layout-margin="" md-whiteframe="3" style="background: white">
+                <md-list class="custom_list">
+                    <md-list-item>
+                        <p class="md-body-1">
+                            Enable {{orderFilterText}}
+                        </p>
+                        <md-switch class="md-secondary" ng-change="checkExtension(0);" ng-model="advanced.scrapper.enable">
+                        </md-switch>
+                    </md-list-item>
+                    <md-divider>
+                    </md-divider>
+                    <md-list-item>
+                        <p class="md-body-1">
+                            Enable Remote Management using almost20.com
+                        </p>
+                        <md-switch class="md-secondary" ng-change="checkGatewaySwitcherId(0);" ng-model="advanced.scrapper.remote">
+                        </md-switch>
+                    </md-list-item>
+                    <md-divider>
+                    </md-divider>
+                    <md-list-item>
+                        <p class="md-body-1">
+                            Disable {{orderFilterText}} For Test Orders
+                        </p>
+                        <md-switch class="md-secondary" ng-model="advanced.scrapper.disable_scarp_test_order">
+                        </md-switch>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <div layout-margin="" layout-padding="" md-whiteframe="3" style="background: white">
+                <div layout="row">
+                    <md-input-container flex="">
+                        <label for="domain">
+                            Step 1 {{orderFilterText}}
+                        </label>
+                        <input ng-model="advanced.scrapper.percentage[1]" ng-pattern="/^[0-9][0-9]?$|^100$/" ng-required="advanced.scrapper.enable && !advanced.scrapper.remote" type="text">
+                            <span ng-model="advanced.scrapper.percentage.one">
+                            </span>
+                        </input>
+                    </md-input-container>
+                    <md-input-container flex="">
+                        <label for="offer_path">
+                            Step 2 {{orderFilterText}}
+                        </label>
+
+                        <input ng-model="advanced.scrapper.percentage[2]" ng-pattern="/^[0-9][0-9]?$|^100$/" ng-required="advanced.scrapper.enable && !advanced.scrapper.remote" type="text">
+                            <span ng-model="advanced.scrapper.percentage.two">
+                            </span>
+                        </input>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout-margin="" layout-padding="" md-whiteframe="3" style="background: white">
+                <div layout="row" layout-align="end center">
+                    <md-button class="margin-left-0 md-primary" ng-disabled="AdvancedForm.$invalid || AdvancedForm.$submitted" type="submit">
+                        {{AdvancedForm.$submitted ? 'Saving...' : 'Save'}}
+                    </md-button>
+                </div>
+            </div>
+        </form>
+    </md-content>
+</div>

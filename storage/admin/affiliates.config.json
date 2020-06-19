@@ -1,0 +1,28 @@
+{
+  "last_id": 0,
+    "schema": {
+        "id": "integer",
+        "label": "string",
+        "affid": "string",
+        "afid": "string",
+        "sid": "string",
+        "c1": "string",
+        "c2": "string",
+        "c3": "string",
+        "c4": "string",
+        "c5": "string",
+        "aid": "string",
+        "opt": "string",
+        "click_id": "string",
+        "config_type": "string",
+        "configuration_mapping": "string",
+        "scrap_step_1": "string",
+        "scrap_step_2": "string",
+        "enable_funnel_configuration": "boolean",
+        "campaign_mapping": "string",
+        "enable_campaign_configuration": "boolean",
+        "enable_aff_network": "boolean",
+        "nid": "string"
+    },
+    "relations": []
+}

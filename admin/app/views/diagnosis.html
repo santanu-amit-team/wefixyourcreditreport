@@ -1,0 +1,50 @@
+<div layout = "row" layout-align="center center" ng-if="listObjKeys.length">
+    <md-content class="f1f1f1" flex>
+        <div md-whiteframe="3" layout-margin  style="background: white" >
+            <md-list  class="custom_list" ng-repeat="sectionValue in diagnosisSection">
+                <md-list-item class="md-2-line" ng-repeat-start="value in lists[sectionValue]" ng-click="null">
+
+                    <div class="col-wrapper">
+                        <div flex="5" ng-if="sectionValue == 'api-endpoint' ||sectionValue == 'tag-checker' || sectionValue == 'extensions' || sectionValue == 'settings' || sectionValue == 'backup-directory' || sectionValue == 'framework-directory' || sectionValue == 'debug-contents' || sectionValue == 'debug-cache'">
+                            <i ng-if="value.status" class="success material-icons">
+                                &#xE88E;
+                            </i>
+                            <i ng-if="!value.status && value.type == 'required'" class="error material-icons">
+                                &#xE000;
+                            </i>
+                            <i ng-if="!value.status && value.type == 'optional'" class="warning material-icons">
+                                &#xE002;
+                            </i>
+                        </div>
+                    </div>
+
+                    
+                    <div flex="5" ng-if="sectionValue == 'configurations' || sectionValue == 'pixels'">
+                        <i ng-if="value.type == 'required'" class="error material-icons">
+                            &#xE000;
+                        </i>
+                        <i ng-if="value.type == 'optional'" class="warning material-icons">
+                            &#xE002;
+                        </i>
+                    </div>
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{ value.heading}}</h3>
+                        <p>{{ value.message}}</p>
+                    </div>
+                </md-list-item>
+                <md-divider ng-repeat-end></md-divider>
+            </md-list>
+        </div>
+    </md-content>
+</div>
+<div layout = "row" layout-align="center center" ng-if="!listObjKeys.length && !loader_circle">
+    <md-content class="f1f1f1" flex>
+        <div md-whiteframe="3" layout-margin  style="background: white;" class="diagnosis-start-div" layout = "row" layout-align="center center" >
+            <md-button class="md-primary" ng-click="startDiagnosis();">Start Diagnosis</md-button>
+        </div>
+    </md-content>
+</div>
+<div layout="column" md-whiteframe="3" layout-margin style="background: white" layout-align="center center" flex ng-show="loader_circle" class="loading-text-div">
+    <md-progress-circular md-mode="indeterminate"  md-diameter="150"></md-progress-circular>
+    <span>Loading...</span>
+</div>

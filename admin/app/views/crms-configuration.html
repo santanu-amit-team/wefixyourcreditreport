@@ -1,0 +1,84 @@
+<!-- version and back button -->
+
+<div layout-padding layout="row" class="padding-left-0 padding-right-0  wrap-top-gap">
+	<div flex layout-align="start center" class="">
+		<version-list class="padding-left-0" name="crms" scope-obj="crm"></version-list>
+	</div>
+	</div>
+</div>
+
+<!-- version and back button -->
+
+<!-- Form -->
+<div layout="row" layout-align="center">
+    <md-content class="f1f1f1" flex>
+		<form name="CrmForm" ng-submit="SubmitForm()" novalidate>
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+					<div class="col-wrapper">
+                    	<h1 class="mat-display-1" ng-bind-html="crm_id == '' ? 'Add CRM' : 'Edit CRM'"></h1>
+                    </div>
+					<div layout="row">
+						<md-input-container flex>
+							<div class="col-wrapper">
+								<label for="crm_label" >Label <span class='required_field'>*</span></label>
+								<input type="text" name="crm_label" ng-model="crm.crm_label" required>
+							</div>
+						</md-input-container>
+						<md-input-container flex>
+							<div class="col-wrapper">
+								<label for="crm_type">Select CRM <span class='required_field'>*</span></label>
+								<md-select name="crm_type" ng-model="crm.crm_type" ng-change="selectApiEndpoint();updateFields()" required>
+									<md-option ng-repeat="crms in crmsTypes" value="{{crms.key}}">{{crms.label}}</md-option>
+								</md-select>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex>
+							<div class="col-wrapper">
+								<label for="endpoint">API Endpoint <span class='required_field'>*</span></label>
+								<input type="text" name="endpoint" ng-model="crm.endpoint" required>
+							</div>
+						</md-input-container>
+						<md-input-container flex ng-if="!layer2">
+							<div class="col-wrapper">
+								<label for="username" >{{sixcrm ? 'Access Key':'API Username'}}<span class='required_field'>*</span></label>
+								<input type="text" name="username" ng-model="crm.username" required>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex ng-if="!responsecrm && !emanage && !layer2">
+							<div class="col-wrapper">
+								<label for="password" >{{sixcrm ? 'Secret Key':'API Password'}}<span class='required_field'>*</span></label>
+								<input type="text" name="password" ng-model="crm.password" required>
+							</div>
+						</md-input-container>
+	                    <md-input-container flex ng-if="sixcrm">
+	                    	<div class="col-wrapper">
+								<label for="account" >Account <span class='required_field'>*</span></label>
+								<input type="text" name="account" ng-model="crm.account" required>
+							</div>	
+						</md-input-container>  
+						<md-input-container flex ng-if="!sixcrm"></md-input-container>              
+					</div>
+					<!-- <div layout="row" ng-if="sixcrm">
+	                    <md-input-container flex>
+							<label for="account" >Account</label>
+							<input type="text" name="account" ng-model="crm.account" required>
+						</md-input-container>
+						<md-input-container flex></md-input-container>
+					</div> -->
+				</div>
+			</div>
+			<div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="CrmForm.$invalid || CrmForm.$submitted">{{CrmForm.$submitted ? 'Saving...' : 'Save CRM'}}</md-button>
+                </div>        
+            </div>
+		</form>
+    </md-content>
+</div>
+<!-- From -->

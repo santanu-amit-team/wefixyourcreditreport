@@ -1,0 +1,177 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="campaign_label" type-by="crm_type" search-placeholder="Search Campaigns..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end">
+        <flat-button-directive url='#/campaign-manager' title='Campaign' type='add'  ></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+<div ng-if="is_pmt_extention_enabled && is_import_export_enabled" layout="row" md-whiteframe="3" layout-padding layout-margin  style="background: white" layout-align="end center">
+    <md-input-container> 
+        <a class="md-button md-primary" style="float: right;"  ng-href="{{csvExportPath}}" ><i class="material-icons">
+                cloud_download
+            </i> Export </a>
+        <md-button class="flex-40 md-button md-primary" style="float: right;" ng-click="uploadFiles()" /><i class="material-icons">
+                cloud_upload
+            </i> Upload
+        </md-button>  
+        
+        <input style="float: right; margin-top: 10px; border: none;" class="flex-40 md-primary" type="file" id="file1" name="file"  ng-files="getTheFiles($files)" />
+        <md-progress-circular ng-show="isUploadProgress"  md-mode="indeterminate" style="margin-left:59px;"></md-progress-circular>
+    </md-input-container>
+</div>
+
+<div ng-init="getCampaigns(); checkAsyncSplitExtension();" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="20" class="right-padding-20"><b>Name</b></div>
+            <div flex="15" class="right-padding-20"><b>CRM ID #</b></div>
+            <div flex="20" class="right-padding-20"><b>Campaign Info</b></div>
+            <div flex class="right-padding-20"><b>Last Modified</b></div>
+            <div flex class="right-padding-20">
+                <b layout="column" flex="100">Used In</b> 
+                <small layout="column" flex="100" class="amall-head-cell">Number of funnels</small>
+            </div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editCampaign(data.id)" layout = "row" layout-align="end center" ng-repeat-start="data in lists track by data.id" class="list-repeated-item">
+            <div ng-click="$event.stopPropagation();" flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+                <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>
+            </div>
+            <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+                {{data.id}}
+            </div>
+            <div flex="20" class="right-padding-20">
+                <span class="setting-link">
+                    {{data.campaign_label}}
+                </span>
+            </div>
+            <div flex="15" class="right-padding-20">{{data.crm_id}}</div>
+            <div flex="20" class="right-padding-20 primary-color-onhover" ng-click="$event.stopPropagation();">
+                
+                <md-menu>
+                  <a class="setting-link" href="javascript:void(0);" ng-click="$mdOpenMenu()">Quick View <i class="material-icons view-icon">remove_red_eye</i></a>
+                  <md-menu-content class="quick-submenu">
+                    <!-- <md-menu-item> -->
+                        <!-- <div class="md-dialog-content"> -->
+                            <div layout="row">
+                                <div layout="column" flex="60">
+                                    <span layout="row" class="hint">Name</span>
+                                    <span layout="row" class="margin-top-0">{{data.campaign_label}}</span>
+                                </div>
+                                <div layout="column" flex="40">
+                                    <span layout="row" class="hint">Campaign ID</span>
+                                    <span layout="row" class="margin-top-0">{{data.campaign_id}}</span>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div layout="column" flex="60">
+                                    <span layout="row" class="hint">CRM</span>
+                                    <span layout="row" class="margin-top-0">{{data.crm_label | ucfirst}}</span>
+                                </div>
+                                <div layout="column" flex="40">
+                                    <span layout="row" class="hint">Shipping ID</span>
+                                    <span layout="row" class="margin-top-0">{{data.shipping_id}}</span>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div layout="column" flex="60">
+                                    <span layout="row" class="hint">Campaign Type</span>
+                                    <span layout="row" class="margin-top-0">{{campaignTypes[data.campaign_type]}}</span>
+                                </div>
+                                <div layout="column" flex="40">
+                                    <span layout="row" class="hint">Billing Type</span>
+                                    <span layout="row" class="margin-top-0">{{billingTypes[data.billing_type]}}</span>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                    <!-- </md-menu-item> -->
+                  </md-menu-content>
+                </md-menu>
+
+            </div>
+            <div flex class="right-padding-20">{{data.last_modified_formated}}</div>
+            <div flex class="right-padding-20">{{data.config_count}}</div>
+            <div flex="5" class="right-padding-20">
+                <!-- quick view -->
+                
+                <md-menu>
+                    <md-button aria-label="Open demo menu" class="md-icon-button"
+                             ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="editCampaign(data.id)">
+                                <span md-menu-align-target>Edit</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item ng-repeat="action in filterActions">
+                            <md-button ng-click="this[action.method](data.id)">
+                                <span md-menu-align-target>{{action.val}}</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="copyCampaign($index)">
+                                <span md-menu-align-target>Copy</span>
+                            </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+
+                <!-- quick view -->
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+        <div class="page-wrapper" ng-show="lists.length">
+            <div class="page-number-right">
+                <span>{{ lists[lists.length - 1].id }}-{{ lists[0].id }} of {{totalItems}}</span> 
+                <div class="show-select dropdown">
+                    Show
+                    <div class="select-page-number">
+                        <md-select name="campaign_type" ng-model="limit" placeholder="Show (50)" ng-change="changeLimit()">
+                            <md-option value="50">
+                                50
+                            </md-option>
+                            <md-option value="100">
+                                100
+                            </md-option>
+                            <md-option value="500">
+                                500
+                            </md-option>
+                            <md-option value="all">
+                                All
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+            <ul class="tab-pagination text-right">
+                <li class="prev-page" ng-if="getpagesArray(pages).length > 1 && currentPage != 1" ng-click="previousPage()">
+                    <a href="javascript:void(0);"><img src="../../assets/images/left-arrow.svg" width="10" alt="" /></a>
+                </li>
+                <!-- <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li> -->
+                <li ng-repeat="pg in getpagesArray(pages) track by $index" ng-class="{'active' : $index + 1 == currentPage}">
+                    <a href="javascript:void(0);" ng-click="updatePage($index + 1)">{{$index + 1}}</a>
+                </li>
+                <li class="next-page" ng-if="getpagesArray(pages).length > 1 && currentPage != getpagesArray(pages).length" ng-click="nextPage()">
+                    <a href="javascript:void(0);"><img src="../../assets/images/right-arrow.svg" width="10" alt="" /></a>
+                </li>
+            </ul>
+        </div>
+    </md-content>
+</div>

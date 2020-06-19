@@ -1,0 +1,40 @@
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+	<div flex layout-align="start center">
+		<version-list class="padding-left-0" name="jsminifier" scope-obj="jsminifier"></version-list>
+	</div>
+</div>
+<div layout="row" layout-align="center" class="wrap-top-gap">
+    <md-content class="f1f1f1" flex>
+        <form name="jsMinifierForm" ng-submit="saveExtension()" novalidate>
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-controller="jsminifier">
+                <div class="row-form-panel">
+                    <div class="col-wrapper">
+                    <p class="md-title" layout-padding>Javascript Minifier</p>
+                    <p class="margin-bottom-0"><label for="jsminifier">Custom Script Link</label></p>
+                    </div>
+                    <div>
+                            <add-remove-input 
+                                name="settings" 
+                                scope-obj="extension" 
+                                theme="1" 
+                                scope-update-key="custom_scripts" 
+                                empty-msg="Please enter custom JS link" 
+                                duplicate-msg="Link already exists" 
+                                validation-key="validation" 
+                                input-placeholder="https://ajax.example.com/js/customlink" 
+                                data-separator="{{allowed_test_cards_separator}}" class="side-wrapper">
+                                    
+                            </add-remove-input>
+                    </div>
+                     
+                </div>
+            </div>
+             <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                   <md-button  type="button" class="md-raised" ng-href="#/extensions">Cancel</md-button>
+                    <md-button  ng-disabled="jsMinifierForm.$invalid || jsMinifierForm.$submitted" class="md-primary md-raised" type="submit">Save Settings</md-button>
+                </div>        
+            </div>
+        </form>
+    </md-content>
+</div>

@@ -1,0 +1,487 @@
+<style>
+    .error-sngl-con{
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .error-sngl-con button{
+        padding-left: 20px;
+    padding-right: 20px;
+    }
+</style>
+<!-- Header image section -->
+<div flex="" layout="row" style="margin: 8px;" ng-cloak="">
+    <div class="cnt_out welcome-banner top-gap-9">
+        <h2>
+            Welcome to Unify Framework {{ version.currentVersion }} 
+            <span ng-if="version.isNewVersionAvailable">New version is available</span>
+        </h2>
+        <h5>
+            Thank you choosing Unify as your landing page development framework
+        </h5>        
+        <div class="list_in tool-list">
+            <div class="glance-text">At a glance, see what’s new</div>
+            <ol>
+                <li>New Mid Routing tool</li>
+                <li>A highly improved Funnel Configurations manager</li>
+                <li>New extension based architecture</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+<!-- Error listing section -->
+ <div flex="" layout="column" ng-if="alert_list.length > 0" style="margin: 16px 8px 0 8px;">
+    <md-list flex="" md-whiteframe="1" style="background: white;border-radius: 4px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);">
+        <md-list-item class="md-3-line margin-left-0 margin-right-0 error-sngl-con" ng-click="$event.stopPropagation()" ng-repeat="alert in alert_list">
+            <div class="alert-div" flex="90" layout="row" layout-align="start center" ng-click="alertHandler(alert.alert_handler)">
+                <i class="success material-icons md-avatar" ng-if="alert.type == 'success'">
+                    
+                </i>
+
+                <i class="warning material-icons md-avatar" ng-if="alert.type == 'error'">
+                warning
+                </i>
+                <i class="warning material-icons md-avatar" ng-if="alert.type == 'warning'">
+                    
+                </i>
+                <div class="md-list-item-text" layout="column">
+                    <h3>
+                        <strong>{{ alert.identifier | uppercase }}</strong>
+                    </h3>
+                    <p class="md-body-1">
+                        {{ alert.text}}
+                    </p>
+                </div>
+            </div>
+            <div flex="10" layout="row" layout-align="end center" style="margin-top:0px">
+                <md-button aria-label="update" class="md-icon-button" ng-click="read(alert.id)">
+                    <i class="material-icons">
+                        
+                    </i>
+                </md-button>
+            </div>
+        </md-list-item>
+    </md-list>
+</div> 
+
+
+<!-- Content section -->
+<div layout="row" layout-wrap="" ng-cloak="" class="top-gap-9 system-wraper">
+    <!-- Left Section -->
+    <div flex="50" layout="column">
+        <md-card md-theme-watch="">
+            <md-card-content>
+                <md-list-item>
+                    <span class="md-title">
+                        System Analyzer
+                    </span>
+                </md-list-item>
+                <md-list ng-cloak="">
+                    <div layout="row" class="no-top-gap">
+                        <md-subheader class="md-no-sticky" flex="60" layout="row" layout-align="start center">
+                            PHP Version & Extensions
+                        </md-subheader>
+                        <md-subheader class="md-no-sticky" flex="40" layout="row" layout-align="end center">
+                            Status
+                        </md-subheader>
+                    </div>
+                    <md-list-item ng-repeat="extension in extensions">
+                        <p layout-padding="" class="md-body-1">
+                            <a href="{{extension.installation}}" style="text-decoration: none; color: rgba(0,0,0,0.87);" target="_blank">
+                                <md-tooltip md-direction="right">
+                                    {{extension.details}}
+                                </md-tooltip>
+                                {{extension.name| ucfirst}}
+                            </a>
+                        </p>
+                        <md-button class="md-icon-button md-{{extension.status ? 'primary' : 'warn'}}">
+                            <i class="material-icons">
+                                {{extension.status ? '' : ''}}
+                            </i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+            <md-card-content>
+                <md-list ng-cloak="">
+                    <div layout="row" class="no-top-gap">
+                        <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                            Files/Folder Permissions
+                        </md-subheader>
+                        <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                            Status
+                        </md-subheader>
+                    </div>
+                    <md-list-item ng-repeat="file in fileSystem">
+                        <p layout-padding="">
+                            <span>
+                                <md-tooltip md-direction="right">
+                                    {{file.details}}
+                                </md-tooltip>
+                                {{file.file}}
+                            </span>
+                        </p>
+                        <md-button class="md-icon-button md-{{file.status ? 'primary' : 'warn'}}">
+                            <i class="material-icons">
+                                {{file.status ? '' : ''}}
+                            </i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+
+            <!-- Ram and Disk Space Analyzer-->
+            <md-card-content>
+                <div ng-if="!diskSystem.length" ng-class="{blurry : !diskSystem.length}">
+                    <md-list ng-cloak="">
+                        <div layout="row" class="no-top-gap">
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                System Resource
+                            </md-subheader>
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                                Status
+                            </md-subheader>
+                        </div>
+                    </md-list>
+                </div>
+                <div ng-if="diskSystem.length" ng-cloak="">
+                    <md-list>
+                        <div layout="row" class="no-top-gap">
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                System Resource
+                            </md-subheader>
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                                Status
+                            </md-subheader>
+                        </div>
+
+                        <div ng-repeat="item in diskSystem track by $index">
+                            
+                            <div layout="row" class="t-b-gap" style="height: 35px;">
+                                <div flex="50" layout="column" layout-align="center start">
+                                    <span class="md-body-1">
+                                        <md-tooltip md-direction="right">
+                                            {{item.toolTips}}
+                                        </md-tooltip>
+                                        {{item.details}}
+                                    </span>
+                                </div>
+                                <div flex="50" layout="column" layout-align="center end">
+                                    <span class="{{item.status ? 'setting-link' : 'warn'}} md-body-1">
+                                        <md-tooltip md-direction="right">
+                                            {{item.info}}
+                                        </md-tooltip>
+                                        <md-button ng-if="item.toolTips == 'PHPUser'" aria-label="Generate" class="md-icon-button md-secondary" ng-click="checkPHPUserPermission();">
+                                            <i class="material-icons">replay</i>
+                                        </md-button>
+                                        <b>{{ item.space }}</b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </md-list>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <!-- Configuration Analyzer-->
+        <md-card md-theme-watch="">
+            <div ng-class="{blurry : configLoader}">
+                <!-- <div layout="row" layout-sm="column" layout-align="center center" ng-if="configLoader" style="min-height: 280px;">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div> -->
+                <md-card-content>
+                    <md-list ng-cloak="">
+                        <md-list-item>
+                            <span class="md-title">
+                                Configuration Analyzer
+                            </span>
+                        </md-list-item>
+
+                        <md-list-item ng-if="!configs.length">
+                            <p layout-padding="" class="md-body-1" ng-class="{{config.importance == 0 ? 'warning' : 'danger'}}">
+                                <span>
+                                    All configurations seems okay!
+                                </span>
+                            </p>
+                            <md-button class="md-icon-button md-primary">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </md-button>
+                        </md-list-item>
+
+                        <div layout="row" class="no-top-gap" ng-if="configs.length">
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                Config
+                            </md-subheader>
+                            <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                                Priority
+                            </md-subheader>
+                        </div>
+                        <md-list-item ng-repeat="config in configs">
+                            <p layout-padding="" class="md-body-1" ng-class="{{config.importance == 0 ? 'warning' : 'danger'}}">
+                                <span class="md-body-1">
+                                    <!-- <md-tooltip md-direction="right">
+                                        {{config.importance == 0 ? 'Optional but important.' : 'Required'}}
+                                    </md-tooltip> -->
+                                    {{config.key| changeCase}}
+                                </span>
+                            </p>
+                            <md-button class="md-icon-button md-{{config.importance == 0 ? 'warn' : 'warn'}}">
+                                <i class="material-icons">
+                                    {{config.importance == 1 ? '' : ''}}
+                                </i>
+                            </md-button>
+                        </md-list-item>
+                        <div layout="row" class="recheck-row">
+                            <div class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                <a href="" class="md-primary md-hue-1 setting-link" ng-click="getConfigurationDetails();"> RECHECK </a>
+                                
+                            </div>
+                            <div class="md-no-sticky" flex="50" layout="row" layout-align="end center" ng-if="configs.length && showSetttingsRelatedThing">
+                                <a href="javascript:void(0);" ng-click="resolveErrors();" class="md-primary md-hue-1 setting-link"> RESOLVE ERRORS </a>
+                            </div>
+                        </div>
+                    </md-list>
+                </md-card-content>
+            </div>
+        </md-card>
+    </div>
+    <!-- Left Section end -->
+
+    <!-- Right Section -->
+    <div flex="50" layout="column">
+        <!-- Section : Enable Development Mode -->
+        
+        <md-card md-theme-watch="" ng-if="advanced_mode && showSetttingsRelatedThing">
+            <md-list-item class="card-cont-head">
+                <p class="">
+                    Enable Development Mode
+                </p>
+                <md-switch class="md-secondary" ng-change="updateDevMode();" ng-model="settings.development_mode">
+                </md-switch>
+            </md-list-item>
+            <md-card-content>
+                <md-list>
+                    
+                    <md-list-item ng-if="settings.development_mode" class="bottom-gap-15">
+                        <span class="md-body-1 md-primary setting-link">
+                            Development mode will expire in {{settings['counter']}}
+                        </span>
+                    </md-list-item>
+                    <md-list-item>
+                        <p class="md-body-1">
+                            Enabling Development Mode turns off caching for your site. All requests will be fetched from the origin server. Cloudflare will continue proxying to your origin server without caching any content.
+                        </p>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+        <!-- Section end -->
+
+        <!-- Section : Regenerate Config Files -->
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-title line-height-40" layout-align="center start">
+                        Regenerate Config Files
+                    </span>
+                </md-card-title-text>
+                <md-card-title-media layout-align="center end">
+                    <md-button aria-label="Generate" class="md-icon-button md-secondary md-accent right-shift-11" ng-class="{ spinner : spinner}" ng-click="generateRewriteFile();">
+                        <i class="material-icons">
+                            replay
+                        </i>
+                    </md-button>
+                </md-card-title-media>
+            </md-card-title>
+            <md-divider></md-divider>
+            <md-card-content class="padding-0">
+                <md-list ng-cloak="">
+                    <md-list-item layout-padding class="row-padding">
+                        <p class="md-body-1">
+                            Generate .htaccess
+                        </p>
+                        <md-button aria-label="Generate" class="md-icon-button md-secondary" ng-click="htaccessCodeModal();">
+                            <i class="material-icons">
+                                
+                            </i>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+        <!-- Section end -->
+
+        <!-- Section : Caching -->
+        <md-card ng-if="isJsMinifierExist">
+            <div ng-class="{ blurry : purgeLoader }">
+                <md-list-item class="caching-title">
+                    <div flex="50" layout-padding>
+                        <span class="md-title">
+                            Caching
+                        </span>
+                    </div>
+                    <div flex="50" layout="row" layout-align="end center">
+                        <md-button ng-disabled="(!caching.js && !caching.all) || purgeLoader" class=" md-raised md-primary strock-type-btn" ng-click="purgeCache();">Purge</md-button>
+                    </div>
+                </md-list-item>
+                <md-card-content class="padding-0">
+                    
+                    <md-list>
+                        <md-list-item class="cache-row">
+                            <div layout="row" flex="100" layout-padding layout-margin class="margin-right-0 margin-left-0">
+                                <md-checkbox ng-model="caching.js" aria-label="Javascript Cache">
+                                    Javascript Cache
+                                </md-checkbox>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="cache-row">
+                            <div layout="row" flex="100" layout-padding layout-margin class="margin-right-0 margin-left-0">
+                                <md-checkbox ng-model="caching.all" aria-label="Everything">
+                                    Everything
+                                </md-checkbox>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                        
+                </md-card-content>
+            </div>
+            
+        </md-card>
+        <!-- Section end -->
+
+        <!-- Section : Google Page Speed Report -->
+        <md-card in-view="getGooglePageSpeed(true);">
+            <div>
+                <md-card-content>
+                    <md-list ng-cloak="" ng-if="checkingDone">
+                        <md-list-item class="bottom-gap-15">
+                            <span class="md-title">
+                            Google Page Speed Report
+                        </span>
+                        </md-list-item>
+
+                        <div ng-if="!googlePageSpeedApi.status">
+                            <md-list-item class="bottom-gap-15">
+                                <span class="md-body-1">
+                                    Google Page Speed score is not available.
+                                </span>
+                            </md-list-item>
+                            <md-list-item class="bottom-gap-15" ng-if="showSetttingsRelatedThing">
+                                <p class="md-body-1">
+                                    Please follow the directions found in the Miscellaneous settings box on the <a href="#/settings#general_settings" class="setting-link">General Settings</a> tab.
+                                </p>
+                            </md-list-item>
+                        </div>
+
+                        <div ng-if="googlePageSpeedApi.status">
+                        
+                            <md-list-item class="bottom-gap-15">
+                                <span class="md-body-1">
+                                    Please click Analyze button to get the Page Speed.
+                                </span>
+                            </md-list-item>
+
+                            <!-- <div layout="row" class="no-top-gap" ng-if="pageSpeed.length">
+                                <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                    Device
+                                </md-subheader>
+                                <md-subheader class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                                    Score
+                                </md-subheader>
+                            </div> -->
+
+                            <div layout="row" class="t-b-gap" ng-if="!pageSpeed.length">
+                                <div flex="70" layout="column" layout-align="center start">
+                                    <span class="md-body-1">
+                                        Desktop
+                                    </span>                                
+                                </div>
+                                <div flex="30" layout="column" layout-align="center end">
+                                    <div class="circular-wrap">
+                                        <md-progress-circular md-mode="indeterminate" md-diameter="60px" ng-value="100"></md-progress-circular>
+                                        <div class="circular-value">{{ item.value }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div ng-repeat="item in pageSpeed">
+                                <div layout="row" class="t-b-gap">
+                                    <div flex="70" layout="column" layout-align="center start">
+                                        <span class="md-body-1">
+                                            {{item.key| changeCase}}
+                                        </span>                                
+                                    </div>
+                                    <div flex="30" layout="column" layout-align="center end">
+                                        <!-- <span class="md-body-1">
+                                            <b>{{ item.value }}</b> 
+                                        </span> -->
+
+                                        <div class="circular-wrap">
+                                            <md-progress-circular md-mode="determinate" value="{{ item.value }}"></md-progress-circular>
+                                            <div class="circular-value">{{ item.value }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div layout="row" class="recheck-row">
+                            <div class="md-no-sticky" flex="100" layout="row" layout-align="end center">
+                                <div class="md-no-sticky" flex="50" layout="row" layout-align="start center">
+                                    <!-- Loader -->
+                                    <!-- <a ng-if="googlePageSpeedApi.status && pageSpeedLoader" class="md-primary md-hue-1 setting-link"> PLEASE WAIT{{ pleaseWait }}</a>    -->
+                                    
+                                </div>
+
+                                <div class="md-no-sticky" flex="50" layout="row" layout-align="end center">
+                                    <a href="#/settings" ng-if="!googlePageSpeedApi.status" class="md-primary md-hue-1 setting-link"> CONFIGURE </a>                             
+                                    <a href="" ng-if="googlePageSpeedApi.status && !pageSpeedLoader && pageSpeed.length" class="md-primary md-hue-1 setting-link" ng-click="getGooglePageSpeed();">  ANALYZE  </a>
+                                    <a ng-if="googlePageSpeedApi.status && !pageSpeed.length || pageSpeedLoader" class="md-primary md-hue-1 setting-link"> PLEASE WAIT</a>  
+                                </div>
+                            </div>
+                        </div>
+                    </md-list>
+                </md-card-content>
+            </div>
+        </md-card>
+        <!-- Section end -->
+
+        <!-- Section : advertisement -->
+        <md-card ng-class="{ 'hide-googleAd' : !loadAdManager }">
+            <md-card-content class="adv-cell">
+<!--                <div class="googleAdmanagerWrapper" ng-attr-id='{{ GoogleAdManagerId }}' style='width: 389px; height: 250px;'></div>-->
+                    <a target="_blank" href="{{AdImgLink}}"><img src="{{AdImgSrc}}" /></a>
+            </md-card-content>
+        </md-card>
+        <!-- Section end -->
+
+        <!-- Section : Let us know what you think -->
+        <md-card>
+            <md-card-content>
+                <md-list ng-cloak="">
+                    <md-list-item class="bottom-gap-15">
+                        <span class="md-title">
+                            Let us know what you think
+                        </span>
+                    </md-list-item>
+                    <md-list-item class="bottom-gap-15">
+                        <p class="md-body-1" class="padding-left-0 padding-right-0">
+                            Enjoying Unify? Please support us by leaving a rating or share 
+                            <a href="javascript:void(0);" ng-click="openShareFeedBack();" class="setting-link">your feedback</a> so we can make Unify even better.
+                        </p>
+                    </md-list-item>
+                    <md-list-item flex="100" layout="row" layout-align="center center">
+                        <md-button class="margin-right-0 md-raised md-primary" ng-click="openShareFeedBack();">Share Feedback</md-button>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+        <!-- Section end -->
+
+    </div>
+    <!-- Right Section end -->
+</div>

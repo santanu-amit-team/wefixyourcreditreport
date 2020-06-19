@@ -1,0 +1,91 @@
+<div layout="row" class="wrap-top-gap">
+    <div md-whiteframe="3" flex="100" ng-show="paginationShow" layout-padding layout-margin style="background: white">
+        <div class="row-form-panel">
+            <div layout="row" layout-align="start center">
+                <md-input-container flex="20">
+                    <div class="col-wrapper">
+                        <md-select name="" ng-model="currentPage" placeholder="Pages" ng-change="getAdminLogs()">
+                            <md-option ng-repeat="pg in getpagesArray(pages) track by $index" value="{{$index + 1}}">
+                                Page {{$index + 1}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex="20">
+                    <div class="col-wrapper">
+                        <md-select ng-model="limit" placeholder="Show (50)" ng-change="changeLimit()">
+                            <md-option value="50">
+                                50
+                            </md-option>
+                            <md-option value="100">
+                                100
+                            </md-option>
+                            <md-option value="500">
+                                500
+                            </md-option>
+                            <md-option value="all">
+                                All
+                            </md-option>
+                        </md-select>
+                    </div>
+                </md-input-container>
+                <div flex="20"></div>
+
+                <div flex ="40" >
+                    <div class="col-wrapper">
+                        <input type="text" 
+                                name="Search" 
+                                class="input-global search-input ng-pristine ng-valid ng-empty ng-touched" 
+                                ng-model="searchText"  
+                                placeholder="Search " 
+                                aria-label="Search" 
+                                aria-invalid="false" 
+                                style="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ng-if="dataLoadComplete == true" -->
+
+    </div>
+</div>
+
+<div ng-init="getAdminLogs();" layout="row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <!-- ng-if="dataLoadComplete == true" -->
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="15" class="right-padding-20"><b>Event</b></div>
+            <div flex="30" class="right-padding-20"><b>Logs</b></div>
+			<div flex="20" class="right-padding-20"><b>IP Address</b></div>
+			<div flex="30" class="right-padding-20"><b>Created on</b></div>
+        </div>
+        <md-divider></md-divider>
+        <div layout = "row" layout-align="end center" ng-repeat-start="data in lists| filter:{logs: searchText} as Result">
+            <div flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                {{ data.id }}
+            </div>
+            <div flex="15" class="right-padding-20" >
+                <span class="word-limits">
+                    {{ data.event }}
+                </span>
+            </div>
+            <div flex="30" class="right-padding-20" ng-init="clickbasedlog = data.clickedBased.leadPage.visited">
+                <span class=" word-limits">
+				    {{ data.logs}} 
+                </span>               
+            </div>
+            <div flex="20" class="right-padding-20" ng-init="prospectlog = data.clickedBased.checkoutPage.visited">
+				{{ data.ipAddress }}
+            </div>
+            <div flex="30" class="right-padding-20" ng-init="checkoutlog = data.checkoutPage.visited">
+				{{ data.created_on | date:'medium' }}
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

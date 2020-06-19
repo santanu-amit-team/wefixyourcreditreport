@@ -1,0 +1,35 @@
+<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <div class="row-form-panel" layout="column">
+        <div layout="row">
+            <div flex="5" layout="column" flex="nogrow" layout-align="center" ng-if="actionOff === false">
+                <div class="col-wrapper">
+                    <md-checkbox aria-label="All select" ng-checked="isChecked()" ng-click="toggleAll()" > </md-checkbox>
+                </div>
+            </div>
+            <md-input-container flex="25" ng-if="actionOff === false">
+                <div class="col-wrapper">
+                    <md-select name="action" ng-model="filter.action" placeholder="Action" aria-label="Action" ng-change="actionMethodCall(filter.action);">
+                        <md-option ng-repeat="action in filterActions" value="{{action.key}}">{{action.val}}</md-option>
+                    </md-select>   
+                </div>
+            </md-input-container>
+            <md-input-container flex="35">
+                <div class="col-wrapper">
+                    <md-select name="filter_type" ng-model="filter.type" aria-label="Type" ng-change="typeSelect($event);">
+                        <md-option ng-repeat="type in filterTypes" value="{{type.key}}">{{type.val}}</md-option>
+                    </md-select>   
+                </div>
+            </md-input-container>
+            <div flex="100" flex-gt-sm="55" layout="column" class="search-input-form-col p-l-100" ng-if="actionOff === false">
+                <div class="col-wrapper">
+                    <input type="text" name="Search" class="input-global search-input" ng-model="filter.search" ng-change="searchRow($event);" placeholder="{{ searchPlaceholder }}" aria-label="Search">
+                </div>
+            </div>
+            <div flex layout="column" class="search-input-form-col p-l-100" ng-if="actionOff === true">
+                <div class="col-wrapper">
+                    <input type="text" name="Search" class="input-global search-input" ng-model="filter.search" ng-change="searchRow($event);" placeholder="Search" aria-label="Search">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<!-- <div layout="row" layout-alignment="start center">
+    <input accept=".csv" class="ng-hide" id="fileInput" name="file" type="file">
+        <md-button aria-label="attach_file" class="md-icon-button md-primary" id="uploadButton" ng-disabled="csvUploadBtn" style="margin-top: 14px;">
+            <i class="material-icons">
+                file_upload
+                <md-tooltip md-direction="top">
+                    Upload CSV
+                </md-tooltip>
+            </i>
+        </md-button>
+        <md-input-container flex>
+            <input id="textInput" ng-disabled="true" ng-model="fileName" placeholder="Select CSV file" type="text">
+            </input>
+        </md-input-container>
+    </input>
+</div> -->
+
+<div class="date-pick-wrap">
+    <choose-file>
+        <input accept=".csv" id="fileInput" type="file" class="ng-hide" name="file">
+            <md-input-container flex class="md-block">
+                <input type="text" ng-model="fileName" id="textInput" ng-disabled="true">
+            </md-input-container>
+            <div class="choose-icon">
+                <md-button aria-label="attach_file" id="uploadButton" ng-disabled="csvUploadBtn" class="md-fab md-mini">
+                    <md-icon class="material-icons">
+                            file_upload
+                    </md-icon>
+                </md-button>
+            </div>
+        </input>
+    </choose-file> 
+</div>

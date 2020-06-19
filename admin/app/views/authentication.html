@@ -1,0 +1,20 @@
+<div layout="column" layout-align="center">
+    <md-content class="f1f1f1">
+		<form name="AuthForm" ng-submit="SubmitForm()" novalidate>
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div layout="row">
+					<md-input-container flex>
+						<label for="access_code">Access Code</label>
+						<input type="text" name="access_code" ng-model="auth.access_code" required>
+					</md-input-container>
+				</div>
+				<div layout="row" layout-align="end center">
+					<label for=""></label>
+					<md-button  type="submit" class="margin-left-0 md-primary" ng-disabled="AuthForm.$invalid">Login</md-button>
+					
+				</div>
+				
+			</div>
+		</form>
+    </md-content>
+</div>

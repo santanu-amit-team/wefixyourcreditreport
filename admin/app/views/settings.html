@@ -1,0 +1,784 @@
+<div id="defualt"></div>
+<!-- version -->
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+	<div flex layout-align="start center">
+		<version-list class="padding-left-0" name="settings" scope-obj="settings"></version-list>
+	</div>
+</div>
+<!-- version -->
+
+<!-- Form -->
+<div layout="row" layout-align="center">
+	<md-content class="f1f1f1" flex>
+		<form name="SettingsForm" ng-submit="SubmitForm()" novalidate>
+
+            <!-- <div class="overlay" ng-if="showNextPrevBtn"></div> -->
+            <div class="fixedbutton btn-group-vertical" ng-if="false" layout="column" md-whiteframe="3" style="background: white">
+                    <!-- ng-if="showNextPrevBtn" ng-if="prevSection >= 0" ng-if="nextSection" -->
+                
+                <md-button class="md-icon-button md-primary" ng-if="prevSection >= 0"  ng-click="prevIssue();">
+                    <i class="material-icons">
+                            keyboard_arrow_up
+                    </i>
+                </md-button>
+                <md-button class="md-icon-button md-primary" ng-if="nextSection" ng-click="nextIssue();">
+                    <i class="material-icons">
+                        keyboard_arrow_down
+                    </i>
+                </md-button>
+                <md-button class="md-icon-button md-primary" ng-click="clearIssues();">
+                    <i class="material-icons">
+                        done
+                    </i>
+                </md-button>
+            </div>
+            
+            <!-- License Information -->
+            <!-- ng-class="{ showaboveoverlay : section === 'license_key' }" -->
+            <div id="license_key"  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>License Information</p></div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <div layout="row" class="gap-top-5">
+                                    <div flex="30" layout="column" layout-align="center">
+                                        <label for="" ng-class="{ 'required_field' : highlight.indexOf('license_key') > -1 }">Enter License Key Here <span class='required_field'>*</span></label>
+                                    </div>
+                                    <div flex="70" ng-if="verify_status" layout="column" layout-align="center end">
+                                        <label style="color: {{color_code}}" ng-bind-html="verify_status_text" for=""></label>    
+                                    </div>
+                                </div>
+
+
+                                <div ng-click="LicenseKeyReadOnly = false" class="div-wrapper">
+                                    <textarea class="input-area padding-15" rows="5" name="license_key" ng-change="verify_status = false; SettingsForm.$invalid = true;" ng-model="settings.license_key" ng-disabled="LicenseKeyReadOnly" required></textarea>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" class="gap-top-5">
+                        <div flex="80" layout="column" layout-align="center">
+                            <div class="col-wrapper">
+                                <p>Request license key from Unify Support</p>
+                            </div>
+                        </div>
+                        <div flex="20" layout="column" layout-align="center end" ng-if="loaderVerifyLK">
+                            <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+                        </div>
+
+                        <div flex="20" layout="column" layout-align="center end" ng-if="!loaderVerifyLK">
+                            <div class="col-wrapper">
+                                <md-button class="margin-right-0 md-raised md-primary" layout-align ng-click="verifyLicense()">Verify</md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unfiy Authentication Key-->
+            <div id="authentication_key"  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>
+                            Unify API Details
+                        </p>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+
+                                    <div layout="row" class="gap-top-5">
+                                        <div flex="30" layout="column" layout-align="center">
+                                            <label for="" ng-class="{ 'required_field' : highlight.indexOf('authentication_key') > -1 }">
+                                                Enter API Key Here <span class='required_field'>*</span>
+                                                <span class="test-tooltip" aria-label="Refresh">
+                                                    <md-tooltip md-direction="right">
+                                                        Unify API key can be found in Unify platform backend.
+                                                    </md-tooltip>
+                                                    <i class="material-icons">help_outline</i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                <div ng-click="AuthKeyReadOnly = false" class="div-wrapper">
+                                    <textarea class="input-area padding-15" rows="5" name="authentication_key" ng-model="settings.unify_authentication_key" ng-disabled="AuthKeyReadOnly" required></textarea>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Settings -->
+            <!-- ng-class="{ showaboveoverlay : section === 'general_settings' }" -->
+			<div id="general_settings"  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>General Settings</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="domain" ng-class="{ 'required_field' : highlight.indexOf('domain') > -1 }">
+                                    Domain Name <span class='required_field'>*</span>
+                                </label>  
+                                <input type="text" name="domain" ng-model="settings.domain" ng-required="true">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="offer_path" ng-class="{ 'required_field' : highlight.indexOf('offer_path') > -1 }">
+                                    Offer Path
+                                </label>  
+                                <input type="text" name="offer_path" ng-model="settings.offer_path" ng-required="isRequired" ng-pattern="pattern">
+                            </div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="app_timezone">Timezone <span class='required_field'>*</span></label>
+                                <md-select name="app_timezone" ng-model="settings.app_timezone" required>
+                                    <md-option ng-repeat="zone in timezone_identifiers_list" value="{{zone}}">{{zone}}</md-option>
+                                </md-select>
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="">Allowed Countries <span class='required_field'>*</span></label>
+                                <md-select name="allowed_country_codes" ng-model="settings.allowed_country_codes" ng-required="true" multiple>
+                                    <md-option ng-repeat="c in countryList" value="{{c.iso}}">{{c.country}}</md-option>
+                                </md-select>
+                            </div>
+						</md-input-container>
+					</div>
+					<div flex="100" flex-gt-sm="50" layout="row">
+                        <div class="col-wrapper">
+                          <md-checkbox ng-model="settings.enable_browser_back_button" aria-label="Back Button Checkbox">
+                            Enable Browser Back Button
+                          </md-checkbox>
+                        </div>
+                    </div>
+                    <div flex="100" flex-gt-sm="50" layout="row">
+                        <div class="col-wrapper">
+                          <md-checkbox ng-model="settings.allow_global_session" aria-label="Global Session Checkbox">
+                            Allow Global Session 
+                          </md-checkbox>
+                        </div>
+                    </div>
+                    <div flex="100" flex-gt-sm="50" layout="row">
+                        <div class="col-wrapper">
+                          <md-checkbox ng-model="settings.disable_trialoffer_cardexp" aria-label="Disable Trial Offer Card Expiration">
+                             Disable Trial Offer Card Expiration 
+                          </md-checkbox>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+			<!-- old -->
+
+			<!-- <div md-whiteframe="3" layout-margin  style="background: white">
+				<md-list class="custom_list">
+					<md-list-item>
+						<p class="md-body-1">Enable Affiliates</p>
+						<md-switch class="md-secondary" ng-model="settings.enable_affiliates"></md-switch>
+					</md-list-item>
+					<md-divider></md-divider>
+					<md-list-item>
+						<p class="md-body-1">Enable Rotators</p>
+						<md-switch class="md-secondary" ng-model="settings.enable_rotators"></md-switch>
+					</md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item>
+						<p class="md-body-1">Enable Browser Back Button</p>
+						<md-switch class="md-secondary" ng-model="settings.enable_browser_back_button"></md-switch>
+					</md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item>
+						<p class="md-body-1">Disable Trail Offer Card Expiration</p>
+						<md-switch class="md-secondary" ng-model="settings.disable_trialoffer_cardexp"></md-switch>
+					</md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item>
+						<p class="md-body-1">Allow Global Session</p>
+						<md-switch class="md-secondary" ng-model="settings.allow_global_session"></md-switch>
+					</md-list-item>
+				</md-list>
+			</div> -->
+
+			<!-- old -->
+			
+			<!-- Database Settings -->
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Database Settings</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_host">Database Engine</label>  
+                                <md-select name="campaign_type" ng-model="settings.db_engine">
+                                    <md-option ng-repeat="engine in dbEngineList" value="{{engine.value}}">{{engine.label}}</md-option>
+                                </md-select> 
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_host">Database Host</label>  
+                                <input type="text" ng-pattern="" name="db_host" ng-model="settings.db_host" ng-change="settings.db_verify = false">
+                            </div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_username">Database Username</label>  
+                                <input type="text" ng-pattern="" name="db_username" ng-model="settings.db_username" ng-change="settings.db_verify = false">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_password">Database Password</label>
+                                <input type="text" ng-pattern="" name="db_password" ng-model="settings.db_password" ng-change="settings.db_verify = false">
+                            </div>
+						</md-input-container>
+					</div>
+
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_name">Database Name</label>   
+                                <input type="text" ng-pattern="" name="db_name" ng-model="settings.db_name" ng-change="settings.db_verify = false">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="db_port">Database Port</label>   
+                                <input type="text" name="db_port" ng-model="settings.db_port">
+                            </div>
+						</md-input-container>
+					</div>
+					<div layout="row" layout-align="end center">
+                        <div class="col-wrapper">
+                            <md-progress-circular md-mode="indeterminate" ng-if="loaderVerify"></md-progress-circular>
+                            <!-- <md-button ng-disabled="true" ng-if="settings.db_verify && !loaderVerify"> -->
+                                <span ng-if="settings.db_verify && !loaderVerify" class="verified-check green-cell">
+                                <i class="success material-icons">
+                                    &#xE876;
+                                </i> Verified
+                                </span>
+                            <!-- </md-button> -->
+                            <!-- <md-button class="margin-left-0 md-primary" ng-click="checkDatabaseConnection();" ng-if="!settings.db_verify && !loaderVerify">Verify</md-button> -->
+                            <md-button class="md-primary md-raised" ng-click="checkDatabaseConnection();" ng-if="!loaderVerify">Check Connection</md-button>
+                        </div>
+					</div>	
+				</div>
+			</div>
+
+			<!-- Data Capture Settings -->
+			<div md-whiteframe="3" layout-padding layout-margin style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Data Capture Settings</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="encryption_key">
+                                    Encryption Key
+                                </label>  
+                                <input type="text" name="encryption_key" ng-model="settings.encryption_key" ng-required="isRequired" ng-pattern="pattern">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="data_expiration_time">
+                                    Data Expiration Time (in days)
+                                </label>  
+                                <input type="text" name="data_expiration_time" ng-model="settings.data_expiration_time" ng-required="isRequired">
+                            </div>
+						</md-input-container>
+					</div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="gateway_switcher_id">
+                                    3rd Party Provider (i.e. Almost20 Instance ID)
+                                </label>  
+                                <input type="text" name="gateway_switcher_id" ng-model="settings.gateway_switcher_id" ng-required="isRequired" ng-pattern="pattern">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50"></md-input-container>
+					</div>
+				</div>
+			</div>
+
+			<!-- Site Settings -->
+			<div md-whiteframe="3" layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title bottom-gap-0" layout-padding>Site Settings</p></div>
+				</div>
+				<div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.force_https"><h2 class="mat-h2">Force HTTPS</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+							     <md-switch class="right-shift" ng-model="settings.force_https_based_on_env"><h2 class="mat-h2">Force HTTPS Based On Env</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+							     <md-switch class="right-shift" ng-model="settings.force_www"><h2 class="mat-h2">Force WWW</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+				                <md-switch class="right-shift" ng-model="settings.enable_browser_caching"><h2 class="mat-h2">Enable Browser Caching</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+							<md-switch class="right-shift" ng-model="settings.disable_cache_header"><h2 class="mat-h2">Disable Cache Header</h2></md-switch>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+							     <md-switch class="right-shift" ng-model="settings.enable_gzip_compression"><h2 class="mat-h2">Enable Gzip Compression</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+
+			<!-- Email Settings -->
+			<div md-whiteframe="3" layout-padding layout-margin style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Email Settings</p></div>
+					<div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="from_email">
+                                    From Email (Verified in SMTP)
+                                </label>
+                                <input type="text" name="from_email" ng-model="settings.from_email">
+                            </div>
+						</md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="from_name">
+                                    From Name
+                                </label>
+                                <input type="text" name="from_name" ng-model="settings.from_name">
+                            </div>
+						</md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_name">
+                                    SMTP Name
+                                </label>
+                                <input type="text" name="smtp_name" ng-model="settings.smtp_name">
+                            </div>
+						</md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_host">
+                                    SMTP Host
+                                </label>
+                                <input type="text" name="smtp_host" ng-model="settings.smtp_host">
+                            </div>
+						</md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_port">
+                                    Port
+                                </label>
+                                <input type="text" name="smtp_port" ng-model="settings.smtp_port">
+                            </div>
+						</md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_username">
+                                    Username
+                                </label>
+                                <input type="text" name="smtp_username" ng-model="settings.smtp_username">
+                            </div>
+						</md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_password">
+                                    Password
+                                </label>
+                                <input type="text" name="smtp_password" ng-model="settings.smtp_password">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="smtp_mode">SMTP Mode</label>
+                                <md-select name="smtp_mode" ng-model="settings.smtp_mode">
+                                    <md-option ng-repeat="mode in [ 'ssl' , 'tls']" value="{{  mode }}">{{ mode| uppercase }}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <div flex layout="row" layout-align="end center" class="single-btn">
+                            <div class="col-wrapper">
+                                <md-progress-circular md-mode="indeterminate" ng-if="loaderSmtpVerify"></md-progress-circular>
+                                    <span ng-if="settings.smtp_verify && !loaderSmtpVerify" class="verified-check green-cell">
+                                    <i class="success material-icons">
+                                        &#xE876;
+                                    </i> Verified
+                                    </span>
+                                <md-button class="md-primary md-raised" ng-click="checkSMTP();" ng-if="!loaderSmtpVerify">Check SMTP</md-button>
+                            </div>
+						</div>
+                    </div>
+				</div>
+			</div>
+
+			<!-- Mobile Device Settings -->
+			<div md-whiteframe="3" layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Mobile Device Settings</p></div>
+                    <div layout="row">
+						<div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+							     <md-switch class="right-shift" ng-model="settings.enable_mobile_version"><h2 class="mat-h2">Enable Separate Mobile Template</h2></md-switch>
+                            </div>
+						</div>
+					</div>
+					<div class="row-form-panel" ng-if="settings.enable_mobile_version">
+						<div layout="row" class="md-toolbar-tools">
+	                        <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="mobile_path">
+                                        URL Path <span class='required_field'>*</span>
+                                    </label>
+                                    <input type="text" name="mobile_path" ng-model="settings.mobile_path" ng-required="settings.mobile_path">
+                                </div>
+							</md-input-container>
+	                        <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="mobile_template_path">
+                                        Template Path 
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">
+                                                Leave blank for default path.
+                                            </md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span>
+                                    </label>
+                                    <input type="text" name="mobile_template_path" ng-model="settings.mobile_template_path">
+                                </div>
+							</md-input-container>
+							<!-- <md-input-container flex>
+								<label for="mobile_path">
+									Mobile Path
+								</label>
+								<input type="text" name="mobile_path" ng-model="settings.mobile_path" ng-required="settings.enable_mobile_version">
+							</md-input-container> -->
+	                    </div>
+					</div>
+				</div>
+				<div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.mobile_version_only"><h2 class="mat-h2">Mobile Version Only</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.redirect_tablet_screen"><h2 class="mat-h2">Redirect Tablet Sized Screen to Mobile Version</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.allow_direct_access"><h2 class="mat-h2">Allow Direct Access</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CDN Service Settings -->
+			<div md-whiteframe="3" layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>CDN Settings</p></div>
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.enable_cdn">
+                                    <h2 class="mat-h2">Enable CDN</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="settings.enable_alternate_cdn_path">
+                                    <h2 class="mat-h2">Enable Alternate CDN Path</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row" >
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="cdn_basepath">
+                                    CDN Basepath
+                                </label>
+                                <input type="text" name="cdn_basepath" ng-model="settings.cdn_basepath">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="image_cdn_path">
+                                    Image CDN Path
+                                </label>
+                                <input type="text" name="image_cdn_path" ng-model="settings.img_cdn_path">
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="css_cdn_path">
+                                    CSS CDN Path
+                                </label>
+                                <input type="text" name="css_cdn_path" ng-model="settings.css_cdn_path">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="js_cdn_path">
+                                    JS CDN Path
+                                </label>
+                                <input type="text" name="js_cdn_path" ng-model="settings.js_cdn_path">
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+			<!-- old -->
+			<!-- <p class="md-title" layout-padding>CDN</p>
+			<div md-whiteframe="3" layout-margin  style="background: white">	
+				<md-list class="custom_list">
+					<md-list-item>
+						<p class="md-body-1">Enable CDN</p>
+						<md-switch class="md-secondary" ng-model="settings.enable_cdn"></md-switch>
+					</md-list-item>
+					<md-divider></md-divider>
+					<md-list-item>
+						<p class="md-body-1">Enable Alternate CDN Path</p>
+						<md-switch class="md-secondary" ng-model="settings.enable_alternate_cdn_path"></md-switch>
+					</md-list-item>
+				</md-list>
+			</div>
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div layout="row">
+					<md-input-container flex>
+						<label for="cdn_basepath">
+							CDN Basepath
+						</label>  
+						<input type="text" name="cdn_basepath" ng-model="settings.cdn_basepath" ng-required="isRequired" ng-pattern="pattern">
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="img_cdn_path">
+							Image CDN Path
+						</label>  
+						<input type="text" name="img_cdn_path" ng-model="settings.img_cdn_path" ng-required="isRequired" ng-pattern="pattern">
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="css_cdn_path">
+							CSS CDN Path
+						</label>  
+						<input type="text" name="css_cdn_path" ng-model="settings.css_cdn_path" ng-required="isRequired" ng-pattern="pattern">
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="js_cdn_path">
+							JS CDN Path
+						</label>  
+						<input type="text" name="js_cdn_path" ng-model="settings.js_cdn_path" ng-required="isRequired" ng-pattern="pattern">
+					</md-input-container>
+				</div>
+
+			</div> -->
+			<!-- old -->
+
+			<!-- Card Settings -->
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Card Settings</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="allowed_card_types">Allowed Card Types <span class='required_field'>*</span></label>
+                                <md-select name="allowed_card_types" ng-model="settings.allowed_card_types" multiple ng-required="true">
+                                    <md-option ng-repeat="card in cardTypes" value="{{card[0]}}">{{card[1]}}</md-option>
+                                </md-select>
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="maximum_decline_attempts">Maximum Decline Attempts Per Session</label>
+                                <input type="text" name="maximum_decline_attempts" ng-model="settings.maximum_decline_attempts">
+                            </div>
+						</md-input-container>
+					</div>
+                    <div class="col-wrapper"><p class="margin-bottom-0"><label for="allowed_test_cards">Add Test Cards</label></p></div>
+					<div ng-if="settingsLoadComplete == true">
+                        <div class="col-wrapper">
+						  <add-remove-input name="settings" scope-obj="settings" scope-update-key="allowed_test_cards" empty-msg="Please enter test card" duplicate-msg="Card already exists" input-placeholder="{CARDNUMBER}|{CARDTYPE}" validation-key="validation" data-separator="{{allowed_test_cards_separator}}" theme="1" classes="side-wrapper"></add-remove-input>
+                        </div>
+					</div>
+				</div>
+			</div>
+
+            <!-- Support Settings -->
+            <!-- ng-class="{ showaboveoverlay : section === 'support_settings' }" -->
+			<div id="support_settings"  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Support Settings</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="customer_support_email" ng-class="{ 'required_field' : highlight.indexOf('support_email') > -1 }">
+                                    Support Email
+                                </label>  
+                                <input type="text" name="customer_support_email" ng-model="settings.customer_support_email" ng-required="isRequired" ng-pattern="pattern">
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="customer_service_number" ng-class="{ 'required_field' : highlight.indexOf('support_number') > -1 }">
+                                    Service Number
+                                </label>  
+                                <input type="text" name="customer_service_number" ng-model="settings.customer_service_number" ng-required="isRequired" ng-pattern="pattern">
+                            </div>
+						</md-input-container>
+					</div>
+
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="hours_of_operation">
+                                    Operation Hours 
+                                </label>  
+                                <input type="text" name="hours_of_operation" ng-model="settings.hours_of_operation">
+                                <!-- <textarea name="hours_of_operation" ng-model="settings.hours_of_operation"></textarea> -->
+                            </div>
+						</md-input-container>
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="error_email_addresses">
+                                    Error Reporting Email Address
+                                </label>
+                                <input type="text" name="error_email_addresses" ng-model="settings.error_email_addresses">
+                                <!-- <textarea name="error_email_addresses" ng-model="settings.error_email_addresses" ></textarea> -->
+                            </div>
+						</md-input-container>
+						
+					</div>
+
+					<div layout="row">
+						<fg text="'Return Address'" flex="50" label="'return_address'">
+                            <!-- <md-input-container flex>
+                                <label for="return_address">
+                                    Return Address
+                                </label>   -->
+                                <textarea class="input-area padding-15" rows="5" name="return_address" ng-model="settings.return_address" ></textarea>
+                            <!-- </md-input-container> -->
+						</fg>
+
+						<fg text="'Corporate Address'" flex="50" label="'corporate_address'">
+							     <textarea class="input-area padding-15" rows="5" name="corporate_address" ng-model="settings.corporate_address"></textarea>
+						</fg>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Validations -->
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div class="row-form-panel">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Validations</p></div>
+					<div layout="row">
+						<md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="">Show Validation Errors <span class='required_field'>*</span></label>
+                                <md-select name="show_validation_errors" ng-model="settings.show_validation_errors" required>
+                                    <md-option ng-repeat="var in validation_errors" value="{{var}}">{{var | uppercase}}</md-option>
+                                </md-select>
+                            </div>
+						</md-input-container>
+                        <md-input-container flex><div class="col-wrapper"></div></md-input-container>
+					</div>
+                    <div class="col-wrapper"><p class="margin-bottom-0"><label for="allowed_card_types">Country Specific Labels</label></p></div>
+					<div ng-if="settingsLoadComplete == true">
+                        <div class="col-wrapper">
+						  <add-remove-input name="settings" scope-obj="settings" scope-update-key="country_lang_mapping" empty-msg="Please enter mapping properly" duplicate-msg="Duplicate mapping not allowed" input-placeholder="{COUNTRYCODE}|{STATE}|{ZIP}" validation-key="validation" data-separator="{{country_lang_mapping_separator}}" theme="1" classes="side-wrapper"></add-remove-input>
+                        </div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Submit button -->
+			<div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="SettingsForm.$submitted || SettingsForm.$invalid || validationMethod() === false">{{SettingsForm.$submitted ? 'Saving...' : 'Save Changes'}}</md-button>
+                </div>        
+            </div>
+
+		</form>
+	</md-content>
+</div>

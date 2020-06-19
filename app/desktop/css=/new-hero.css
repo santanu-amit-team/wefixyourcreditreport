@@ -1,0 +1,155 @@
+.cr-hero-main {
+    background: #fff;
+    background-size: contain;
+    height: 550px;
+    border-bottom: 1px solid #f2f2f2;
+}
+.hero-boundaries {
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}  
+.cr-hero-main .hero-container {
+    position: relative;
+    height: 550px;
+    padding: 0;
+    background: #fff;
+    width: 45%;
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+}
+.hero-img {
+    background: url(../images/hero3.jpg) no-repeat top center;
+    background-size: cover;
+    display: inline-block;
+    width: 54%;
+    height: 550px;
+}
+.button-wrapper-mobile {
+    display: none;
+}
+    
+.cr-hero-main p.heading {
+    font-family: work-sans, sans-serif;
+    font-size: 35px;
+    line-height: 44px;
+    margin: 0px auto;
+    max-width: 300px;
+    font-weight: 300;
+    text-align: left;
+    text-transform: uppercase;
+    padding-top: 35px;
+    color: #9e59e9;
+}
+    
+.cr-hero-main .heading-bold {
+    font-family: work-sans, sans-serif;
+    display: block;
+    padding-top: 40px;
+}
+.cr-hero-main .hero-btn-container {
+    margin: 35px auto 0;
+    max-width: 300px;
+}        
+.button-wrapper {
+    max-width: 250px;
+}
+.cr-hero-main p.sub-header {
+    color: #444;
+    margin: 0 auto 20px;
+    font-size: 20px;
+}
+.hero-container a.signup-online {
+    color: #444;
+}
+.hero-container a.signup-online:before {
+    background-color: #444;
+}
+    
+@media only screen and (max-width: 885px) {
+    .cr-hero-main p.sub-header {
+        margin: 0px auto 20px;
+    }
+}
+
+@media only screen and (max-width: 850px) { 
+    .cr-hero-main .hero-container {
+        width: calc( 45% - 40px );
+        padding: 0 20px;
+    }
+}
+    
+@media only screen and (max-width: 768px) {    
+    .cr-hero-main p.heading {
+        font-size: 28px;
+    }
+    .cr-hero-main .heading-bold {
+        font-size: 32px;
+    }
+}
+    
+@media only screen and (max-width: 650px) { 
+    .cr-hero-main {
+        background: #fff;
+        background-size: cover;
+        height: auto;
+    }
+    .hero-boundaries {
+        padding: 0;
+        background: url(../images/hero3-mobile.jpg) no-repeat top center;
+        background-size: 100% auto;
+    }
+    .cr-hero-main .hero-container {
+        display: block;
+        width: auto;
+        background: transparent;
+        height: 520px;
+        padding: 0 30px;
+    }
+    .hero-img {
+        display: none;
+    }
+    .button-wrapper-mobile { 
+        display: block;
+        background: #9e59e9;
+        padding: 20px;
+        text-align: center;
+    }
+    .button-wrapper-mobile .button-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    .cr-hero-main p.sub-header { 
+        color: #fff;
+    }
+    .cr-hero-main p.heading {
+        max-width: 350px;
+        padding-top: 0;
+    }
+    .cr-hero-main .heading-bold {
+        padding-top: 20px;
+    }
+    .button-wrapper {
+        margin: 0 auto;
+    }
+    .cr-hero-main .hero-btn-container {
+        display: none;
+    }
+}
+    
+@media only screen and (max-width: 550px) { 
+    .hero-boundaries {
+        background-size: cover;
+    }
+}
+    
+@media only screen and (max-width: 479px) { 
+    .cr-hero-main { padding-top: 50px;}
+    .cr-hero-main .hero-container { padding: 0 20px; }
+    .cr-hero-main p.heading { font-size: 24px; line-height: 33px; }
+    .cr-hero-main .heading-bold { font-size: 28px; }
+}
+
+

@@ -1,0 +1,113 @@
+<style>
+    .title-upsell-manager{
+        font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+    .ta-button-group:nth-of-type(4){
+        display: none;
+    }
+    .token-info{
+        float: left;
+        /* display: none; */
+        letter-spacing: 1px;
+        font-weight: 400;
+        padding: 5px;
+    }
+    .templateChooserBox{
+            position: absolute;
+    width: 156px;
+    left: 57%;
+    top: 10px;
+    background: #E0E0E0;
+    }
+    
+.alert-popup{
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 200px;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    }
+    .alert-popup-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .alert-confirm-box{
+        position: absolute;
+    background: #fff;
+    width: 38%;
+    padding: 31px;
+    /* margin: 0 auto; */
+    left: 33%;
+    top: 31%;
+    box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 13px 19px 2px rgba(0,0,0,.14), 0 5px 24px 4px rgba(0,0,0,.12);
+    border-radius: 4px;
+    }
+    .alert-confirm-box h3{
+        font-size: 22px;
+        margin-top: 0px;
+    }
+    .alert-confirm-box p{
+        font-size: 16px;
+    }
+    .alert-btn{
+        float: right;
+    }
+</style>
+<md-dialog flex  ng-controller="UpsellManagerPopup" style="position:relative;">
+    <md-dialog-content>
+        
+        <div class="md-dialog-content" >
+            <div layout="row" >
+            <label class="title-upsell-manager">HTML Content *
+            </label>
+            </div>
+            <md-content flex style="position:relative;">
+                <select class="templateChooserBox" ng-change="replaceTeam()" 
+                        ng-model="upsellManageTemplate.prebuiltTemplateContent">
+<!--                    <option value="100">Default Template </option>-->
+                    <optgroup label="select Template">
+                        <option value="100">Select Template </option>
+                    </optgroup>
+                    <!--<option value="0">Select Template</option>-->
+                    <optgroup label="Single Product Template" ng-if="prebulitTemplates['single_product'].length > 0">
+                        <option value="{{snglTmp.id}}" 
+                                ng-repeat="snglTmp in prebulitTemplates['single_product'] track by $index">Template #{{$index+1}}</option>
+                    </optgroup>
+                    <optgroup label="Multi Product Template" ng-if="prebulitTemplates['multi_product'].length > 0">
+                        <option value="{{multTmp.id}}" 
+                                ng-repeat="multTmp in prebulitTemplates['multi_product'] track by $index">Template #{{$index+1}}</option>
+                    </optgroup>
+                </select>
+                <!--<text-angular  name="content" required ng-model="content"></text-angular>-->
+<!--<div ckeditor="options" ng-model="content">-->
+    <textarea ckeditor="options" ng-model="content"></textarea>
+
+            </md-content>
+            <div class="token-info">
+                <b>Tokens: </b>[[firstName]], [[lastName]], [[email]], [[phone]], [[shippingCity]], [[shippingState]], [[shippingCountry]], [[PRODUCT_TITLE]], [[PRODUCT_PRICE]], [[LOOP_START]], [[LOOP_END]]
+                <br><b>Actions: </b>[[SUBMIT_BUTTON]], [[SKIP_BUTTON]]
+</div>
+            <md-button ng-click="closeModal();" style="float:right;margin-bottom: 18px;" class="md-primary md-raised" type="button">Done</md-button>
+        </div>
+        
+        
+    </md-dialog-content>
+    <div class="alert-popup" ng-if="upsellManageTemplate.alert">
+    <div class="alert-popup-container">
+    <div class="alert-confirm-box">
+        <h3>Confirm HTML Replace
+</h3>
+<p>Current HTML will be replaced by default HTML. Proceed?</p>
+<md-button ng-click="overrideHtml();"  class="md-primary md-raised alert-btn" type="button">OK</md-button>
+<md-button class="md-raised alert-btn" ng-click="cancelPopup()">Cancel</md-button>
+
+
+    
+    </div>
+    </div>
+        </div>
+</md-dialog>

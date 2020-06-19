@@ -1,0 +1,1 @@
+<h1>Privacy policy page</h1>

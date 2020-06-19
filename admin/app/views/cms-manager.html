@@ -1,0 +1,110 @@
+<!-- version -->
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+	<div flex layout-align="start center">
+		<version-list class="padding-left-0" name="cms" scope-obj="content"></version-list>
+	</div>
+</div>
+<!-- version -->
+
+<div layout="row" layout-align="center" class="wrap-top-gap">
+    <md-content class="f1f1f1" flex>
+    	<form name="cmsForm" novalidate ng-submit="saveContent()">
+    		<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<p class="md-title" layout-padding></p>
+				<div class="row-form-panel" layout="row">
+                    <md-content flex="100">
+                        <div class="col-wrapper">
+                            <h1 class="mat-display-1">Content Title <span class='required_field'>*</span></h1>
+                        </div> 
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" name="content_name" ng-model="content.content_name" required> 
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </md-content>
+				</div>
+			</div>	
+			
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<p class="md-title" layout-padding></p>
+				<div class="row-form-panel">
+					<md-content flex>
+                        <div class="col-wrapper">
+                            <h1 class="mat-display-1">Text <span class='required_field'>*</span></h1>
+                        </div> 
+
+
+
+						<md-input-container flex="20" flex-gt-sm="30" layout="column">
+						<!--		<label for="token_type"></label>
+                            <md-select name="campaign_type" ng-model="campaign.campaign_type">
+                                <md-option ng-repeat="campaignType in campaignTypes" ng-if="(advanced_mode == false && campaignType.key != 3) || advanced_mode" value="{{campaignType.key}}">{{campaignType.val| uppercase}}</md-option>
+                            </md-select>-->
+                        </md-input-container>
+                    </md-content>
+					<md-content flex>
+
+                        <div class="col-wrapper">
+                            <text-angular ng-model="content.content_body" required name="editor1">	
+                            </text-angular>
+                        </div>						
+
+					</md-content>
+				</div>
+			</div>
+			<!--<div md-whiteframe="3" layout-padding layout-margin  style="background: white">-->
+			<div layout="row" class="status-row">
+                <div flex="100" flex-gt-sm="50" layout="column">
+                    <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                        <div class="row-form-panel" layout="column">
+                            <div class="col-wrapper">
+                                <h1 class="mat-display-1">URL Slug <span class='required_field'>*</span></h1>  
+                            </div>
+                            <md-input-container flex="1">
+                                <div class="col-wrapper">
+                                    <input type="text" aria-label="Slug" name="content_slug" ng-model="content.content_slug" required> 
+                                </div>
+                            </md-input-container>                            
+                        </div>                          
+                    </div>
+                </div>
+                <div flex="100" flex-gt-sm="50" layout="column">
+                    <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                        <div class="row-form-panel" layout="column">
+                            <div class="col-wrapper">
+                                <h1 class="mat-display-1">Status</h1>
+                            </div>
+                            <md-input-container flex>
+                                <div class="col-wrapper">
+                                    <md-select name="status" ng-model="content.status" aria-label="Status">
+                                        <md-option ng-repeat="item in statusArray" value="{{item.key}}">{{item.val}}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </md-input-container>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div flex="100" layout="column" layout-align="center end">
+                <div layout="row" layout-align="end">
+                    <label for=""></label>
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="cmsForm.$invalid">Save Content</md-button>
+                </div> 
+            </div>
+		</form>
+    </md-content>
+</div>
+
+
+
+		
+
+
+
+
+
+					

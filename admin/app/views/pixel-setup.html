@@ -1,0 +1,618 @@
+<!-- version -->
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+    <div flex layout-align="start center">
+        <version-list class="padding-left-0" name="pixels" scope-obj="pixel"></version-list>
+    </div>
+</div>
+<!-- version -->
+
+<div layout="column" layout-align="center">
+    <md-content class="f1f1f1">
+    <form name="pixelForm" novalidate ng-submit="savePixel()">
+
+        <!-- Header section -->
+        <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+            <div class="row-form-panel padding-10">
+                <div layout="row">
+                    <div flex="50" layout="column" layout-align="center">
+                        <div class="col-wrapper">
+                            <input type="text" name="pixel_name" ng-model="pixel.pixel_name"  ng-required="true" placeholder="Pixel Name *" class="material-input" />
+                        </div>
+                    </div>
+                    <div flex="50" layout="column" layout-align="center end">
+                        <div layout="row" layout-align="end">
+                            <div class="col-wrapper">
+                                <label for=""></label>
+                                <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                                <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="pixelForm.$invalid|| validationMethod() === false">Save Pixel</md-button>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div layout-margin="" layout-padding="" md-whiteframe="3" style="background: white">
+            <div class="row-form-panel with-padding">
+                <div class="col-wrapper">
+                    <p class="md-title" layout-padding="">
+                        Pixel Configuration
+                    </p>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <div class="col-wrapper">
+                            <label for="pixel_type">Pixel Type <span class='required_field'>*</span>
+                            </label>
+                            <md-select name="pixel_type" class="remove-error" ng-model="pixel.pixel_type" required>
+                                <md-option ng-repeat="p in pixelTypes" value="{{p}}">{{p}}</md-option>
+                            </md-select>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <div class="col-wrapper">
+                            <label for="pixel_placement">
+                                Pixel Placements
+                                <span aria-label="Refresh" class="test-tooltip">
+                                    <md-tooltip md-direction="right">Position of the pixel in the html page</md-tooltip>
+                                    <i class="material-icons">help_outline</i>
+                                </span>
+                            </label>
+                            <md-select name="pixel_placement" id="" ng-model="pixel.pixel_placement">
+                                <md-option ng-repeat="item in pixelPlacements" value="{{item.key}}">{{item.label}}</md-option>
+                            </md-select>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <!-- Extra on type change-->
+                <div layout="row" class="margin-top-0">
+                    <md-input-container  class="top-gap-25" flex ng-show="pixel.pixel_type == 'Conversion Pixel (Server to Server)' || pixel.pixel_type == 'Conversion Pixel (HTML+Postback)' || pixel.pixel_type == 'Postback' || pixel.pixel_type == 'Postback + 3rd Party Pixels'">
+                        <div class="col-wrapper">
+                            <label for="postback_url">Postback URL</label>
+                            <input type="url" name="postback_url" ng-model="pixel.postback_url">
+                        </div>
+                    </md-input-container>
+
+                    <!-- <md-input-container flex class="top-gap-25" ng-show="showClickConvert()">
+                        <div class="col-wrapper">
+                            <label for="convert_pixel">Convert Pixel</label>
+                            <textarea
+                                class="input-area padding-15"
+                                name="convert_pixel"
+                                id=""
+                                cols="30" rows="5"
+                                ng-model="pixel.convert_pixel"></textarea>
+                        </div>
+                    </md-input-container> -->
+                </div>
+                <div layout="row" ng-class="{'margin-top-0' : !show3rdpartyPixel()}">
+                    <md-input-container flex ng-show="show3rdpartyPixel()">
+                        <div class="col-wrapper">
+                            <label for="third_party_html">HTML Pixel</label>
+                            <textarea
+                                class="input-area padding-15"
+                                name="third_party_html"
+                                id=""
+                                cols="30" rows="5" 
+                                ng-model="pixel.third_party_html"></textarea>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex ng-show="show3rdpartyPixel()">
+                        <div class="col-wrapper">
+                            <label for="third_party_postback_url">Postback URL</label>
+                            <input type="url" name="third_party_postback_url" ng-model="pixel.third_party_postback_url">
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" ng-class="{'margin-top-0' : !showClickConvert()}" ng-show="showClickConvert()">
+                    <md-input-container flex="50">
+                        <div class="col-wrapper">
+                            <label for="click_pixel">Click Pixel</label>
+                            <textarea
+                            class="input-area padding-15"
+                            name="click_pixel"
+                            id=""
+                            cols="30" rows="5"
+                            ng-model="pixel.click_pixel"></textarea>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <div class="col-wrapper">
+                            <label for="convert_pixel">Convert Pixel</label>
+                            <textarea
+                                class="input-area padding-15"
+                                name="convert_pixel"
+                                id=""
+                                cols="30" rows="5"
+                                ng-model="pixel.convert_pixel"></textarea>
+                        </div>
+                    </md-input-container>
+                </div>
+                <!-- Extra -->
+
+                <div layout="row">
+                    <md-input-container flex ng-show="pixel.pixel_type == 'Conversion Pixel (HTML)' || pixel.pixel_type == 'General' || pixel.pixel_type == 'On Decline' || pixel.pixel_type == 'On Form Submission'">
+                        <div class="col-wrapper">
+                            <label for="html_pixel">HTML Pixel</label>  
+                            <textarea class="input-area padding-15" name="html_pixel" ng-model="pixel.html_pixel" rows="5">
+                            </textarea>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <div class="col-wrapper">
+                            <label for="">Tokens
+                            <span aria-label="Refresh" class="test-tooltip">
+                                <md-tooltip md-direction="right">To use custom token {custom_pixel_your_token_name}, pass the token name and value through tpl_vars in page controller </md-tooltip>
+                                <i class="material-icons" style="font-size:16px !important">help_outline</i>
+                            </span>
+                            </label> 
+                            <span>
+                                {order_id}, {order_total}, {AFID}, {AFFID}, {SID}, {AID}, {C1}, {C2}, {C3}, {C4}, {C5}, {C6}, {click_id}, {firstName}, {lastName}, {email}, 
+                                    {phone}, {shippingCity}, {shippingState}, {shippingCountry}, {campaign_id}, {card_type}, {split_order_id}, {custom_pixel_your_token_name}
+                            </span>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <div class="col-wrapper">
+                        <md-checkbox aria-label="Fire Pixel for prepaid transactions" name="prepaid" ng-model="pixel.prepaid">
+                            Fire Pixel for prepaid transactions
+                        </md-checkbox>
+                    </div>
+                </div>
+
+                <div layout="row" ng-if="pixel.pixel_type == 'General'">
+                    <div class="col-wrapper">
+                        <md-checkbox aria-label="Ignore Trafficfilter Blacklist" name="ignore_pixel_on_order_filter" ng-model="pixel.ignore_pixel_on_order_filter">
+                            Ignore Routing
+                            <span aria-label="Refresh" class="test-tooltip">
+                                <md-tooltip md-direction="right">Enabling this will fire the pixel on all sessions and that including all the routing sessions as well</md-tooltip>
+                                <i class="material-icons" style="font-size:16px !important">help_outline</i>
+                            </span>
+                        </md-checkbox>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Advanced -->
+            <div class="row-form-panel with-padding">
+                <div class="col-wrapper">
+                    <p class="md-title" layout-padding="">
+                        <!-- <i class="material-icons shift-left-6">keyboard_arrow_down</i> -->
+                        Advanced
+                    </p>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <div class="col-wrapper">
+                            <label for="pixel_firing_priority" >
+                                Pixel Firing Priority
+                                <span aria-label="Refresh" class="test-tooltip">
+                                    <md-tooltip md-direction="right">
+                                        Pixel Firing Priority
+                                    </md-tooltip>
+                                    <i class="material-icons">
+                                        help_outline
+                                    </i>
+                                </span>
+                            </label>
+                            <input type="text" name="pixel_firing_priority" ng-model="pixel.pixel_firing_priority">
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex ng-if="pixel.pixel_type == 'General'">
+                        <div class="col-wrapper">
+                            <label for="pixel_firing_option" >
+                                Pixel Firing Options
+                                <span aria-label="Refresh" class="test-tooltip">
+                                    <md-tooltip md-direction="right">
+                                        Pixel Firing Options
+                                    </md-tooltip>
+                                    <i class="material-icons">
+                                        help_outline
+                                    </i>
+                                </span>
+                            </label>
+                            <md-select name="pixel_firing_option" id="" name="pixel_firing_option" ng-model="pixel.pixel_firing_option">
+                                <md-option ng-repeat="p in firingOptions" value="{{p.key}}">{{p.label}}</md-option>
+                            </md-select>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <div class="col-wrapper">
+                        <md-checkbox aria-label="Fire Pixel only on live transactions" name="" ng-model="pixel.fire_live_transactions">
+                            Fire Pixel <strong>only</strong> on live transactions
+                        </md-checkbox>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="100" layout="column" flex="nogrow">
+                        <div class="col-wrapper">
+                            <md-switch aria-label="Enable custom firing schedule" class="right-shift" ng-model="pixel.enable_custom_firing_schedule" ng-change="customeSchedule();"><h2 class="mat-h2">Enable custom firing schedule</h2></md-switch>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-gap-25" ng-if="pixel.enable_custom_firing_schedule">
+                    <div layout="row" class="md-toolbar-tools">
+                        <div flex="100" flex-gt-sm="50" layout="column">
+                            <div class="col-wrapper">
+                                <label for="start_date">Start Date <span class='required_field'>*</span></label>
+                                <div class="date-pick-wrap">
+                                   <md-datepicker name="start_date" ng-model="pixel.start_date" ng-required="true" md-placeholder="Enter date"></md-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <div flex="100" flex-gt-sm="50" layout="column">
+                            <div class="col-wrapper">
+                                 <label for="end_date">End date<span class='required_field'>*</span></label>
+                                <div class="date-pick-wrap">
+                                   <md-datepicker name="end_date" ng-model="pixel.end_date" ng-required="true" md-placeholder="Enter date"></md-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" class="md-toolbar-tools">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="start_time">Start time <span class='required_field'>*</span></label>
+                                <div class="select-plus">
+                                    <input type="text" name="start_time" id="pixel_start_time" ng-required="pixel.end_time" ng-model="pixel.start_time">
+                                    <div moment-picker="pixel.start_time" format="HH:mm" show-header="false">
+                                        <md-button class="md-icon-button" aria-label="More">
+                                            <i class="material-icons">access_time</i>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="end_time">End time *</label>
+                                <div class="select-plus">
+                                    <input type="text" name="end_time" id="pixel_end_time" ng-required="pixel.start_time" ng-model="pixel.end_time"/>
+                                    <div moment-picker="pixel.end_time" format="HH:mm" show-header="false">
+                                        <md-button class="md-icon-button" aria-label="More">
+                                            <i class="material-icons">access_time</i>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" class="md-toolbar-tools">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                 <label for="time_zone">Timezone</label>
+                                <md-select name="time_zone" ng-model="pixel.time_zone">
+                                    <md-option ng-repeat="zone in timezone_identifiers_list" value="{{zone}}">{{zone}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div layout-margin="" layout-padding="" md-whiteframe="3" style="background: white">
+            <div class="row-form-panel with-padding">
+                <div class="col-wrapper">
+                    <p class="md-title" layout-padding="">
+                        Triggering
+                    </p>
+                </div>
+                <!-- Affiliate Parameters -->
+                <div class="top-gap-25">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Affiliate Parameters" class="right-shift" ng-model="pixel.enable_affiliate_parameters"><h2 class="mat-h2">Affiliate Parameters</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" class="sub-panel" ng-if="pixel.enable_affiliate_parameters">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="affiliate_id">Select Parameter (Affiliate / Network) <span class='required_field'>*</span></label>
+                                <md-select name="affiliate_id" id="" ng-model="pixel.affiliate_id_key" required>
+                                    <md-option ng-repeat="(key, a) in affiliates" value="{{key}}">{{a}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="sub_id">Select Parameter (Affiliate / Sub-Affiliate)</label>
+                                <md-select name="sub_id" id="" ng-model="pixel.sub_id_key">
+                                    <md-option ng-repeat="(key, a) in sub_affiliates" value="{{key}}">{{a}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" class="sub-panel" ng-if="pixel.enable_affiliate_parameters">
+                        <div flex="50">
+                            <div class="col-wrapper">
+                                <p class="margin-bottom-0">
+                                    <label for="">Affiliate / Network ID <span class='required_field'>*</span></label>
+                                </p>
+                            </div>
+
+                            <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="affiliate_id_value" empty-msg="Affiliate / Network ID can't be empty" duplicate-msg="Duplicate value for Affiliate ID" validation-key="validation" data-separator="{{aff_separator}}" theme="3" classes="" input-type="text" input-placeholder="Add network / affiliate ID..." ng-if="pixel.enable_affiliate_parameters"></add-remove-input>
+
+                          <!--   <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="page" empty-msg="Page tigger can't be empty" duplicate-msg="Duplicate value for page trigger" validation-key="validation" data-separator="{{page_trigger_separator}}" input-placeholder="Add firing triggers…" theme="3" classes="mat-h2" add-input-label="" added-input-label="" input-type="text" ng-if="pixel.enable_page"></add-remove-input> -->
+
+
+                        </div>
+                        <div flex="50">
+                            <div class="col-wrapper">
+                                <p class="margin-bottom-0">
+                                    <label for="">Affiliate / Sub-Affiliate ID</label>
+                                </p>
+                            </div>
+
+                            <add-remove-input 
+                                    name="pixel" 
+                                    scope-obj="pixel" 
+                                    scope-update-key="sub_id_value" 
+                                    empty-msg="Affiliate / Sub affiliate ID can't be empty" 
+                                    duplicate-msg="Duplicate value for Sub affiliate ID" 
+                                     
+                                    data-separator="{{sub_aff_separator}}" 
+                                    theme="3" classes="" 
+                                    input-type="text" 
+                                    input-placeholder="Add Affiliate / sub-affiliate ID..." 
+                                    ng-if="pixel.enable_affiliate_parameters">
+                            </add-remove-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Pages -->
+            <div class="row-form-panel with-padding">
+                <div layout="row">
+                    <div flex="100" layout="column" flex="nogrow">
+                        <div class="col-wrapper">
+                            <md-switch aria-label="Page" class="right-shift" ng-model="pixel.enable_page"><h2 class="mat-h2">Page</h2></md-switch>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" class="sub-panel" ng-if="pixel.enable_page">
+                    <div flex="50">
+                        <div class="col-wrapper">
+                            <p class="margin-bottom-0">
+                                <label for="">Firing Triggers</label>
+                            </p>
+                        </div>
+
+                        <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="page" empty-msg="Page tigger can't be empty" duplicate-msg="Duplicate value for page trigger" validation-key="validation" data-separator="{{page_trigger_separator}}" input-placeholder="Add firing triggers…" theme="3" classes="mat-h2" add-input-label="" added-input-label="" input-type="text" ng-if="pixel.enable_page"></add-remove-input>
+                    </div>
+                     <div flex="50">
+                        <div class="col-wrapper" ng-if="pixel.enable_page">
+                            <p class="margin-bottom-0">
+                                <label for="">Exceptions</label>
+                            </p>
+                        </div>
+
+                        <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="exceptions" empty-msg="Exceptions can't be empty" duplicate-msg="Duplicate value for page exceptions" validation-key="validation" data-separator="{{page_exceptions_separator}}" input-placeholder="Add exceptions…" theme="3" classes="" add-input-label="" added-input-label="" input-type="text" ng-if="pixel.enable_page"></add-remove-input>
+                    </div>
+                </div>
+            </div>
+            <!-- Device -->
+            <div class="row-form-panel with-padding">
+                <div layout="row">
+                    <div flex="100" layout="column" flex="nogrow">
+                        <div class="col-wrapper">
+                            <md-switch aria-label="Device" class="right-shift" ng-model="pixel.enable_device"><h2 class="mat-h2">Device</h2></md-switch>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" class="sub-panel" ng-if="pixel.enable_device == true">
+                    <div flex="100">
+                      <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="device" empty-msg="Please select device" duplicate-msg="Device already selected" input-placeholder="Select devices *..." validation-key="validation" data-separator="{{device_separator}}" theme="1" classes="" input-type="select" input-data="{{inputData.device}}"></add-remove-input>
+                    </div>
+                </div>
+                <!-- <div layout="row" class="sub-panel" ng-if="pixel.enable_device == true && showOs()">
+                    <md-input-container flex>
+                        <div class="col-wrapper">
+                            <label for="os">OS</label>
+                            <md-select name="os" id="" ng-model="pixel.os" multiple="" ng-change="osAll();">
+                                <md-option ng-repeat="o in oss" value="{{o}}" ng-disabled="o != 'All' && pixel.os == 'All'">{{o}}</md-option>
+                            </md-select>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex></md-input-container>
+                </div> -->
+            </div>
+            <!-- Funnels -->
+            <div class="row-form-panel with-padding">
+                <div layout="row">
+                    <div flex="100" layout="column" flex="nogrow">
+                        <div class="col-wrapper">
+                            <span class="right-shift">Funnels <span class='required_field'>*</span></span>
+                            <!-- <md-switch aria-label="Funnel" class="right-shift" ng-model="pixel.enable_funnel"><h2 class="mat-h2">Funnels</h2></md-switch> -->
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" class="sub-panel" ng-if="pixel.enable_funnel == true && configuration_lists">
+                    <div flex="100">
+                      <add-remove-input name="pixel" scope-obj="pixel" scope-update-key="configuration_id" empty-msg="Please select funnel " duplicate-msg="Funnel already selected" input-placeholder="Select funnel..." validation-key="validation" data-separator="{{configuration_id_separator}}" theme="1" classes="" input-type="select" input-data="{{inputData.configurations}}"></add-remove-input>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- old -->
+    	<!-- <p class="md-title" layout-padding>Details</p> -->
+    	<!-- <div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    		<md-content flex>
+    			<div layout="row">
+    				<fg flex  text="'Label'" label="'pixel_name'">
+    					<input type="text" name="pixel_name" ng-model="pixel.pixel_name" required>
+    				</fg>
+    				<fg flex text="'Type'" label="'pixel_type'">
+    					<md-select name="pixel_type" id="" name="pixel_type" ng-model="pixel.pixel_type" required>
+    						<md-option value="">Select Pixel Type</md-option >
+    						<md-option ng-repeat="p in pixelTypes" value="{{p}}">{{p}}</md-option>
+    					</md-select>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'Postback URL'" label="'postback_url'" ng-show="pixel.pixel_type == 'Postback' || pixel.pixel_type == 'Postback + 3rd Party Pixels'">
+    					<input type="url" name="postback_url" ng-model="pixel.postback_url">
+    				</fg>
+    				<fg flex  text="'Convert Pixel'" label="'convert_pixel'" ng-show="showClickConvert()">
+    					<textarea
+    						name="convert_pixel"
+    						id=""
+    						cols="30" rows="5"
+    						ng-model="pixel.convert_pixel"></textarea>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'3rd Party Postback URL'" label="'third_party_postback_url'" ng-show="show3rdpartyPixel()">
+    					<input type="url" name="third_party_postback_url" ng-model="pixel.third_party_postback_url">
+    				</fg>
+    				<fg flex  text="'3rd Party HTML Pixel'" label="'third_party_html'" ng-show="show3rdpartyPixel()">
+    					<textarea
+    						name="third_party_html"
+    						id=""
+    						cols="30" rows="5" 
+    						ng-model="pixel.third_party_html"></textarea>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'HTML Pixel'" label="'html_pixel'" ng-show="pixel.pixel_type == 'HTML' || pixel.pixel_type == 'General' || pixel.pixel_type == 'Decline' || pixel.pixel_type == 'Submission'">
+    					<textarea
+    						name="html_pixel"
+    						id=""
+    						cols="30" rows="5" 
+    						ng-model="pixel.html_pixel" ng-required="pixel.pixel_type == 'HTML'"></textarea>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="" label="'tokens'">
+    					<span><b>Tokens:</b> {order_id}, {order_total}, {AFID}, {AFFID}, {SID}, {AID}, {C1}, {C2}, {C3}, {C4}, {C5}, {C6}, {click_id}, {firstName}, {lastName}, {email}, 
+                                            {phone}, {shippingCity}, {shippingState}, {shippingCountry}
+                                            </span>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'Click Pixel'" label="'click_pixel'" ng-show="showClickConvert()">
+    					<textarea
+    						name="click_pixel"
+    						id=""
+    						cols="30" rows="5"
+    						ng-model="pixel.click_pixel"></textarea>
+    				</fg>
+    			</div>
+    		</md-content>
+    	</div> -->
+    	<!-- <div  md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    		<md-list class="custom_list">
+    			<md-list-item>
+    				<p class="md-body-1">Fire Pixel For Prepaid</p>
+    				<md-switch class="md-secondary" ng-model="pixel.prepaid"></md-switch>
+    			</md-list-item>
+    		</md-list>
+                    <md-list class="custom_list" ng-show="pixel.pixel_type == 'General'">
+    			<md-list-item>
+    				<p class="md-body-1">Allow Multi Fire</p>
+    				<md-switch class="md-secondary" ng-model="pixel.multi_fire"></md-switch>
+    			</md-list-item>
+    		</md-list>
+    	</div>
+    	
+    	<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    		<md-content flex>
+    			<div layout="row">
+    				<fg flex  text="'Pixel Placement'" label="'pixel_placement'">
+    					<md-select name="pixel_placement" id="" ng-model="pixel.pixel_placement">
+    						<md-option value="head">HEAD</md-option>
+    						<md-option value="top">BODY - OPEN</md-option>
+    						<md-option value="bottom">BODY - CLOSE</md-option>
+    					</md-select>
+    				</fg>
+    			</div>
+    		</md-content>
+    	</div>
+    	<p class="md-title" layout-padding>Triggers</p>
+    	<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    		<md-content flex>
+    			<div layout="row">
+    				<div flex>
+    					<div layout="row">
+    						<fg flex  text="'Select Affiliate'" label="'affiliate_id'">
+    							<md-select name="affiliate_id" id="" ng-model="pixel.affiliate_id.key">
+    								<md-option value="">Select Affiliate</md-option>
+    								<md-option ng-repeat="(key, a) in affiliates" value="{{key}}">{{a}}</md-option>
+    							</md-select>
+    						</fg>
+    						<fg flex  text="'Affiliate ID'" label="">
+    							<input type="text" ng-model="pixel.affiliate_id.value" ng-required="pixel.affiliate_id.key">
+    						</fg>	
+    					</div>
+    				</div>
+    				<div flex>
+    					<div layout="row">
+    						<fg flex  text="'Select Sub-Affiliate'" label="'sub_id'">
+    							<md-select name="sub_id" id="" ng-model="pixel.sub_id.key">
+    								<md-option value="">Select Sub-Affiliate</md-option>
+    								<md-option ng-repeat="(key, a) in affiliates" value="{{key}}">{{a}}</md-option>
+    							</md-select>
+    						</fg>
+    						<fg flex  text="'Sub ID'" label="">
+    							<input type="text" ng-model="pixel.sub_id.value" ng-required="pixel.sub_id.key">
+    						</fg>	
+    					</div>
+    				</div>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'Page'" label="'page'">
+    					<input type="text" name="page" ng-model="pixel.page">
+    				</fg>
+
+    				<fg flex  text="'Configuration'" label="'configuration_id'">
+    					<md-select name="configuration_id" id="" ng-model="pixel.configuration_id" required>
+    						<md-option ng-repeat="config in configuration_lists" value="{{config.id}}">{{config.configuration_label}} ({{config.id}})</md-option>
+    					</md-select>
+    				</fg>
+    			</div>
+    			<div layout="row">
+    				<fg flex  text="'Device'" label="'device'">
+    					<md-select name="device" id="" ng-model="pixel.device" multiple="">
+    						<md-option ng-repeat="d in devices" value="{{d}}">{{d| ucfirst}}</md-option>
+    					</md-select>
+    				</fg>
+
+    				<fg flex  text="'OS'" label="'os'" ng-if="showOs()" ng-init="callHint('pixel');">
+    					<md-select name="os" id="" ng-model="pixel.os" multiple="">
+    						<md-option ng-repeat="o in oss" value="{{o}}">{{o}}</md-option>
+    					</md-select>
+    				</fg>
+    			</div>
+    		</md-content>
+    	</div>
+    	<div layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    		<md-content flex>
+    			<div layout="row" layout-align="end center">
+    				<md-button type="submit" class="margin-left-0 md-primary" ng-disabled="pixelForm.$invalid">Save</md-button>
+    				<md-button type="button" class="margin-right-0" ng-click="goBack()">Cancel</md-button>
+    			</div>
+    		</md-content>
+    	</div> -->
+        <!-- old -->
+
+        <div class="top-gap-25 layout-margin">
+            <div layout="row" layout-align="end">
+                <label for=""></label>
+                <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="pixelForm.$invalid|| validationMethod() === false"">Save Pixel</md-button>
+            </div>
+        </div>
+
+    </form>
+</md-content>
+</div>

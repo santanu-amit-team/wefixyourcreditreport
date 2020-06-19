@@ -1,0 +1,318 @@
+<div ng-controller="konnektiveUtil" layout="row" layout-align="center" class="wrap-top-gap">
+    <md-content class="f1f1f1" flex>
+        <form name="CrmForm" ng-submit="saveExtension()" novalidate>
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel">
+                    <p class="md-title" layout-padding>Payload</p>
+
+                    <div layout="row" layout-wrap="">
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <label for="extra_source_keys" >Source Variable
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">Refresh</md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span>
+                                    </label>
+                                    <input type="text" class="purple-cell" name="extra_source_keys" disabled ng-model="extension.extra_source_keys[0]" aria-label="Show added input" >
+                                </div>
+
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <label for="crm_label" >Source Value
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">Refresh</md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span>
+                                    </label>
+                                    <input type="text" class="purple-cell" name="extra_source_value" ng-model="extension.extra_source_value[0]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="extra_source_keys" ng-model="extension.extra_source_keys[1]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper"> 
+                                    <input type="text" class="purple-cell" name="extra_source_value" ng-model="extension.extra_source_value[1]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="extra_source_keys" ng-model="extension.extra_source_keys[2]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" name="extra_source_value" ng-model="extension.extra_source_value[2]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row" layout-wrap="">
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <label for="crm_label" >Source Variable
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">Refresh</md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span></label>
+                                    <input type="text" class="purple-cell" value ="C1" disabled name="custom_source_variable" ng-model="extension.custom_source_variable[0]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <label for="crm_label" >Custom Value
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">Refresh</md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span>
+                                    </label>
+                                    <input type="text" class="purple-cell" name="custom_source_value" ng-model="extension.custom_source_value[0]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="custom_source_variable" ng-model="extension.custom_source_variable[1]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" name="custom_source_value" ng-model="extension.custom_source_value[1]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="custom_source_variable" ng-model="extension.custom_source_variable[2]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" name="custom_source_value" ng-model="extension.custom_source_value[2]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="custom_source_variable" ng-model="extension.custom_source_variable[3]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" name="custom_source_value" ng-model="extension.custom_source_value[3]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" disabled name="custom_source_variable" ng-model="extension.custom_source_variable[4]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                            <md-input-container flex="100">
+                                <div class="col-wrapper">
+                                    <input type="text" class="purple-cell" name="custom_source_value" ng-model="extension.custom_source_value[4]" aria-label="Show added input" >
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.membership_service"><h2 class="mat-h2">Activate Membership Service (Legacy)</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.club_membership_service"><h2 class="mat-h2">Activate Club Membership APIs</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.insureship_service"><h2 class="mat-h2">Activate Insure Shipment</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--                <div class="row-form-panel">
+                                    <div layout="row">
+                                        <div flex="100" layout="column" flex="nogrow">
+                                            <div class="col-wrapper">
+                                                <md-switch class="right-shift" ng-model="extension.note_for_prospect"><h2 class="mat-h2">Allow Note For Prospect</h2></md-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.note_for_order"><h2 class="mat-h2">Allow Note For Orders</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.remove_source_url"><h2 class="mat-h2">Remove Source URL From Note</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.bypass_zero_value"><h2 class="mat-h2">Ignore Zero Value From Pricing</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.direct_debit"><h2 class="mat-h2">Enable Direct Debit</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.activate_ship_profileid"><h2 class="mat-h2">Activate Shipping ProfileId <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">If enabled shipping price will be ignored</md-tooltip>
+                                            <i class="material-icons">help_outline</i>
+                                        </span></h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-form-panel">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="extension.enable_default_param">
+                                    <h2 class="mat-h2"> Enable Default Parameter for Import Click
+                                        <span class="test-tooltip" aria-label="Refresh">
+                                            <md-tooltip md-direction="right">
+                                                If nothing found in query param then default will be append.
+                                            </md-tooltip>
+
+                                        </span></h2></md-switch>
+                            </div>
+
+                        </div>
+                    </div>
+                
+                    <div ng-repeat="defaultParam in extension.default_params track by $index" layout="row" ng-if="extension.enable_default_param">     
+                        
+                            <div   flex="100" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+                                <md-input-container flex>
+                                    <div class="col-wrapper">
+                                        <label ng-if="$index == 0" for="source">Default Key
+                                        </label>
+                                        
+                                        <input type="text" name="source" ng-model="extension.default_params[$index]['default_param_key']" required>
+                                    </div>
+                                </md-input-container>
+                                 <md-input-container flex>
+                                    <div class="col-wrapper">
+                                        <label ng-if="$index == 0" for="source">Default value
+                                        </label>
+                                        <input type="text" name="source" ng-model="extension.default_params[$index]['default_param_value']" required>
+                                        <div class="select-plus">
+                                            <md-button class="md-icon-button md-primary"  aria-label="remove" ng-click="remove($index);" ng-class="{'right-30': (default_params.length - 1) == $index}">
+                                                
+                                                <i class="material-icons">remove</i>
+                                            </md-button>
+                                            <md-button class="md-icon-button md-primary"
+                                            ng-if="(extension.default_params.length - 1) == $index"
+                                            ng-click="addMethod()">
+                                                <i class="material-icons">add</i>
+                                            </md-button>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                     </div>
+                    
+<!--                    <div layout="row">
+                        <div flex="50" layout="column" >
+                           
+                                <md-input-container >
+                                    <div class="col-wrapper">
+                                        <label for="step">Default Key<span class="test-tooltip" aria-label="Refresh">
+                                            </span></label>
+                                        <input type="text" name="step" ng-model="extension.default_param_key" required>
+                                    </div>
+                                </md-input-container>
+                               </div>
+                            <div flex="50" layout="column" >
+                                <md-input-container>
+                                    <div class="col-wrapper">
+                                        <label for="step">Default value<span class="test-tooltip" aria-label="Refresh">
+
+                                            </span></label>
+                                        <input type="text" name="step" 
+                                               ng-model="extension.default_param_value" required>
+                                    </div>
+                                </md-input-container>
+                          
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button  type="button" class="md-raised" ng-href="#/extensions">Cancel</md-button>
+                    <md-button class="md-primary md-raised" type="submit">Save Settings</md-button>
+                </div>        
+            </div>
+        </form>
+    </md-content>
+</div>

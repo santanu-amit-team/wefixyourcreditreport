@@ -1,0 +1,218 @@
+.hard-work-wrapper {
+    background-color: #9e59e9;
+    position: relative;
+    overflow: hidden;
+}
+
+.hard-work {
+    padding: 40px 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hard-work h2 {
+    font-family: work-sans, sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: #fff;
+    margin: 0px auto;
+    text-align: center;
+    padding: 30px 0 0;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin: 35px auto 50px;
+}
+
+.chart-wrapper:before {
+    width: 80%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    top: 50%;
+    left: 20%;
+    z-index: 1;
+    transform: translate(0, -50%);
+}
+
+.chart-wrapper .circle1-wrapper,
+.chart-wrapper .circle3-wrapper {
+    width: 200px;
+    height: 200px;
+    background-color: #7a00ff;
+    border: 2px solid #7a00ff;
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    z-index: 2;
+}
+
+.chart-wrapper .circle2-wrapper {
+    width: 280px;
+    height: 280px;
+    background-color: #7a00ff;
+    border: 2px solid #7a00ff;
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    z-index: 2;
+}
+
+.chart-wrapper .circle-padding {
+    padding: 10px;
+    width: 100%;
+}
+
+.chart-wrapper .circle-icon {
+    background: url('../images/working-hard-icons.png') no-repeat;
+    background-size: 300px;
+    width: 70px;
+    height: 55px;
+    margin: 0 auto;
+}
+
+.chart-wrapper .circle1-wrapper .circle-icon {
+    background-position: 0 0;
+}
+
+.chart-wrapper .circle2-wrapper .circle-icon {
+    background-position: -116px -3px;
+}
+
+.chart-wrapper .circle3-wrapper .circle-icon {
+    background-position: -230px 0;
+}
+
+.chart-wrapper .number {
+    font-family: work-sans, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.chart-wrapper .circle2-wrapper .number {
+    font-size: 36px;
+}
+
+.chart-wrapper .big-content {
+    font-family: work-sans, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #00bbd3;
+}
+
+.chart-wrapper .circle2-wrapper .big-content {
+    color: #96be3e;
+}
+
+.chart-wrapper .circle2-wrapper .big-content span {
+    color: #fff;
+    display: block;
+}
+
+.chart-wrapper .small-content {
+    font-family: work-sans, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hard-work-wrapper .btn-wrapper {
+    text-align: center;
+}
+
+.hard-work-wrapper .btn-wrapper .text-link {
+    color: #fff;
+}
+
+@media screen and (max-width: 780px) {
+    .hard-work h2 {
+        font-size: 26px;
+        background: transparent;
+    }
+
+    .chart-wrapper .circle1-wrapper,
+    .chart-wrapper .circle3-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+
+    .chart-wrapper .circle2-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .chart-wrapper .circle-icon {
+        background: url(../images/working-hard-icons.png) no-repeat;
+        background-size: 250px;
+        width: 60px;
+        height: 50px;
+    }
+
+    .chart-wrapper .circle2-wrapper .circle-icon {
+        background-position: -95px -1px;
+    }
+
+    .chart-wrapper .circle3-wrapper .circle-icon {
+        background-position: -190px 0;
+    }
+
+    .chart-wrapper .number {
+        font-size: 18px;
+    }
+
+    .chart-wrapper .circle2-wrapper .number {
+        font-size: 24px;
+    }
+
+    .chart-wrapper .big-content {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .chart-wrapper .small-content {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .hard-work h2 {
+        font-size: 24px;
+    }
+
+    .chart-wrapper {
+        flex-direction: column;
+    }
+
+    .chart-wrapper:before {
+        width: 2px;
+        height: 750px;
+        top: 10%;
+        left: 50%;
+    }
+
+    .chart-wrapper .circle2-wrapper {
+        margin: 20px auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .hard-work h2 {
+        font-size: 20px;
+    }
+}

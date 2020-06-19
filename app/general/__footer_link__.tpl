@@ -1,0 +1,3 @@
+<a href="javascript:void(0);" onClick="javascript:openNewWindow('<?= $config["offer_path"] ?>cms/1/privacy-policy'); return false;">Privacy Policy</a> |
+<a href="javascript:void(0);" onClick="javascript:openNewWindow('<?= $config["offer_path"] ?>cms/2/terms-conditions'); return false;">Terms &amp; Conditions</a> |
+<a href="javascript:void(0);" onClick="javascript:openNewWindow('<?= $config["offer_path"] ?>cms/3/contact-us'); return false;">Contact Us</a>

@@ -1,0 +1,591 @@
+<!-- <div layout-padding layout="row" class="padding-left-0 padding-right-0">
+        <div flex layout-align="start center">
+                <version-list class="padding-left-0" name="configurations" scope-obj="config"></version-list>
+        </div>
+        <div flex layout-align="end center" class="padding-left-0 padding-right-0">
+                <flat-button-directive url='#/configurations' title='' type='back'  ></flat-button-directive>
+        </div>
+</div> -->
+
+<!-- version -->
+<div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap">
+    <div flex layout-align="start center">
+        <version-list class="padding-left-0" name="config" scope-obj="config"></version-list>
+    </div>
+</div>
+<!-- version -->
+
+<div layout="column" layout-align="center">
+    <md-content class="f1f1f1">
+        <form name="ConfigForm" ng-submit="SubmitForm()" novalidate>
+
+            <!-- Header section -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel padding-10">
+                    <div layout="row">
+                        <div flex="50" layout="column" layout-align="center">
+                            <div class="col-wrapper">
+                                <input type="text" name="configuration_label" ng-model="config.configuration_label"  ng-required="true" placeholder="Funnel Configuration Name" class="material-input" />
+                            </div>
+                        </div>
+                        <div flex="50" layout="column" layout-align="center end">
+                            <div layout="row" layout-align="end">
+                                <div class="col-wrapper">
+                                    <label for=""></label>
+                                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="ConfigForm.$invalid || ConfigForm.$submitted || validationMethod() === false"">Save Configuration</md-button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+
+                <!-- CRM & Campaign -->
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>CRM & Campaign</p>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper"> 
+                                <label for="crm_id">Select CRM <span class='required_field'>*</span></label>
+                                <md-select name="crm_id" ng-model="config.crm_id" ng-required="true" aria-label="CRM List" ng-change="CheckCrm()">
+                                    <md-option ng-repeat="crm in crm_lists" value="{{crm.id}}">{{crm.crm_label}} ({{crm.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="campaign_ids">Select Campaign <span class='required_field'>*</span></label>
+                                <md-select class="no-btm-line" name="campaign_ids" ng-model="config.campaign_ids" ng-required="true" ng-disabled="!campaign_lists.length" aria-label="Campaign List">
+                                    <md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}" >
+                                        {{p.campaign_label}} <span ng-if="p.id > -1">({{p.id}})</span>
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="">Select Step</label>
+                                <md-select name="step" ng-model="config.step">
+                                    <md-option ng-repeat="step in steps"  value="{{step.key}}">{{step.value}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="config.step == 2">
+                            <div class="col-wrapper">
+                                <label for="">Transaction Method</label>
+                                <md-select name="upsell_preferred_method" ng-model="config.upsell_preferred_method">
+                                    <md-option ng-repeat="(key, value) in upsellMethod" ng-if="!(((config.crm_type != 'limelight') && key == 'newOrderCardOnFileWithCvv') || ((config.crm_type != 'responsecrm') && key == 'upsell') || (key == 'importUpsell' && iuSupportedCrms.indexOf(config.crm_type) == -1))"  value="{{key}}">{{value}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <!-- <div layout="row">
+                            <md-input-container flex>
+                                    <label for="force_gateway_id">Force Gateway ID</label>
+                                    <input type="text" ng-pattern="/^[0-9]+$/" name="force_gateway_id" ng-model="config.force_gateway_id">
+                            </md-input-container>
+                    </div> -->
+                    <div flex="100" flex-gt-sm="50" layout="row">
+                        <div class="col-wrapper">
+                            <md-checkbox name="accept_prepaid_cards" ng-model="config.accept_prepaid_cards" aria-label="Accept Prepaid Cards">
+                                Accept Prepaid Cards
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Campaigns -->
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><h1 class="mat-display-1">Related Campaigns</h1></div>
+                    <!-- <div layout="row">
+                            <div flex>
+                <md-checkbox name="enable_prepaid_campaigns" ng-model="config.enable_prepaid_campaigns" aria-label="Enable Prepaid Campaigns">
+                    Enable Prepaid Campaigns
+                </md-checkbox>
+    </div>
+    <div flex>
+                <md-checkbox name="enable_traffic_filter_campaigns" ng-model="config.enable_traffic_filter_campaigns" aria-label="Enable Traffic Filter Campaigns">
+                    Enable Traffic Filter Campaigns
+                </md-checkbox>
+    </div>
+                    </div> -->
+                    <!-- <div layout="row">
+                            <md-input-container flex>
+                                    <label for="campaign_ids">Select Prepaid Campaign</label>
+                                    <md-select name="prepaid_campaign" ng-model="config.prepaid_campaign" aria-label="Campaign List">
+                                            <md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+                                    </md-select>
+                            </md-input-container>
+                            <md-input-container flex>
+                                    <label for="campaign_ids">Select Order Filter Campaign</label>
+                                    <md-select name="order_filter_campaign" ng-model="config.order_filter_campaign" ng-required="true" aria-label="Campaign List">
+                                            <md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+                                    </md-select>
+                            </md-input-container>
+                    </div> -->
+                    <div layout="row">
+                        <div flex="50" layout-padding>
+                            <div class="col-wrapper">
+                                <md-checkbox name="enable_decline_reprocessing" ng-model="config.enable_decline_reprocessing" aria-label="Decline Reprocessing">
+                                    Enable Decline Reprocessing
+                                </md-checkbox>
+                            </div>
+                        </div>
+                        <div flex="50" layout-padding ng-if="config.crm_type == 'limelight' || config.crm_type == 'limelightv2'">
+                            <div class="col-wrapper">
+                                <md-checkbox name="process_fraud_declines" ng-model="config.process_fraud_declines" aria-label="Process Fraud Declines">
+                                    Process Fraud Declines On a Separate Campaign
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50" ng-if="config.process_fraud_declines">
+                            <div class="col-wrapper">
+                                <label for="fraud_decline_campaign">Select Campaign</label>
+                                <md-select name="fraud_decline_campaign" ng-model="config.fraud_decline_campaign" aria-label="Fraud decline campaign">
+                                    <md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" ng-if="config.enable_decline_reprocessing">
+                            <div class="col-wrapper">
+                                <label for="decline_reprocessing_campaign">Select Campaign</label>
+                                <md-select name="decline_reprocessing_campaign" ng-model="config.decline_reprocessing_campaign" aria-label="Decline reprocessing campaign">
+                                    <md-option ng-repeat="p in campaign_lists" ng-if="p.campaign_type == 1" value="{{p.id}}">{{p.campaign_label}} ({{p.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                
+                
+                <div layout="row" ng-if="config.enable_decline_reprocessing"></div>     
+                <div class="col-wrapper" ng-if="config.enable_decline_reprocessing">
+                    <p class="margin-bottom-0">
+                        <label for="">Decline Reasons</label>
+                    </p>
+                </div>
+                <div flex="50">
+                <add-remove-input 
+                    name="config" 
+                    scope-obj="config" 
+                    scope-update-key="decline_reasons" 
+                    empty-msg="Decline reasons can't be empty" 
+                    duplicate-msg="Duplicate value for page decline reasons" 
+                    validation-key="decline_reason_validation" data-separator="{{decline_reason_separator}}" 
+                    input-placeholder="Add decline reasons…" 
+                    theme="3" 
+                    classes="{{decline_class}}" 
+                    add-input-label="" 
+                    added-input-label="" 
+                    input-type="text" 
+                    ng-if="config.enable_decline_reprocessing">
+                </add-remove-input>
+                </div>
+                <div layout="row" ng-if="config.enable_decline_reprocessing"></div>
+                <div layout="row" ng-if="config.enable_decline_reprocessing">
+                <md-input-container flex="50">
+                    <div class="col-wrapper">
+                        <md-checkbox name="enable_affiliate_override" ng-model="config.enable_affiliate_override" aria-label="Enable Pixel Fire">
+                            Enable Override Affiliates
+                        </md-checkbox>
+                    </div>
+                </md-input-container>
+                </div>
+                <div layout="row" ng-if="config.enable_affiliate_override">
+                    
+                    <md-input-container flex="50">
+                        <div class="col-wrapper">
+                            <label for="decline_affiliate_override">Select Affiliate</label>
+                            <md-select name="decline_affiliate_override" ng-model="config.decline_affiliate_override" >
+                                <md-option ng-repeat="affiliate in affiliateList" value="{{affiliate.id}}">{{affiliate.label}} ({{affiliate.id}})</md-option>
+                            </md-select>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" ng-if="config.enable_decline_reprocessing">
+                    <md-input-container flex="">
+                        <div class="col-wrapper">
+                            <md-checkbox name="enable_pixel_fire" ng-model="config.enable_pixel_fire" aria-label="Enable Pixel Fire">
+                                Enable Pixel Fire
+                            </md-checkbox>
+                        </div>
+                    </md-input-container>
+                    
+                </div>
+                <div layout="row" ng-if="config.enable_decline_reprocessing && config.step == 1">
+                    <md-input-container flex="">
+                        <div class="col-wrapper">
+                            <md-checkbox name="force_campaign_to_upsell" ng-model="config.force_campaign_to_upsell" aria-label="Force reprocessed main campaign to upsells">
+                                Force Reprocessed Main Campaign to Upsells
+                            </md-checkbox>
+                        </div>
+                    </md-input-container>
+                    
+                </div>
+                </div>
+                
+
+                <!-- CRM Gateway Settings -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="crm_id">CRM Gateway Settings</label>
+                                <md-select name="crm_gateway_settings" ng-model="config.crm_gateway_settings" aria-label="CRM List">
+                                    <md-option ng-repeat="item in crm_gateway_settings_list" value="{{item.key}}">{{item.label}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="!config.crm_gateway_settings || config.crm_gateway_settings == 'default'"></md-input-container>
+
+                        <md-input-container flex ng-if="config.crm_gateway_settings == 'mid_router'">
+                            <div class="col-wrapper">
+                                <label for="mid_routing_profile">Select Mid Routing Profile <span class='required_field'>*</span></label>
+                                <md-select name="mid_routing_profile" ng-model="config.mid_routing_profile" ng-required="true" aria-label="Mid Routing Profile">
+                                    <md-option ng-repeat="item in mid_routing_profiles" value="{{item.id}}">{{item.profile_name}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="config.crm_gateway_settings == 'mid_router_201clicks'">
+                            <div class="col-wrapper">
+                                <label for="mid_routing_profile">Select Mid Routing Almost20 Profile <span class='required_field'>*</span></label>
+                                <md-select name="mid_routing_profile" ng-model="config.mid_routing_profile" ng-required="true" aria-label="Mid Routing Profile">
+                                    <md-option ng-repeat="item in []" value="{{item.id}}">{{item.profile_name}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="config.crm_gateway_settings == 'force_gateway'">
+                            <div class="col-wrapper">
+                                <label for="force_gateway_id">Force Gateway ID <span class='required_field'>*</span></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="force_gateway_id" ng-model="config.force_gateway_id" ng-required="true">
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <!-- Preserve gateway -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Preserve Gateway" class="right-shift" ng-model="config.preserve_gateway">
+                                    <h2 class="mat-h2">Preserve Gateway 
+                                        <i class="material-icons info_icon">&#xE88F; 
+                                            <md-tooltip md-direction="right">This only works when gateway forced anyway.</md-tooltip>
+                                        </i>
+                                    </h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enable Pre-Authorization -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Switch 1" class="right-shift" ng-model="config.enable_preauth"><h2 class="mat-h2">Enable Pre-Authorization</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="top-gap-25" ng-if="config.enable_preauth">
+                        <div layout="row" class="md-toolbar-tools">
+                            <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="preauth_amount">Amount <span class='required_field'>*</span></label>
+                                    <input type="text" name="preauth_amount" required ng-model="config.preauth_amount">
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row" class="md-toolbar-tools mat-h2">
+                            <div class="col-wrapper">
+                                <md-checkbox name="enable_preauth_retry" ng-model="config.enable_preauth_retry" aria-label="Pre-Authorisation Retry">
+                                    Enable Pre-Authorisation Retry
+                                </md-checkbox>
+                            </div>
+                        </div>
+                        <div class="sub-panel">
+                            <div class="col-wrapper" ng-if="config.enable_preauth_retry"><p class="margin-bottom-0"><label for="">Initial Pre-authorization</label></p></div>
+
+                            <add-remove-input name="settings" scope-obj="config" scope-update-key="retry_preauth_amount" empty-msg="Authorization amount can't be empty" duplicate-msg="Duplicate value for authorization amount" validation-key="validation" data-separator="{{retry_preauth_amount_separator}}" theme="1" classes="mat-h2" add-input-label="Initial Pre-authorization" added-input-label="Authorization Amount (Retry [replace])" ng-if="config.enable_preauth_retry"></add-remove-input>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enable Delay -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Enable Delay" class="right-shift" ng-model="config.enable_delay" name="enable_delay"><h2 class="mat-h2">Enable Delay</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.enable_delay" class="md-toolbar-tools">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="delay_type">Type <span class='required_field'>*</span></label>
+                                <md-select name="delay_type" ng-model="config.delay_type" ng-required="true" aria-label="Delay Type">
+                                    <md-option ng-repeat="item in delay_types" value="{{item.key}}">{{item.label}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="config.delay_type == 'fixed' || !config.delay_type">
+                            <div class="col-wrapper">
+                                <label for="delay_time">Delay time <span class='required_field'>*</span>&nbsp;<i class="material-icons info_icon">&#xE88F; <md-tooltip md-direction="right">In mins</md-tooltip></i></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="delay_time" ng-model="config.delay_time" ng-required="true">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex ng-if="config.delay_type == 'dynamic'">
+                            <div class="col-wrapper">
+                                <label for="dynamic_delay">Delay time <span class='required_field'>*</span>&nbsp;
+                                    <i class="material-icons info_icon">&#xE88F; <md-tooltip md-direction="right">For random delay time between defined minutes should add like 1440,2880.&nbsp;&nbsp;
+                                            For random time delay between time range should add like 1440-2880.</md-tooltip></i>
+                                </label>
+                                <input type="text" name="dynamic_delay" ng-model="config.dynamic_delay" ng-required="true">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="purge_time">Purge (in hours)</label>
+                                <input type="text" name="purge_time" ng-model="config.purge_time">
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <!-- Enable Backup CRM -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Enable Backup CRM" class="right-shift" ng-model="config.additional_crm" name="additional_crm" ng-change="checkAsyncSplitExtension();"><h2 class="mat-h2">Enable Backup CRM</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="md-toolbar-tools mat-h2 top-gap-25">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Disable Test Data" class="right-shift" ng-model="config.disable_test_flow" name="disable_test_flow"><h2 class="mat-h2">Disable Test Data</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Disable Prospect Creation" class="right-shift" ng-model="config.disable_prospect_flow" name="disable_prospect_flow"><h2 class="mat-h2">Disable Prospect Creation</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Force with Parent Gateway" class="right-shift" ng-model="config.force_parent_gateway" name="force_parent_gateway"><h2 class="mat-h2">Force with Parent Gateway</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Post to Remote LBP" class="right-shift" ng-model="config.remote_lbp" name="remote_lbp"><h2 class="mat-h2">Post to Remote LBP 
+                                        <i class="material-icons info_icon">&#xE88F; 
+                                            <md-tooltip md-direction="right">Post to Remote LBP.</md-tooltip>
+                                        </i></h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Enable Data Capture" class="right-shift" ng-model="config.data_capture" name="data_capture"><h2 class="mat-h2">Enable Data Capture <i class="material-icons info_icon">&#xE88F; 
+                                            <md-tooltip md-direction="right">Data Capture extension needs to be turned on.</md-tooltip>
+                                        </i></h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="additional_crm_type">Select CRM <span class='required_field'>*</span></label>
+                                <md-select name="additional_crm_type" ng-model="config.additional_crm_type" ng-required="true" aria-label="Select CRM">
+                                    <md-option ng-repeat="type in crmsTypes" value="{{type}}">{{type|ucfirst}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="additional_crm_id">Backup Configuration <span class='required_field'>*</span></label>
+                                <md-select name="additional_crm_id" ng-model="config.additional_crm_id" ng-required="true" aria-label="CRM List" ng-change="CheckCrm()">
+                                    <md-option ng-repeat="configuration in configurations" value="{{configuration.id}}">
+                                        {{configuration.configuration_label.length ? configuration.configuration_label : 'N/A'}} ({{configuration.id}})
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="additional_crm_test_card">Test Card</label>
+                                <input type="text" name="additional_crm_test_card" ng-model="config.additional_crm_test_card" aria-label="Test Card" placeholder="Card Number | Card Type">
+                            </div>
+                        </md-input-container>
+                    </div>
+<!--                    <div layout="row" ng-if="config.additional_crm" class="margin-top-0 md-toolbar-tools mat-h2">
+                        <div class="col-wrapper">
+                            <md-checkbox name="order_using_test_card" ng-model="config.order_using_test_card" aria-label="Submit Order Using Test Card">
+                                Submit Order Using Test Card
+                            </md-checkbox>
+                        </div>
+                    </div>-->
+                </div>
+
+                <!-- Post Site URL -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Post Site URL" class="right-shift" ng-model="config.enable_post_site_url" name="enable_post_site_url"><h2 class="mat-h2">Post Site URL</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="config.enable_post_site_url" class="md-toolbar-tools mat-h2 top-gap-25">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="url_source">URL Source <span class='required_field'>*</span></label>
+                                <md-select name="url_source" ng-model="config.url_source" ng-required="true" aria-label="URL Source">
+                                    <md-option ng-repeat="item in url_sources" value="{{item.key}}">{{item.label}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container ng-if="config.url_source != 'static'" flex></md-input-container>
+                        <md-input-container flex ng-if="config.url_source == 'static'">
+                            <div class="col-wrapper">
+                                <label for="site_url">Site URL</label>
+                                <input type="text" name="site_url" ng-model="config.site_url" aria-label="Site URL">
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>SEO</p></div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="site_title" >Title</label>
+                                <input type="text" name="site_title" ng-model="config.site_title">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="meta_description" >Description</label>
+                                <input type="text" name="meta_description" ng-model="config.meta_description">
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enable Add-ons -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><p class="md-title bottom-gap-25" layout-padding>Enable Add-ons</p></div>
+                    <div layout="row">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Split Charge" class="right-shift" ng-model="config.split_charge" name="split_charge"><h2 class="mat-h2">Split Charge</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-include="'views/split-charge.html'" ng-if="config.split_charge" ng-init="callHint('config');"></div>
+                </div>
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <div flex="100" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Enable Downsells" class="right-shift" ng-model="config.enable_downsells" ng-change="enablePopup();" name="enable_downsells"><h2 class="mat-h2">Enable Downsells</h2></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-include="'views/downsell1-form.html'" ng-if="config.enable_downsells" ng-init="callHint('config');"></div>
+                </div>
+            </div>
+
+            <!-- Start Website Post -->
+            <div ng-if="config.crm_type == 'responsecrm'" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel" layout="column">
+
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch class="right-shift" ng-model="config.enable_website_post">
+                                    <h2 class="mat-h2 md-title font-20">Enable Website Post</h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row" ng-if="config.enable_website_post">
+                        <div layout="row" class="md-toolbar-tools">
+                            <md-input-container flex="50">
+                                <div class="col-wrapper">
+                                    <label for="website_id">
+                                        Website ID <span class='required_field'>*</span>
+                                    </label>
+                                    <input type="text" name="website_id" ng-model="config.website_id" required>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End Website Post -->
+
+            <!-- Extensions -->
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-if="showExtensions && extensionList.length">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper">
+                        <p class="md-title" layout-padding>Extensions</p>
+                    </div>
+                </div>
+                <div class="row-form-panel" ng-repeat="extension in extensionList">
+                    <div layout="row">
+                        <div flex="100" layout="column" flex="nogrow">
+                            <div class="col-wrapper">
+                                <md-switch aria-label="Switch 1" class="right-shift" ng-model="extensionUpdate[extension.extension_slug]">
+                                    <h2 class="mat-h2">
+                                        {{ extension.extension_name}}
+                                    </h2>
+                                </md-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <label for=""></label>
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="ConfigForm.$invalid || ConfigForm.$submitted || validationMethod() === false"">Save Configuration</md-button>
+                </div>
+            </div>
+
+        </form>
+    </md-content>
+</div>

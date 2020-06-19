@@ -1,0 +1,30 @@
+<md-dialog flex="45">
+  <md-dialog-content>
+
+    <!-- Title section -->
+    <div class="md-dialog-content">
+      <div layout="row" class="popup-heading-text">
+        <div flex="70" class="md-headline" layout-align="start center">
+          {{data.extension_name}}
+        </div>
+        <div  layout="row" flex="30" layout-align="end center">
+          <md-button class="md-icon-button" ng-click="cancel()">
+              <i class="material-icons" aria-label="Close dialog">
+                clear
+              </i>
+          </md-button>
+        </div>
+      </div>
+      <!-- Title section -->
+
+      <!-- Script area -->
+      <md-input-container layout="row">
+
+      <div ng-bind-html="data.content"></div>
+        
+      </md-input-container>
+      <!-- Script area -->
+
+    </div>
+  </md-dialog-content>
+</md-dialog>

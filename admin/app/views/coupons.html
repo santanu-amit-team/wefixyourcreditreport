@@ -1,0 +1,107 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="listIds" list="lists" full-list="fullList" search-by="coupon_label" type-by="coupon_type" search-placeholder="Search coupons..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+        <flat-button-directive url='#/coupon-manager' title='Coupon' type='add'  ></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+
+<div ng-init="getCoupons();" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="15" class="right-padding-20"><b>Coupon Name</b></div>
+            <div flex="15" class="right-padding-20"><b>Code</b></div>
+            <div flex="" class="right-padding-20"><b>Type</b></div>
+            <div flex="" class="right-padding-20"><b>Discount Type</b></div>
+            <div flex="" class="right-padding-20"><b>Expiry Date</b></div>
+            <div flex="" class="right-padding-20"><b>Use Limit</b></div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editCoupon(data.id);" layout = "row" layout-align="end center" ng-repeat-start="data in lists| filter:{coupon_label: searchText} as Result" class="list-repeated-item">
+            <div ng-click="$event.stopPropagation();" flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                <div class="">
+                    <md-checkbox ng-checked="exists(data.id)" ng-click="toggle(data.id)" aria-label="Checkbox 1"></md-checkbox>                    
+                </div>
+            </div>
+            <div flex="5" flex-md="5" class="right-padding-20 text-align-right small-width-table">
+                {{data.id}}
+            </div>
+            <div flex="15" class="right-padding-20">
+                <span class="setting-link word-limits">
+                    {{data.coupon_label}} 
+                </span>
+            </div>
+            <div flex="15" class="right-padding-20">
+                
+                <span ng-if="data.coupon_code.length" class="word-limits">
+                    {{data.coupon_code}}
+                </span>
+
+                <span ng-if="!data.coupon_code.length">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </span>
+            
+            </div>
+            <div flex="" class="right-padding-20">
+                {{data.coupon_type | ucfirst}}
+            </div>
+            <div flex="" class="right-padding-20">
+                {{data.discount_type | ucfirst}}
+            </div>
+            <div flex="" class="right-padding-20">
+                
+                <span ng-if="data.coupon_end_date.length">
+                    {{ data.coupon_end_date | date:'MMM d, yyyy' }}
+                </span>
+
+                <span ng-if="!data.coupon_end_date.length">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </span>
+                
+            </div>
+            <div flex="" class="right-padding-20">
+                <span ng-if="data.enable_coupon_use_limits && data.coupon_use_times.length">
+                    {{ data.coupon_use_times }}
+                </span>
+
+                <span ng-if="!data.enable_coupon_use_limits || !data.coupon_use_times.length">
+                    <i class="material-icons gray-dott">fiber_manual_record</i>
+                </span>
+                
+            </div>
+            <div flex="5" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open menu" class="md-icon-button"
+                                 ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="editCoupon(data.id)">
+                                    <span md-menu-align-target>Edit</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                            <md-menu-item ng-repeat="action in filterActions">
+                                <md-button ng-click="this[action.method](data.id)">
+                                    <span md-menu-align-target>{{action.val}}</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!lists.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

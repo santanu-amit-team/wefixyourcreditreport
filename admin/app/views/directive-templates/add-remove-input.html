@@ -1,0 +1,107 @@
+<!-- Theme 1 : Horizontal align input-->
+<div class="{{classes}}">
+    <div layout="row" layout-wrap="" ng-show="theme == 1">	
+        <div flex="50" class="loop-colum" layout-alignment="stretch" style="display: flex; align-items: stretch;">
+            <md-input-container flex="100" class="add-colum-panel placeholder-label" ng-show="inputType=='text'">
+                <div class="col-wrapper">
+                    <div class="select-plus">
+                        <input type="text" name="addInput" ng-model="addInput" placeholder="{{inputPlaceholder}}" aria-label="Add input">
+                        <md-button class="md-icon-button" aria-label="Add" ng-click="addMethod(addInput)">
+                            <i class="material-icons">add</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+            <md-input-container flex class="add-colum-panel placeholder-label"  ng-if="inputType=='select'">
+                <div class="col-wrapper">
+                    <label for="">{{addInputLabel}}</label>
+                    <div class="select-plus">
+                        <md-select name="addInput" id="" ng-model="addInput" aria-label="select input">
+                            <md-option value="" selected>{{inputData.default_option}}</md-option>
+                            <md-option ng-repeat="option in inputData.options" value="{{option[inputData.key]}}">{{option[inputData.label]}}</md-option>
+                        </md-select>
+                        <md-button class="md-icon-button" aria-label="Add"  ng-click="addMethod(addInput)">
+                            <i class="material-icons">add</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex="50" class="loop-colum" layout-alignment="stretch" ng-repeat="arr in addedArr track by $index" style="display: flex; align-items: stretch;"  ng-if="inputType=='text'">
+            <md-input-container flex="100" class="add-colum-panel">
+                <div class="col-wrapper">
+                    <div class="select-plus">
+                        <input type="text" class="purple-cell" name="addedInput{{$index}}" ng-model="addedInput[$index]" aria-label="Show added input" ng-change="edit($index);">
+                        <md-button class="md-icon-button md-primary" aria-label="Add" ng-click="remove($index);">
+                        <i class="material-icons">remove</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex="50" class="loop-colum" layout-alignment="stretch" ng-repeat="arr in selectedArr track by $index" style="display: flex; align-items: stretch;"  ng-if="inputType=='select'">
+            <md-input-container flex="100" class="add-colum-panel">
+                <div class="col-wrapper">
+                    <div class="select-plus">
+                        <input type="text" class="purple-cell" aria-label="Show added input" ng-readonly="true" value="{{arr.label}}">
+                        <md-button class="md-icon-button md-primary" aria-label="Add" ng-click="remove($index);">
+                        <i class="material-icons">remove</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+    </div>
+</div>
+
+<!-- Theme 2 -->
+<div layout="row" class="{{classes}}" ng-show="theme == 2">
+    <md-input-container flex="50" class="add-colum-panel">
+        <label for="">{{addInputLabel}}</label>
+        <input type="text" name="addInput" ng-model="addInput" aria-label="Add input">
+    </md-input-container>
+    <div layout="column" flex="15" class="" layout-align="end end">
+        <md-button class="margin-right-0 margin-bottom-0 md-raised md-primary add-button" ng-click="addMethod(addInput)">Add</md-button>
+    </div>
+</div>
+<div layout="row" class="{{classes}} " layout-wrap="" ng-show="theme == 2" ng-class="{'top-gap-25':addedArr.length > 0}">
+    <div flex="50" class="loop-colum" layout-alignment="stretch" ng-repeat="arr in addedArr track by $index" style="display: flex; align-items: stretch;">
+        <md-input-container flex="100" class="add-colum-panel with-label">
+            <label for="">{{addedInputLabel | strReplace:'[replace]':($index + 1)}}</label>
+            <input type="text" class="purple-cell" name="addedInput{{$index}}" ng-model="addedInput[$index]" aria-label="Show added input" ng-change="edit($index);">
+            <md-button class="md-icon-button md-primary" aria-label="Add" ng-click="remove($index);">
+                <i class="material-icons">remove</i>
+            </md-button>
+        </md-input-container>
+    </div>
+</div>
+
+<!-- Theme 3 : Vertical align input-->
+<div class="{{classes}}">
+    <div layout="row" layout-wrap="" ng-show="theme == 3">  
+        <div flex="100" class="loop-row" layout-alignment="start" style="display: flex; ">
+            <md-input-container flex="100" class="add-colum-panel placeholder-label" ng-show="inputType=='text'">
+                <div class="col-wrapper">
+                    <div class="select-plus">
+                        <input type="text"  ng-model="addInput" placeholder="{{inputPlaceholder}}" aria-label="Add input">
+                        <md-button class="md-icon-button" aria-label="Add" ng-click="addMethod(addInput)">
+                            <i class="material-icons">add</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+        <div flex="100" class="loop-row" layout-alignment="start" ng-repeat="arr in addedArr track by $index" style="display: flex; align-items: stretch;">
+            <md-input-container flex="100" class="add-colum-panel">
+                <div class="col-wrapper">
+                    <div class="select-plus">
+                        <input type="text" class="purple-cell" name="addedInput{{$index}}" ng-model="addedInput[$index]" aria-label="Show added input" ng-change="edit($index);">
+                        <md-button class="md-icon-button md-primary" aria-label="More" ng-click="remove($index);">
+                        <i class="material-icons">remove</i>
+                        </md-button>
+                    </div>
+                </div>
+            </md-input-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,594 @@
+<style>
+    .campaign-sync md-checkbox span{
+        font-size: 14px;
+    }
+    .campaign-import{
+            margin: 0;
+    text-align: right;
+    color: #5C79FF;
+    font-weight: 400;
+    cursor: pointer;
+    }
+</style>
+<!-- form -->
+<div layout="row" layout-align="center" ng-init="checkAsyncSplitExtension();">
+    <md-content class="f1f1f1" flex>
+        <form name="CampForm" ng-submit="SubmitForm()" novalidate>
+            <!-- version and form buttons-->
+            <div layout-padding layout="row" class="padding-left-0 padding-right-0 wrap-top-gap bottom-gap-25">
+                <div flex layout="column" layout-align="center start">
+                    <version-list class="padding-left-0" name="campaigns" scope-obj="campaign"></version-list>
+                </div>
+                <div flex layout="row" layout-align="end center">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="CampForm.$invalid || CampForm.$submitted">{{CrmForm.$submitted ? 'Saving...' : 'Save Campaign'}}</md-button>
+                </div> 
+            </div>
+            <!-- version form buttons-->
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Campaign Details</p></div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="campaign_label" >Campaign Name <span class='required_field'>*</span></label>
+                                <input type="text" name="campaign_label" ng-model="campaign.campaign_label" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="crm">CRM <span class='required_field'>*</span></label>  
+                                <md-select name="crm_id" ng-model="campaign.crm_id" required ng-change="crmTypeChange();">
+                                    <md-option ng-repeat="crm in crm_lists" value="{{crm.id}}">{{crm.crm_label | ucfirst}}</md-option>
+                                </md-select> 
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="campaign_type">Campaign Type <span class='required_field'>*</span></label>
+                                <md-select name="campaign_type" ng-model="campaign.campaign_type">
+                                    <md-option ng-repeat="campaignType in campaignTypes" ng-if="(advanced_mode == false && campaignType.key != 3) || advanced_mode" value="{{campaignType.key}}">{{campaignType.val}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="campaign_id">CRM Campaign ID # <span class='required_field'>*</span></label>
+                                <input type="text" name="campaign_id" ng-model="campaign.campaign_id" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <div flex="60" >
+                            <div class="col-wrapper campaign-sync">
+                              <md-checkbox ng-model="campaign.enable_product_shipping_auto_sync" aria-label="Back Button Checkbox">
+
+                                  Automatically sync product and shipping settings from CRM
+                              </md-checkbox>
+                            </div>
+                        </div>
+                        <div flex="40" >
+                            <div class="col-wrapper">
+                                <p class="campaign-import" ng-click="openImportCmpPopup()" >Import Campaign Data from CRM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- shipping -->
+                <div class="row-form-panel with-padding">
+                    
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Shipping</p></div>
+                    <div class="col-wrapper">
+                        <div md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white">
+                            <div class="row-form-panel" layout="column" >
+                            
+                                <div layout="row">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="shipping_id" >Shipping ID <span class='required_field'>*</span></label>
+                                            <input type="text" ng-pattern="/^[0-9]+$/" name="shipping_id" ng-model="campaign.shipping_id" required>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="shipping_price" >Shipping Price</label>
+                                            <input type="text" ng-pattern="/^[0-9.]+$/" name="shipping_price" ng-model="campaign.shipping_price">
+                                        </div>
+                                    </md-input-container>
+                                </div>  
+                              
+                            <div layout="row" layout-align="end">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled">Default Shipping</button>
+                                        </div>
+                                    </md-input-container>
+                          
+                                </div>    
+                                
+                            </div>
+                        </div> 
+                        <div ng-if="campaign.shipping_profiles.length>0" md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white" ng-repeat="shipProfile in campaign.shipping_profiles track by $index">
+                            <div class="row-form-panel" layout="column" >
+                            
+                                <div layout="row">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="shipping_id" >Shipping ID <span class='required_field'>*</span></label>
+                                            <input type="text" ng-pattern="/^[0-9]+$/" name="shipping_id" ng-model="campaign.shipping_profiles[$index].shipping_id" required>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="shipping_price" >Shipping Price</label>
+                                            <input type="text" ng-pattern="/^[0-9.]+$/" name="shipping_price" ng-model="campaign.shipping_profiles[$index].shipping_price">
+                                        </div>
+                                    </md-input-container>
+                                </div>  
+                              
+                            <div layout="row" layout-align="end">
+
+                                    <md-input-container flex class="right-shift">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" ng-click="removeShipping($index);" >Remove<div class="md-ripple-container" style=""></div>
+                                            </button>
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" ng-click="setDefaultShipping($index)" >Set As Default<div class="md-ripple-container" style=""></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>    
+                                
+                            </div>
+                        </div> 
+                    </div>                    
+                </div>
+
+                <!-- Billing Type -->
+                <div class="row-form-panel with-padding">
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="billing_module">Billing Type</label>
+                                <md-select name="billing_type" ng-model="campaign.billing_type" ng-change="billingTypeSelect(campaign.billing_type);" ng-init="campaign.billing_type = 1">
+                                    <md-option ng-repeat="type in billingModuleTypes" value="{{type.key}}">{{type.label}}</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper" ng-if="crm_type == 'vrio'">
+                                <label for="connection_id" >Connection ID <span class='required_field'>*</span></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="connection_id" ng-model="campaign.connection_id" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <!-- products -->
+                 <div class="inner-box-wrapper"  ng-if="campaign.billing_type == 1 && crm_type != 'vrio'" ng-repeat="productArr in campaign.product_array track by $index">
+                     <div class="col-wrapper">
+                        <div md-whiteframe="3" style="background: white">
+                            <div class="row-form-panel with-padding">
+                                <div layout="row" class="top-gap-0">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_id">Product ID <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_price">Product Price <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="retail_price">Retail Price <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_quantity">Product Quantity <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="rebill_product_price">Rebill Product Price</label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'sixcrm'">
+                                        <div class="col-wrapper">
+                                            <label for="product_schedule">Product Schedule <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'sixcrm'">
+                                        <div class="col-wrapper">
+                                            <label for="product_schedule_quantity">Product Schedule Quantity <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'responsecrm'">
+                                        <div class="col-wrapper">
+                                            <label for="product_key">Product Key</label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'nmi'">
+                                        <div class="col-wrapper">
+                                            <label for="nmi_plan_id">Plan ID <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'm1billing'">
+                                        <div class="col-wrapper">
+                                            <label for="m1billing_offer_id">M1 Offer ID <span class='required_field'>*</span></label>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" class="top-gap-0">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_id" ng-model="campaign.product_array[$index].product_id" required aria-label="Product ID">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_price" ng-model="campaign.product_array[$index].product_price" required aria-label="Product Price">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="retail_price" ng-model="campaign.product_array[$index].retail_price" required aria-label="Retail Price">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_quantity" ng-model="campaign.product_array[$index].product_quantity" required aria-label="Product Quantity">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="rebill_product_price" ng-model="campaign.product_array[$index].rebill_product_price" aria-label="Rebill product price">
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex ng-if="crm_type == 'sixcrm'">
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_schedule" ng-model="campaign.product_array[$index].product_schedule" required aria-label="Product schedule">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'sixcrm'">
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_schedule_quantity" ng-model="campaign.product_array[$index].product_schedule_quantity" required aria-label="Product schedule quantity">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'responsecrm'">
+                                        <div class="col-wrapper">
+                                            <input type="text" name="product_key" ng-model="campaign.product_array[$index].product_key" aria-label="Product key">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'nmi'">
+                                        <div class="col-wrapper">
+                                            <input type="text" name="nmi_plan_id" ng-model="campaign.product_array[$index].nmi_plan_id" required aria-label="Plan Id">
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex ng-if="crm_type == 'm1billing'">
+                                        <div class="col-wrapper">
+                                            <input type="text" name="m1billing_offer_id" ng-model="campaign.product_array[$index].m1billing_offer_id" required aria-label="Product key">
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-align="end">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled" ng-if="campaign.product_array[$index].product_name">{{campaign.product_array[$index].product_name}}</button>
+                                            <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled" ng-if="!campaign.product_array[$index].product_name">Product {{$index + 1}}</button>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex class="right-shift">
+                                        <div class="col-wrapper">
+                                            <button class="md-button md-ink-ripple remove-btn" type="button" ng-click="remove($index);" ng-if="$index != 0">Remove<div class="md-ripple-container" style=""></div></button>
+
+                                            <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" ng-click="add()" ng-if="(campaign.product_array.length -1) == $index">Add Product<div class="md-ripple-container" style=""></div></button>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offer Based -->
+                <div class="inner-box-wrapper"  ng-if="campaign.billing_type == 1 && crm_type == 'vrio'" ng-repeat="productArr in campaign.product_array track by $index">
+                    <div class="col-wrapper">
+                       <div md-whiteframe="3" style="background: white">
+                           <div class="row-form-panel with-padding">
+                               <div layout="row" class="top-gap-0">
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <label for="offer_id">Offer ID <span class='required_field'>*</span></label>
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <label for="offer_price">Offer Price <span class='required_field'>*</span></label>
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <label for="retail_price">Retail Price <span class='required_field'>*</span></label>
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <label for="offer_quantity">Offer Quantity <span class='required_field'>*</span></label>
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="order_offer_id">Order Offer ID </label>
+                                        </div>
+                                    </md-input-container>
+                               </div>
+                               <div layout="row" class="top-gap-0">
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <input type="text" name="offer_id" ng-model="campaign.product_array[$index].offer_id" required aria-label="Order ID">
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <input type="text" name="offer_price" ng-model="campaign.product_array[$index].offer_price" required aria-label="Offer Price">
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <input type="text" name="retail_price" ng-model="campaign.product_array[$index].retail_price" required aria-label="Retail Price">
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <input type="text" name="offer_quantity" ng-model="campaign.product_array[$index].offer_quantity" required aria-label="Offer Quantity">
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <input type="text" name="order_offer_id" ng-model="campaign.product_array[$index].order_offer_id" aria-label="Order Offer ID">
+                                        </div>
+                                    </md-input-container>
+                               </div>
+
+                               <div layout="row" layout-align="end">
+                                   <md-input-container flex>
+                                       <div class="col-wrapper">
+                                           <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled" ng-if="campaign.product_array[$index].product_name">{{campaign.product_array[$index].product_name}}</button>
+                                           <button class="md-primary md-button md-ink-ripple remove-btn font-italic" type="button"ng-disabled="true" disabled="disabled" ng-if="!campaign.product_array[$index].product_name">
+                                              
+                                               <span ng-if="crm_type != 'vrio'"> Product {{$index + 1}}</span>
+                                               <span ng-if="crm_type == 'vrio'"> Offer {{$index + 1}}</span>
+                                           </button>
+                                       </div>
+                                   </md-input-container>
+                                   <md-input-container flex class="right-shift">
+                                       <div class="col-wrapper">
+                                           <button class="md-button md-ink-ripple remove-btn" type="button" ng-click="remove($index);" ng-if="$index != 0">Remove<div class="md-ripple-container" style=""></div></button>
+
+                                           <button class="md-primary md-hue-1 md-button md-ink-ripple remove-btn" type="button" ng-click="add()" ng-if="(campaign.product_array.length -1) == $index">
+                                               <span ng-if="crm_type != 'vrio'">Add Product</span>
+                                               <span ng-if="crm_type == 'vrio'">Add Offer</span>
+                                               <div class="md-ripple-container" style=""></div>
+                                            </button>
+                                       </div>
+                                   </md-input-container>
+                               </div>
+                           </div>    
+                       </div>
+                   </div>
+               </div>
+
+
+                <!-- <div ng-if="campaign.enable_billing_module" md-whiteframe="3" layout-padding layout-margin  style="background: white"> -->
+                <div class="row-form-panel with-padding" ng-if="campaign.billing_type == 2" style="border-top: 0">
+                    <div class="row-form-panel with-padding">
+                    <p class="md-title" layout-padding>Main Product Details</p>
+                        <div md-whiteframe="3" layout-padding layout-margin class="o-t-g-20" style="background: white">
+                            <div class="row-form-panel" layout="column">
+                                <div layout="row">
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_id" >Product ID <span class='required_field'>*</span></label>
+                                            <input type="text"  name="product_id" ng-model="campaign.product_array[0].product_id" required>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_price" >Product Price</label>
+                                            <input type="text"  name="product_price" ng-model="campaign.product_array[0].product_price">
+                                        </div>
+                                    </md-input-container>
+                                     <md-input-container flex>
+                                        <div class="col-wrapper">
+                                            <label for="product_quantity" >Product Quantity</label>
+                                            <input type="text"  name="product_quantity" ng-model="campaign.product_array[0].product_quantity">
+                                        </div>
+                                    </md-input-container>
+                                </div>  
+                        </div> 
+                    </div>                    
+                </div>
+                    <div layout="row" ng-init="campaign.enable_billing_module=true">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="campaign_id">Offer ID <span class='required_field'>*</span></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="campaign_id" ng-model="campaign.offer_id" required>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="shipping_id" >Billing Model ID <span class='required_field'>*</span></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="shipping_id" ng-model="campaign.billing_model_id" required>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="product_price">Children Settings (product_id | quantity (comma separated))</label>
+                                <input type="text" name="children_settings" ng-model="campaign.children_settings">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="shipping_price">Trial Product Id</label>
+                                <input type="text" ng-pattern="/^[0-9.]+$/" name="shipping_price" ng-model="campaign.trial_product_id">
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="product_id">Trial Product Price</label>
+                                <input type="text" name="product_id" ng-model="campaign.trial_product_price">
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="product_price" >Trial Product Quantity</label>
+                                <input type="text" name="product_price" ng-model="campaign.trial_product_quantity">
+                            </div>
+                        </md-input-container>
+
+                    </div>         
+                    <div layout="row">
+                        <md-input-container flex>
+                            <div class="col-wrapper">
+                                <label for="product_price" >Trial Children Settings (product_id | quantity (comma separated))</label>
+                                <input type="text" name="trial_children_settings" ng-model="campaign.trial_children_settings">
+                            </div>
+                        </md-input-container>
+                    </div>         
+                </div>
+
+                <div ng-show="enableCouponextension && couponLoadComplete">
+                    <md-divider></md-divider>
+                    <!-- Coupon -->
+                    <div class="row-form-panel with-padding">
+                        <div class="col-wrapper"><p class="md-title" layout-padding>Coupons</p></div>
+                        <div layout="row" ng-if="couponLoadComplete">
+                            <div flex="100">
+                                <add-remove-input 
+                                    name="campaign" 
+                                    scope-obj="campaign" 
+                                    scope-update-key="coupon_ids" 
+                                    empty-msg="Please select coupon." 
+                                    duplicate-msg="Coupon already selected" 
+                                    input-placeholder="Select coupon..." 
+                                    validation-key="validation" 
+                                    data-separator="{{ coupon_code_separator }}" 
+                                    theme="1" classes="" input-type="select" 
+                                    input-data="{{ inputData.couponList }}">
+                                </add-remove-input>
+                            </div>
+                        </div>                 
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white" >
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Campaign Limit</p></div>
+                    <div layout="row">
+                        <div flex layout="column" >
+                            <div class="col-wrapper">
+                                <md-checkbox ng-model="campaign.enable_campaign_limit" aria-label="Enable Prepaid Campaigns">
+                                    Enable Campaign Limit
+                                    <span aria-label="Refresh" class="test-tooltip">
+                                        <md-tooltip md-direction="right">Switch to alternate campaign when traffic limit reached for this particular campaign</md-tooltip>
+                                        <i class="material-icons">help_outline</i>
+                                    </span>
+                                </md-checkbox>
+                            </div>
+                        </div>
+                        </div>
+                    <div layout="row" ng-if="campaign.enable_campaign_limit">
+
+                         <md-input-container flex="50">
+                            <div class="col-wrapper">
+                                <label for="limit" >Limit<span class='required_field'>*</span></label>
+                                <input type="text" ng-pattern="/^[0-9]+$/" name="limit" ng-model="campaign.campaign_limit" required>
+                            </div>
+                        </md-input-container>
+                         <md-input-container flex="50" >
+                            <div class="col-wrapper">
+                                <label for="prepaid_campaign_id">Alternate Campaign
+                                    <span class='required_field'>*</span></label>
+                                <md-select name="prepaid_campaign_id" ng-model="campaign.alter_campaignid">
+                                    <md-option value="">Select Alternate Camapign</md-option>
+                                    <md-option  ng-repeat="campaignList in campaignLists"
+                                               value="{{campaignList.id}}"  
+                                               ng-if="campaignList.id != campaign.id"  >
+                                        {{campaignList.campaign_label}} ({{campaignList.id}})
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                    </div>
+                  
+                </div>
+            </div>
+
+            <div md-whiteframe="3" layout-padding layout-margin  style="background: white" ng-if="campaign.campaign_type != 2">
+                <div class="row-form-panel with-padding">
+                    <div class="col-wrapper"><p class="md-title" layout-padding>Related Campaigns</p></div>
+                    <div layout="row">
+                        <div flex layout="column" ng-if="campaign.campaign_type != 2">
+                            <div class="col-wrapper">
+                                <md-checkbox ng-model="campaign.enable_prepaid_campaigns" aria-label="Enable Prepaid Campaigns">
+                                    Enable Prepaid Campaigns
+                                </md-checkbox>
+                            </div>
+                        </div>
+                        <div flex layout="column" ng-if="advanced_mode && campaign.campaign_type != 3 && campaign.campaign_type != 2">
+                            <div class="col-wrapper">
+                                <md-checkbox ng-model="campaign.enable_order_filter_campaigns" aria-label="Enable Order Filter Campaigns">
+                                Enable Order Filter Campaigns
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="campaign.campaign_type != 2">
+                        <md-input-container flex="50" ng-if="campaign.campaign_type != 2 && campaign.enable_prepaid_campaigns">
+                            <div class="col-wrapper">
+                                <label for="prepaid_campaign_id">Select Prepaid Campaign</label>
+                                <md-select name="prepaid_campaign_id" ng-model="campaign.prepaid_campaign_id">
+                                    <md-option value="">Select</md-option>
+                                    <md-option ng-if="campaignList.campaign_type == 2" ng-repeat="campaignList in campaignLists" value="{{campaignList.id}}">{{campaignList.campaign_label}} ({{campaignList.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" ng-if="advanced_mode && campaign.campaign_type != 3 && campaign.campaign_type != 2 && campaign.enable_order_filter_campaigns">
+                            <div class="col-wrapper">
+                                <label for="scrap_campaign_id">Select {{orderFilterText}} Campaign</label>
+                                <md-select name="scrap_campaign_id" ng-model="campaign.scrap_campaign_id">
+                                    <md-option value="">Select</md-option>
+                                    <md-option ng-if="campaignList.campaign_type == 3" ng-repeat="campaignList in campaignLists" value="{{campaignList.id}}">{{campaignList.campaign_label}} ({{campaignList.id}})</md-option>
+                                </md-select>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container ng-if="advanced_mode && campaign.campaign_type != 3 && campaign.campaign_type != 2"></md-input-container>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-gap-25 layout-margin">
+                <div layout="row" layout-align="end">
+                    <md-button class="md-raised" ng-click="goBack()">Cancel</md-button>
+                    <md-button  type="submit" class="margin-right-0 md-raised md-primary" ng-disabled="CampForm.$invalid || CampForm.$submitted">{{CrmForm.$submitted ? 'Saving...' : 'Save Campaign'}}</md-button>
+                </div>        
+            </div>
+        </form>
+
+    </md-content>
+</div>
+
+            

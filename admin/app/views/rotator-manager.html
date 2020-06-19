@@ -1,0 +1,113 @@
+<div layout-padding layout="row" class="padding-left-0 padding-right-0">
+	<div flex layout-align="start center">
+		<version-list class="padding-left-0" name="rotators" scope-obj="rotator"></version-list>
+	</div>
+	<div flex layout-align="end center" class="padding-left-0 padding-right-0">
+		<flat-button-directive url='#/rotators' title='' type='back'  ></flat-button-directive>
+	</div>
+</div>
+<div layout="column" layout-align="center">
+    <md-content class="f1f1f1">
+		<form name="RotatorForm" ng-submit="SubmitForm()" novalidate>
+			<div md-whiteframe="3" layout-padding layout-margin  style="background: white">
+				<div layout="row">
+					<md-input-container flex>
+						<label for="label" >Label</label>
+						<input type="text" name="label" ng-model="rotator.label" required>
+					</md-input-container>
+					<md-input-container flex>
+						<label for="company_name">Company Name</label>
+						<input type="text" name="company_name" ng-model="rotator.company_name" required>
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="image_name">Image Name</label>
+						<input type="text" name="image_name" ng-model="rotator.image_name" required>
+					</md-input-container>
+					<md-input-container flex>
+						<label for="address" >Address</label>
+						<input type="text" name="address" ng-model="rotator.address" required>
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="phone_no" >Phone no</label>
+						<input type="text" name="phone_no" ng-model="rotator.phone_no" required>
+					</md-input-container>
+					<md-input-container flex>
+						<label for="email" >Email</label>
+						<input type="email" name="email" ng-model="rotator.email" required>
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<md-input-container flex>
+						<label for="percentage" >Percentage</label>
+						<input type="text" ng-pattern="/^[0-9]+$/" name="percentage" ng-model="rotator.percentage" required>
+					</md-input-container>
+				</div>	
+
+				<div class="input_fields_wrap">
+                    <div class="per_row" layout="row" ng-repeat="configurationCombination in rotator.configuration_mapping track by $index">
+                        <md-input-container flex="40">
+                            <label for="config1">
+                                Configuration
+                            </label>
+                            <md-select name="config1" ng-model="configurationCombination[0]">
+                                <md-option value="">
+                                    Select
+                                </md-option>
+                                <md-option ng-repeat="configuration in configurations" value="{{configuration.id}}">
+                                    {{configuration.configuration_label.length ? configuration.configuration_label : 'N/A'}} ({{configuration.id}})
+                                </md-option>
+                            </md-select>
+                            <span ng-model="rotator.configurationHint.config_first">
+                            </span>
+                        </md-input-container>
+                        <div flex="5">
+                        </div>
+                        <md-input-container flex="40">
+                            <label for="config2">
+                                Configuration
+                            </label>
+                            <md-select name="config2" ng-model="configurationCombination[1]">
+                                <md-option value="">
+                                    Select
+                                </md-option>
+                                <md-option ng-repeat="configuration in configurations" value="{{configuration.id}}">
+                                    {{configuration.configuration_label.length ? configuration.configuration_label : 'N/A'}} ({{configuration.id}})
+                                </md-option>
+                            </md-select>
+                            <span ng-model="rotator.configurationHint.config_second">
+                            </span>
+                        </md-input-container>
+                        <div class="action_div" flex="15">
+                            <md-button class="md-icon-button" ng-click="deleteRowConfig($index);" ng-if="($first ? false : true)">
+                                <i class="material-icons">
+                                    
+                                </i>
+                                <md-tooltip md-direction="top">
+                                    Delete
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" ng-click="addRowConfig();" ng-if="($last ? true : false)">
+                                <i class="material-icons">
+                                    
+                                </i>
+                                <md-tooltip md-direction="top">
+                                    Add
+                                </md-tooltip>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+
+				<div layout="row" layout-align="end center">
+					<label for=""></label>
+					<md-button  type="submit" class="margin-left-0 md-primary" ng-disabled="RotatorForm.$invalid || RotatorForm.$submitted">Save</md-button>
+					<md-button class="margin-right-0" ng-click="goBack()">Cancel</md-button>
+				</div>
+			</div>
+		</form>
+    </md-content>
+</div>

@@ -1,0 +1,79 @@
+<!-- filter bar -->
+<div layout="row" class="wrap-top-gap">
+    <div flex="90" layout="column">
+        <filter-bar selected-rows-key="selectedRows" list-keys="userIds" list="users" full-list="fullList" search-by="username" type-by="user_type_id" search_placeholder="Search users..."></filter-bar>
+    </div>
+    <div flex="10" layout="column" layout-align="center end" ng-if="dataLoadComplete == true">
+        <flat-button-directive url='#/user-manager' title='User' type='add'></flat-button-directive>
+    </div>
+</div>
+<!-- filter bar -->
+
+<div ng-init="" layout = "row" layout-align="center" md-whiteframe="3" layout-padding layout-margin  style="background: white">
+    <md-content flex class="list-tab-wraper">
+        <div layout = "row" layout-align="start center">
+            <div flex="5" flex-md="5" class=""></div>
+            <div flex="5" flex-md="5" class="right-padding-20 small-width-table text-align-right"><b>#</b></div>
+            <div flex="25" class="right-padding-20"><b>Username</b></div>
+            <div flex="25" class="right-padding-20"><b>User type</b></div>
+            <div flex="20" class="right-padding-20"><b>Password</b></div>
+            <div flex class="right-padding-20"><b></b></div>
+            <div flex="5" class="text-right-align right-padding-10"></div>
+        </div>
+        <md-divider></md-divider>
+        <div ng-click="editUser(user.id)" layout = "row" layout-align="end center" ng-repeat-start="user in users" class="list-repeated-item">
+            <div flex="5" flex-md="10" ng-click="$event.stopPropagation();" class="right-padding-20 text-align-right small-width-table">
+                <md-checkbox ng-checked="exists(user.id)" ng-click="toggle(user.id)" aria-label="Checkbox 1"></md-checkbox>
+            </div>
+            <div flex="5" flex-md="10" class="right-padding-20 text-align-right small-width-table">
+                {{user.id}}
+            </div>
+            <div flex="25" class="right-padding-20">
+                <span class="setting-link word-limits">
+                    <md-tooltip md-direction="right">
+                        {{ user.username }}
+                    </md-tooltip>
+                    {{ user.username }}
+                </span>
+            </div>
+            <div flex="25" class="right-padding-20">{{user.usertype}}</div>
+            <div flex="20" class="right-padding-20 primary-color-onhover" ng-init="eye = false">
+                    {{ (eye == true) ? user.password : '**********'}}
+            </div>
+            <div flex class="right-padding-20" ng-click="$event.stopPropagation();">
+                <md-button class="md-icon-button" ng-show="!eye" aria-label="view" ng-click="eye = true;">
+				  <i class="material-icons">&#xE417;</i>
+				</md-button>
+				<md-button class="md-icon-button setting-link" ng-show="eye" aria-label="view" ng-click="eye = false;">
+				  <i class="material-icons">&#xE8F5;</i>
+				</md-button>
+            </div>
+            <div flex="5" class="right-padding-20">
+                <md-menu>
+                    <md-button aria-label="Open demo menu" class="md-icon-button"
+                                 ng-click="$mdOpenMenu($event)">
+                        <i class="material-icons">more_vert</i>
+                    </md-button>
+                    <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="editUser(user.id)">
+                                    <span md-menu-align-target>Edit</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                            <md-menu-item ng-repeat="action in filterActions">
+                                <md-button ng-click="this[action.method](user.id)">
+                                    <span md-menu-align-target>{{action.val}}</span>
+                                </md-button>
+                            </md-menu-item>
+    
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+        <md-divider ng-repeat-end ng-show='{{$last ? false : true}}'></md-divider>
+        <div layout = "row" layout-padding ng-show="!users.length" class="no-data-text">
+            <div flex layout="row" layout-align="center center"><no-data-text></no-data-text></div>
+        </div>
+    </md-content>
+</div>

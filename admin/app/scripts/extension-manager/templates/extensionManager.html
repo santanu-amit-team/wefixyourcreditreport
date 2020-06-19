@@ -1,0 +1,69 @@
+<md-dialog flex="45" class="uninstall-dialog">
+    <md-dialog-content>
+        <div class="uninstall-panel">
+            <h3 class="uninstall-heading">Extension Manager - {{action | ucfirst}}</h3>
+            <!-- <p>{{action | ucfirst}} all selected extensions in one pass. You can deselect extensions here if you’ve accidentally selected them.</p> -->
+            <p ng-show="confirmationStep" style="min-height: 36px;">Check the components you want to {{action}} and uncheck the components you don't want to {{action}}. Click Proceed to continue.</p>
+            <p ng-show="!confirmationStep" style="min-height: 36px;">Please wait while the {{managerText[action]}} is {{inprogress_text[action]| lowercase}} the extensions ...</p>
+
+            <ul class="extention-listing scroller" layout="column" data-simplebar id="listul">
+
+                <li class="list-heading" layout-align="start center" ng-class="{'slid-left' : confirmationStep === false}" id="list_heading_li">
+                    <div class="check-absolute">
+                        <md-checkbox flex="10" aria-label="All select" ng-checked="isChecked()" ng-click="toggleAll()" class="fade-out" ng-hide="confirmationStep === false">
+                        </md-checkbox>
+                    </div>
+                    <div layout="row" flex="100">
+                        <div flex="15"></div>
+                        <div flex="85" layout="column" layout-align="center">
+                            <strong class="light-bold" flex="75">Extensions</strong>
+                        </div>
+                    </div>
+                </li>
+
+                <li ng-repeat="extension in selectedExtensionsData track by $index" ng-class="{'slid-left' : confirmationStep === false}" layout-align="start center" class="list-heading list-items" id="extension_{{extension.extension_slug}}">
+
+                    <div class="check-absolute">
+                        <md-checkbox aria-label="Extension checkbox" ng-checked="exists(extension.extension_slug)" ng-click="toggle(extension.extension_slug, extension);" class="fade-out" ng-hide="confirmationStep === false">
+                        </md-checkbox>
+                    </div>
+
+                    <div layout="row" flex="100">
+                        <div flex="15" layout="column" layout-align="center">
+                            <div class="extention-uninstall ease-animation">
+                                <md-button class="md-icon-button" aria-label="Favorite" ng-click="">
+                                    <img src="../../assets/images/puzzle-icon.svg" alt="extension image" />
+                                </md-button> 
+                            </div>
+                        </div>
+                        <div flex="85" layout="column" layout-align="center">
+                            <div layout="row" layout-align="start center">
+                                <div flex="60">{{extension.extension_name}}</div> 
+                                <div class="fade-in" layout="row" layout-align="end start" flex="40" ng-hide="confirmationStep === true">
+                                    <span class="complete-text" id="progress_text_{{extension.extension_slug}}">
+                                        <!-- {{determinateValue[extension.id] > 0 ? determinateValue[extension.id] + '%' : 'Pending'}} -->
+                                        {{progressStatus[extension.extension_slug]}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div ng-hide="confirmationStep === true">
+                                <div class="progress" id="progressbar_{{extension.extension_slug}}">
+                                  <div class="determinate fade-in" style="width: {{determinateValue[extension.extension_slug]}}%"></div>
+                                </div>
+
+                            </div>
+                        </div>                        
+                    </div>
+
+                </li>
+            </ul>
+            <div layout="row" layout-align="end">
+                <md-button type="submit" class="md-raised fade-out" ng-click="cancel();" ng-disabled="actionInProgress" ng-show="confirmationStep || actionStep">Cancel</md-button>
+
+                <md-button class="margin-right-0 md-raised md-primary" ng-disabled="!validattion() || actionInProgress === true" ng-click="confirmationStep ? proceed() : (actionStep ? performAction() : cancel())">
+                    {{confirmationStep ? submitBtnText[1] : (actionStep ? submitBtnText[2] : submitBtnText[3])}}
+                </md-button>
+            </div> 
+        </div>
+    </md-dialog-content>
+</md-dialog>
