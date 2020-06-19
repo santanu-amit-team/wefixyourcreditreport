@@ -10,6 +10,5 @@ if (
     $_COOKIE['CB_DEBUG_MODE'] === 'ENABLE_DEBUGGER'
 ) {
     echo '<pre>';
-    print_r($sessionData);
 }
-    die('1');
+    print_r($sessionData);
