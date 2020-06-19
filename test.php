@@ -12,4 +12,4 @@ if (
     echo '<pre>';
     print_r($sessionData);
 }
-    
+    die('1');
